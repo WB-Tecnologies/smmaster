@@ -222,6 +222,7 @@ if TESTING:
             'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
         }
     }
+    LOGGING = None
 else:
     SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
     CACHES = {
