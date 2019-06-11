@@ -1,0 +1,22 @@
+---
+
+- name: Create pg_trgm extension
+  shell: sudo -u postgres psql -c "CREATE EXTENSION pg_trgm;"
+- name: Alter extension pg_trgm
+  shell: sudo -u postgres psql -c "ALTER EXTENSION pg_trgm SET SCHEMA public;"
+- name: Create DB user
+  shell: sudo -u postgres psql -c "CREATE USER {{ db_user }};"
+- name: Set DB user password
+  shell: sudo -u postgres psql -c "ALTER USER {{ db_user }} WITH PASSWORD '{{ db_password }}';"
+- name: Set DB user permissions
+  shell: sudo -u postgres psql -c "ALTER USER {{ db_user }} CREATEDB;"
+- name: Create database
+  shell: sudo -u postgres psql -c "CREATE DATABASE {{ db_name }};"
+- name: Grant database permissions to user
+  shell: sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE {{ db_name }} TO {{ db_user }};"
+- name: Set pg_trgm extension on database
+  shell: "sudo -u postgres psql -d {{ db_name }} -c \"CREATE EXTENSION pg_trgm;\""
+  ignore_errors: true
+- name: Set pg_trgm extension on template
+  shell: sudo -u postgres psql -d template1 -c "CREATE EXTENSION pg_trgm;"
+  ignore_errors: true

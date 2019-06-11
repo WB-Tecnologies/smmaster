@@ -1,0 +1,32 @@
+---
+
+- name: Upload Nginx config
+  template:
+    src: templates/{{ nginx_config_template }}
+    dest: /etc/nginx/sites-available/{{ project_name }}
+    owner: root
+    group: root
+  become: true
+  become_user: root
+- name: Nginx - make symlink to enabled sites
+  file:
+    src: /etc/nginx/sites-available/{{ project_name }}
+    dest: /etc/nginx/sites-enabled/{{ project_name }}
+    state: link
+  become: true
+  notify:
+    - restart nginx
+- name: Nginx - remove link to default site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  become: true
+  notify:
+    - restart nginx
+- name: Nginx - remove default site config
+  file:
+    path: /etc/nginx/sites-available/default
+    state: absent
+  become: true
+  notify:
+    - restart nginx

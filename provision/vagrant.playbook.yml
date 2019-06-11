@@ -1,0 +1,11 @@
+- hosts: all
+  remote_user: vagrant
+  vars_files:
+    - vagrant.vars.yml
+  tasks:
+  - import_tasks: sys-environment.tasks.yml
+  - import_tasks: database.tasks.yml
+  - import_tasks: nginx.tasks.yml
+  - import_tasks: app.tasks.yml
+  handlers:
+    - import_tasks: handlers.tasks.yml

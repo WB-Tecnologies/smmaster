@@ -1,0 +1,62 @@
+- hosts: beta
+  remote_user: root
+  become: true
+  become_user: "{{ project_name }}"
+  vars_files:
+    - beta.vars.yml
+  tasks:
+    - name: Update Nginx config
+      template:
+        src: templates/{{ nginx_config_template }}
+        dest: /etc/nginx/sites-available/{{ project_name }}
+        owner: root
+        group: root
+      become: true
+      become_user: root
+    - name: Update gunicorn supervisor config
+      template:
+        src: templates/{{ gunicorn_config_template }}
+        dest: /etc/supervisor/conf.d/gunicorn.conf
+      become: true
+      become_user: root
+      notify: restart supervisor
+    - name: Update celery config
+      template:
+        src: templates/{{ celery_config_template }}
+        dest: /etc/supervisor/conf.d/celery.conf
+      become: true
+      become_user: root
+      when: celery
+      notify: restart supervisor
+    - name: Checkout git repo
+      shell: cd {{ root_dir }} && git checkout .
+    - name: Pull git repo
+      shell: cd {{ root_dir }} && git pull origin master
+    - name: Npm install
+      shell: cd {{ client_dir }} && npm install
+      ignore_errors: true
+    - name: Npm build
+      shell: cd {{ client_dir }} && npm run build
+      ignore_errors: true
+    - name: Install dependencies from PyPI
+      shell: "{{ venv_path }}/bin/pip install -r {{ root_dir }}/requirements.txt"
+    - name: Migrate database
+      shell: "{{ venv_path }}/bin/python {{ root_dir }}/manage.py migrate --noinput"
+    - name: Collect static
+      shell: "{{ venv_path }}/bin/python {{ root_dir }}/manage.py collectstatic --noinput"
+    - name: Compress static
+      shell: "{{ venv_path }}/bin/python {{ root_dir }}/manage.py compress"
+      ignore_errors: true
+    - name: Drop redis cache 1
+      shell: redis-cli -n 1 FLUSHDB
+    - name: Drop redis cache 2
+      shell: redis-cli -n 2 FLUSHDB
+    - name: get gunicorn pid
+      command: cat {{ base_dir }}/gunicorn.pid
+      register: gunicorn_pid
+    - name: restart gunicorn
+      shell: kill -s HUP {{ gunicorn_pid.stdout }}
+      become: true
+      become_user: root
+  handlers:
+    - import_tasks: handlers.tasks.yml

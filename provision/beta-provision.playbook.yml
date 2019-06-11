@@ -1,0 +1,39 @@
+- hosts: beta
+  remote_user: root
+  vars_files:
+    - beta.vars.yml
+  tasks:
+    - import_tasks: sys-environment.tasks.yml
+    - import_tasks: common.tasks.yml
+    - name: "Create local user"
+      user:
+        name: "{{ project_name }}"
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/id_rsa
+    - name: Capture public key
+      shell: cat /home/{{ project_name }}/.ssh/id_rsa.pub
+      register: public_key
+    - name: Display public key
+      debug:
+        var: public_key.stdout
+        verbosity: 0
+    - name: Wait for GitHub public key
+      pause:
+        prompt: "Copy public key to GitHub's repo settings"
+    - name: Clone repo
+      git:
+        repo: "git@github.com:WB-Tecnologies/{{ project_name }}.git"
+        dest: /home/{{ project_name }}/proj
+        clone: true
+        key_file: /home/{{ project_name }}/.ssh/id_rsa
+        accept_hostkey: true
+      become: true
+      become_user: "{{ project_name }}"
+    - import_tasks: database.tasks.yml
+    - import_tasks: nginx.tasks.yml
+    - import_tasks: app.tasks.yml
+      become: true
+      become_user: "{{ project_name }}"
+  handlers:
+    - import_tasks: handlers.tasks.yml

@@ -1,0 +1,8 @@
+---
+
+- name: restart nginx
+  shell: /etc/init.d/nginx restart
+  become: true
+- name: restart supervisor
+  shell: /etc/init.d/supervisor stop && /etc/init.d/supervisor start
+  become: true

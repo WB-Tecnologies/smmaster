@@ -1,0 +1,11 @@
+from django.contrib.auth import get_user_model
+from django.contrib.sites.models import Site
+
+User = get_user_model()
+User.objects.create_superuser(
+    username='{{ django_username }}', email='{{ django_email }}', password='{{ django_password }}')
+
+current_site = Site.objects.get_current()
+current_site.domain = '{{ http_host }}'
+current_site.name = '{{ project_name }}'.title()
+current_site.save()

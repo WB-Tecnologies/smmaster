@@ -1,0 +1,10 @@
+---
+
+- name: Upload /etc/environment
+  template:
+    src: templates/environment.j2
+    dest: /etc/environment
+    owner: root
+    group: root
+  become: true
+  become_user: root

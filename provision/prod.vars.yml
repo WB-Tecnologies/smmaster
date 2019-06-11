@@ -1,0 +1,22 @@
+---
+
+db_user: "smmaster_user"
+db_password: "QKUtS8a1"
+db_name: "smmaster"
+http_host: "smmaster.ru"
+http_port: 80
+project_name: "smmaster"
+base_dir: "/home/smmaster"
+root_dir: "/home/smmaster/proj"
+client_dir: "/home/smmaster/proj/client"
+venv_path: "/home/smmaster/venv"
+django_username: "root"
+django_email: "root@example.org"
+django_password: "123123"
+local: false
+celery: true
+nginx_config_template: "nginx-host-prod.j2"
+gunicorn_config_template: "gunicorn-prod.j2"
+celery_config_template: "celery-prod.j2"
+locale: "en_US"
+encoding: "utf-8"

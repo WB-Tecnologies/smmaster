@@ -1,0 +1,104 @@
+---
+
+- name: Update apt cache
+  apt:
+      update_cache: yes
+- name: Install common packages
+  apt: 
+      name: "{{ item }}"
+      state: present
+  with_items:
+      - libcurl4-gnutls-dev
+      - libexpat1-dev
+      - gettext
+      - libz-dev
+      - libssl-dev
+      - git
+      - unzip
+      - dirmngr
+      - vim
+      - htop
+- name: Install Redis
+  apt: name=redis-server state=present
+- name: Install python build dependencies
+  apt: 
+      name: "{{ item }}"
+      state: present
+  with_items:
+      - python-dev
+      - python-pip
+      - python-virtualenv
+      - build-essential
+      - libncurses5-dev
+      - libncursesw5-dev
+      - libreadline6-dev
+      - libgdbm-dev
+      - libsqlite3-dev
+      - libssl-dev
+      - libbz2-dev
+      - libexpat1-dev
+      - liblzma-dev
+      - zlib1g-dev
+      - libxml2-dev
+      - libxslt1-dev
+- name: Download python sources
+  get_url:
+      url: https://www.python.org/ftp/python/3.6.3/Python-3.6.3.tgz
+      dest: /tmp/python.tgz
+- name: Unpack python sources
+  unarchive:
+      src: /tmp/python.tgz
+      dest: /tmp
+      remote_src: yes
+- name: Configure python
+  shell: ./configure --prefix=/usr/local/python-3.6.3
+  args:
+      chdir: /tmp/Python-3.6.3
+- name: Make python
+  shell: make
+  args:
+      chdir: /tmp/Python-3.6.3
+- name: Install python
+  shell: make altinstall
+  args:
+      chdir: /tmp/Python-3.6.3
+- name: Clean python sources
+  shell: rm -rf /tmp/Python*
+- name: Create symlinks to python binaries
+  shell: ln -sf /usr/local/python-3.6.3/bin/* /usr/local/bin/
+- name: Install Nginx
+  apt: name=nginx state=present
+- name: Install PostgreSQL
+  apt:
+      name: "{{ item }}"
+      state: present
+  with_items:
+      - postgresql
+      - postgresql-server-dev-all
+      - postgresql-contrib
+      - python-psycopg2
+- name: Download Node.js installer
+  get_url:
+      url: https://deb.nodesource.com/setup_6.x
+      dest: /tmp/setup_6.x
+- name: Run Node.js installer
+  shell: bash /tmp/setup_6.x
+- name: Remove Node.js installer
+  file: 
+      path: /tmp/setup_6.x
+      state: absent
+- name: Install Node.js package
+  apt: name=nodejs state=present
+- name: Update npm
+  shell: npm install -g npm@latest
+- name: Install Google Chrome deps
+  apt:
+      name: "{{ item }}"
+      state: present
+  with_items:
+      - libgconf2-4
+      - libnss3
+- name: Install Google Chrome from remote deb file
+  apt:
+      deb: https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb
+      force: yes

@@ -1,0 +1,58 @@
+---
+
+- name: Create virtualenv
+  shell: "pyvenv-3.6 {{ venv_path }}"
+- name: Upgrade PIP
+  shell: "{{ venv_path }}/bin/pip install --upgrade pip"
+- name: Install dependencies from PyPI
+  shell: "{{ venv_path }}/bin/pip install -r {{ root_dir }}/requirements.txt"
+- name: Copy local settings
+  copy:
+    src: "{{ root_dir }}/{{ project_name }}/settings_local.py.example"
+    dest: "{{ root_dir }}/{{ project_name }}/settings_local.py"
+    remote_src: true
+- name: Create var directory
+  file:
+    path: "{{ root_dir }}/var"
+    state: directory
+- name: Migrate database
+  shell: "{{ venv_path }}/bin/python {{ root_dir }}/manage.py migrate --noinput"
+- name: Create cache table
+  shell: "{{ venv_path }}/bin/python {{ root_dir }}/manage.py createcachetable"
+- name: Collect static
+  shell: "{{ venv_path }}/bin/python {{ root_dir }}/manage.py collectstatic --noinput"
+- name: Update script to create user and site
+  template:
+    src: templates/create_user.j2
+    dest: /tmp/create_user.py
+- name: Create user and site
+  shell: "cat /tmp/create_user.py | {{ venv_path }}/bin/python {{ root_dir }}/manage.py shell"
+- name: Start gunicorn
+  shell: cd {{ root_dir }} && make start
+  when: local
+- name: Start celery
+  shell: cd {{ root_dir }} && make runcelery_multi
+  when: local
+- name: Install supervisor
+  apt:
+    name: supervisor
+    state: present
+  when: not local
+  become: true
+  become_user: root
+- name: Upload gunicorn supervisor config
+  template:
+    src: templates/{{ gunicorn_config_template }}
+    dest: /etc/supervisor/conf.d/gunicorn.conf
+  become: true
+  become_user: root
+  when: not local
+  notify: restart supervisor
+- name: Upload celery config
+  template:
+    src: templates/{{ celery_config_template }}
+    dest: /etc/supervisor/conf.d/celery.conf
+  become: true
+  become_user: root
+  when: (not local) and celery
+  notify: restart supervisor

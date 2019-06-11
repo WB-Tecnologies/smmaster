@@ -1,0 +1,7 @@
+[program:gunicorn]
+command=/home/{{ project_name }}/venv/bin/gunicorn -w 2 --pid /home/{{ project_name }}/gunicorn.pid {{ project_name }}.wsgi:application
+directory=/home/{{ project_name }}/proj
+user={{ project_name }}
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/var/log/supervisord_gunicorn.log

@@ -1,0 +1,23 @@
+Django==2.2.2
+django-admin-env-notice==0.1.5
+gunicorn==19.9
+Pillow==6.0.0
+psycopg2==2.7
+django_compressor==2.3
+
+# Tests / linters
+pycodestyle==2.5.0
+coverage==4.5.3
+coverage-badge==1.0.1
+pylama==7.7.1
+
+raven==6.10.0
+celery==4.3.0
+
+# Performance
+django-cacheops==4.1
+django-redis==4.10.0
+redis==3.2.1
+django-migrations-graph==0.1.1
+django-eraserhead==0.1.5
+django-debug-toolbar==1.11

@@ -1,0 +1,12 @@
+---
+
+- name: remove virtualenv
+  shell: rm -rf {{ venv_path }}
+- name: remove local settings
+  shell: rm -rf {{ root_dir }}/{{ project_name }}/settings_local.py
+- name: Drop database
+  shell: sudo -u postgres psql -c "DROP DATABASE {{ db_name }};"
+- name: Drop user
+  shell: sudo -u postgres psql -c "DROP USER {{ db_user }};"
+- name: Drop pg_trgm
+  shell: sudo -u postgres psql -c "DROP EXTENSION pg_trgm;"
