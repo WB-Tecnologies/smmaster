@@ -1,4 +1,5 @@
 VENV_PATH := $(HOME)/venv/bin
+CLIENT_PATH := $(HOME)/proj/client
 PROJ_NAME := smmaster
 
 clean:
