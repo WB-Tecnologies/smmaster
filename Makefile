@@ -1,4 +1,5 @@
 VENV_PATH := $(HOME)/venv/bin
+CLIENT_PATH := $(HOME)/proj/client
 PROJ_NAME := smmaster
 
 clean:
@@ -26,6 +27,9 @@ pyflakes:
 
 lint: pep8 pyflakes
 
+fe_test:
+	cd $(CLIENT_PATH) && npm run test && npm run lint
+
 test:
 	$(VENV_PATH)/python manage.py test -v 1 --noinput --parallel=8 || make clean
 
@@ -44,7 +48,7 @@ non_covered:
 
 cover: cover_test cover_report
 
-ci_test: cover_test cover_report lint lint_frontend
+ci_test: cover_test cover_report lint fe_test
 
 wheel_install:
 	$(VENV_PATH)/pip install --no-index -f wheels/ -r requirements.txt

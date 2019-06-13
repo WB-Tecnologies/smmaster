@@ -1,0 +1,19 @@
+---
+
+- name: Create node dir
+  file:
+    path: "{{ user_home }}/node_modules"
+    state: directory
+- name: Create symlink for node modules dir
+  file:
+    src: "{{ user_home }}/node_modules"
+    dest: "{{ root_dir }}/client/node_modules"
+    state: link
+- name: Install Node dependencies
+  shell: "npm install"
+  args:
+    chdir: "{{ root_dir }}/client"
+- name: Build front
+  shell: "npm run build"
+  args:
+    chdir: "{{ root_dir }}/client"
