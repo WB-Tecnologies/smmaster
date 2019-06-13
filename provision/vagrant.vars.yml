@@ -8,6 +8,7 @@ http_port: 80
 project_name: "smmaster"
 root_dir: "/home/vagrant/proj"
 venv_path: "/home/vagrant/venv"
+user_home: "/home/vagrant"
 django_username: "root"
 django_email: "root@example.org"
 django_password: "123123"

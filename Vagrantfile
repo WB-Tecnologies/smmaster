@@ -33,7 +33,6 @@ Vagrant.configure(2) do |config|
     config.vbguest.auto_update = false
   end
 
-  config.vm.synced_folder ".", "/vagrant", disabled: false, type: "rsync"
   if SYNC_FOLDER then
     if ENV['CI_FLAG'] then
       config.vm.synced_folder ".", "/home/vagrant/proj", type: "rsync"
@@ -43,6 +42,8 @@ Vagrant.configure(2) do |config|
       config.vm.synced_folder ".", "/home/vagrant/proj", type: "nfs",
       :mount_options => ['actimeo=2']
     end
+  else
+    config.vm.synced_folder ".", "/vagrant", disabled: true
   end
 
   config.vm.hostname = hostname
