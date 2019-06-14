@@ -12,14 +12,16 @@
   "author": "wb-tech",
   "license": "ISC",
   "dependencies": {
-    "react": "^16.8.6",
+    "autoprefixer": "^9.5.1",
+    "classnames": "^2.2.6",
     "prop-types": "^15.7.2",
+    "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.3",
+    "react-router-dom": "^5.0.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "shortid": "^2.2.14",
-    "autoprefixer": "^9.5.1"
+    "shortid": "^2.2.14"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
