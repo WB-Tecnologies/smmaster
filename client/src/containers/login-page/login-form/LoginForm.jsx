@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import { authActions } from '@/actions/authActions';
 
 import FormInput from '@/components/form-input/FormInput';
 import Button from '@/components/button/Button';
@@ -8,6 +11,16 @@ import IconError from '@/components/icons/IconError';
 import './login-form.sass';
 
 const emailRegex = RegExp(/^[^\s]+@[^\s]/);
+
+const isFormValid = ({ errors, ...rest }) => {
+  let isValid = true;
+
+  isValid = !Object.values(errors).some(val => (val.length !== 0));
+
+  isValid = !Object.values(rest).some(val => (val === null));
+
+  return isValid;
+};
 
 class LoginForm extends Component {
   state = {
@@ -23,6 +36,23 @@ class LoginForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    const { authActions, history } = this.props;
+    const { email, password } = this.state;
+
+    this.setState({ isLoading: true });
+
+    if (isFormValid(this.state)) {
+      authActions({ email, password }).then(isRedirectNeeded => {
+        if (isRedirectNeeded) {
+          history.push('/');
+        } else {
+          this.setState({ isLoading: false });
+        }
+      });
+    } else {
+      /* eslint-disable no-console */
+      console.error('FORM INVALID - DISPLAY ERROR MESSAGE');
+    }
   };
 
   handleChange = ({ target: { name, value } }) => {
@@ -33,7 +63,7 @@ class LoginForm extends Component {
       case 'email':
         errors.email = emailRegex.test(value) || value.length === 0
           ? ''
-          : 'Некорректный адрес электронной почты';
+          : 'Некорректный e-mail';
         break;
       case 'password':
         errors.password = value.length < MIN_ALLOWED_PWD_LEN && value.length
@@ -116,6 +146,8 @@ class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
+  history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  authActions: PropTypes.func.isRequired,
   errorMsg: PropTypes.string,
 };
 
@@ -123,4 +155,12 @@ LoginForm.defaultProps = {
   errorMsg: '',
 };
 
-export default LoginForm;
+const mapStateToProps = state => ({
+  errorMsg: state.authorization.error,
+});
+
+const mapDispatchToProps = dispatch => ({
+  authActions: data => dispatch(authActions({ ...data })),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
