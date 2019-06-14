@@ -1,0 +1,67 @@
+$primary-bg-color: #00AAFF
+$primary-hover-color: #33BBFF
+$primary-font-color: #37404F
+
+$disabled-bg-color: #DEE0FF
+$disabled-font-color: rgba(91, 93, 128, 0.3)
+
+.btn
+  cursor: pointer
+  position: relative
+  font-weight: normal
+  line-height: 100%
+  font-style: normal
+  border: none
+  background-color: transparent
+  text-transform: uppercase
+  display: inline-block
+  text-decoration: none
+  text-align: center
+  width: 100%
+
+  &:focus
+    outline: none
+
+  /*Primary button*/
+  &-primary
+    background-color: $primary-bg-color
+    color: $primary-font-color
+    border-radius: 5px
+
+    &:hover
+      background-color: $primary-hover-color
+
+    &_large
+      font-size: 16px
+      padding: 14px 10px
+
+    &_medium
+      font-size: 12px
+      line-height: 13px
+      padding: 10px
+
+    &_spinner
+      background-color: $disabled-bg-color
+
+    &_disabled
+      background-color: $disabled-bg-color
+
+  &:disabled,
+  .btn[disabled]
+    opacity: 1
+    cursor: not-allowed
+    color: $disabled-font-color
+
+
+  &__spinner
+    display: inline-block
+    width: 20px
+    height: 20px
+    background: url(data:image/svg+xmlbase64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTcuMTc3NjkgMC45MjY2OEM4LjA3MTE4IDAuNjQ5MDExIDkuMDE5NTggMC41IDEwIDAuNUMxMC4wNjcyIDAuNSAxMC4xMzQyIDAuNTAwNjk5IDEwLjIwMTEgMC41MDIwOTJDMTUuMzU1MyAwLjYwOTQzOSAxOS41IDQuODIwNTEgMTkuNSAxMEMxOS41IDE1LjI0NjcgMTUuMjQ2NyAxOS41IDEwIDE5LjVDOS4xNzE1NyAxOS41IDguNSAxOC44Mjg0IDguNSAxOEM4LjUgMTcuMTcxNiA5LjE3MTU3IDE2LjUgMTAgMTYuNUMxMy41ODk5IDE2LjUgMTYuNSAxMy41ODk5IDE2LjUgMTBDMTYuNSA2LjQ1NjQ0IDEzLjY2NDEgMy41NzQ4NyAxMC4xMzg2IDMuNTAxNDRDMTAuMDkyNSAzLjUwMDQ4IDEwLjA0NjMgMy41IDEwIDMuNUM5LjMyNDg5IDMuNSA4LjY3NjUgMy42MDI0MyA4LjA2ODAxIDMuNzkxNTNDNS40MiA0LjYxNDQ1IDMuNSA3LjA4NDk3IDMuNSAxMEMzLjUgMTAuODI4NCAyLjgyODQzIDExLjUgMiAxMS41QzEuMTcxNTcgMTEuNSAwLjUgMTAuODI4NCAwLjUgMTBDMC41IDUuNzM0MDEgMy4zMTA3NCAyLjEyODQyIDcuMTc3NjkgMC45MjY2OFoiIGZpbGw9IiMwNjE0RkQiLz48L3N2Zz4=) center center no-repeat
+    animation: rotator 1.2s linear infinite
+
+    @keyframes rotator
+      0%
+        transform: rotate(0deg)
+      100%
+        transform: rotate(360deg)
