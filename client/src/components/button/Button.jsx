@@ -12,8 +12,10 @@ const Button = ({
   disabledPrimary,
   isLoading,
   isPrimary,
-  isLarge,
-  isMedium,
+  isPrimaryLg,
+  isPrimaryMd,
+  isIcon,
+  isGhost,
   active,
   ...attrs
 }) => {
@@ -30,8 +32,10 @@ const Button = ({
     className,
     { 'btn-primary': isPrimary },
     { 'btn-primary_disabled': disabledPrimary },
-    { 'btn-primary_large': isLarge },
-    { 'btn-primary_medium': isMedium },
+    { 'btn-primary_large': isPrimaryLg },
+    { 'btn-primary_medium': isPrimaryMd },
+    { 'btn-ghost_icon': isIcon },
+    { 'btn-ghost': isGhost },
     { active },
   );
 
@@ -50,11 +54,13 @@ Button.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   isPrimary: PropTypes.bool,
-  isLarge: PropTypes.bool,
+  isPrimaryLg: PropTypes.bool,
   active: PropTypes.bool,
   isLoading: PropTypes.bool,
   disabledPrimary: PropTypes.bool,
-  isMedium: PropTypes.bool,
+  isPrimaryMd: PropTypes.bool,
+  isIcon: PropTypes.bool,
+  isGhost: PropTypes.bool,
 };
 
 Button.defaultProps = {
@@ -63,11 +69,13 @@ Button.defaultProps = {
   className: '',
   disabled: false,
   isPrimary: false,
-  isLarge: false,
+  isPrimaryLg: false,
   active: false,
   isLoading: false,
   disabledPrimary: false,
-  isMedium: false,
+  isPrimaryMd: false,
+  isIcon: false,
+  isGhost: false,
 };
 
 export default Button;

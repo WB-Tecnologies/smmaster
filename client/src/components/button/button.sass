@@ -8,6 +8,9 @@ $disabled-font-color: #828F9F
 $active-bg-color: #CCEEFF
 $active-font-color: #00AAFF
 
+$ghost-hover-color: #F3F5F7
+$ghost-disabled-bg-color: #fff
+
 $spinner-color: #B8C7E0
 
 .btn
@@ -80,3 +83,21 @@ $spinner-color: #B8C7E0
 
     100%
       transform: rotate(360deg)
+
+  /*Ghost button*/
+  &-ghost
+    padding: 10px
+    font-size: 10px
+    transition: all 0.3s ease 0s
+    border-radius: 5px
+    width: auto
+
+    &:hover
+      background: $ghost-hover-color
+
+    &_icon
+      line-height: 0
+      padding: 0 8px
+
+      &:hover
+        background: none

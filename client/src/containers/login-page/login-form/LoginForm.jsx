@@ -7,6 +7,10 @@ import { authActions } from '@/actions/authActions';
 import FormInput from '@/components/form-input/FormInput';
 import Button from '@/components/button/Button';
 import IconError from '@/components/icons/IconError';
+import Insta from '@/components/icons/social/Instagram';
+import VK from '@/components/icons/social/VK';
+import FB from '@/components/icons/social/FB';
+import TW from '@/components/icons/social/TW';
 
 import './login-form.sass';
 
@@ -119,7 +123,7 @@ class LoginForm extends Component {
             />
             <Button
               isPrimary
-              isLarge
+              isPrimaryLg
               isLoading={isLoading}
               type="submit"
               disabledPrimary={isDisabled}
@@ -129,6 +133,12 @@ class LoginForm extends Component {
             </Button>
             <div className="login-social-network">
               <p className="login-social-network__text">или через соцсети</p>
+              <div className="login-social-network__btn">
+                <Button href="#" isGhost isIcon><VK width={30} /></Button>
+                <Button href="#" isGhost isIcon><FB width={30} /></Button>
+                <Button href="#" isGhost isIcon><TW width={30} /></Button>
+                <Button href="#" isGhost isIcon><Insta width={30} /></Button>
+              </div>
             </div>
           </div>
         </form>
