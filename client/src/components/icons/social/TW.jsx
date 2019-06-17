@@ -39,7 +39,7 @@ TW.defaultProps = {
   style: {},
   width: '100%',
   className: '',
-  viewBox: '0 0 30 30',
+  viewBox: '0 0 31 30',
 };
 
 export default TW;

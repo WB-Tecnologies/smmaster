@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const VK = ({
+const FB = ({
   style, width, className, viewBox,
 }) => (
   <svg
@@ -28,18 +28,18 @@ const VK = ({
   </svg>
 );
 
-VK.propTypes = {
+FB.propTypes = {
   style: PropTypes.objectOf(PropTypes.string),
   width: PropTypes.number,
   className: PropTypes.string,
   viewBox: PropTypes.string,
 };
 
-VK.defaultProps = {
+FB.defaultProps = {
   style: {},
   width: '100%',
   className: '',
-  viewBox: '0 0 30 30',
+  viewBox: '0 0 31 30',
 };
 
-export default VK;
+export default FB;

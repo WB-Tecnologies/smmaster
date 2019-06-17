@@ -27,7 +27,7 @@ const FormInput = ({
       />
       {error && (
         <span className="form-input__help-block">
-          <IconError />
+          <IconError width={14} className="form-input__help-icon" />
           {error}
         </span>
       )}

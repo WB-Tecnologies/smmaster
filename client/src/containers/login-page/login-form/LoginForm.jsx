@@ -108,7 +108,7 @@ class LoginForm extends Component {
             />
             {errorMsg && (
               <span className="login-form__error">
-                <IconError />
+                <IconError width={14} />
                 {errorMsg}
               </span>
             )}
