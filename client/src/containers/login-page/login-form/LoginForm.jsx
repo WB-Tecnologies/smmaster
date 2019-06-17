@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { authActions } from '@/actions/authActions';
+import { authAction } from '@/actions/authActions';
 
 import FormInput from '@/components/form-input/FormInput';
 import Button from '@/components/button/Button';
@@ -40,13 +40,13 @@ class LoginForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { authActions, history } = this.props;
+    const { authAction, history } = this.props;
     const { email, password } = this.state;
 
     this.setState({ isLoading: true });
 
     if (isFormValid(this.state)) {
-      authActions({ email, password }).then(isRedirectNeeded => {
+      authAction({ email, password }).then(isRedirectNeeded => {
         if (isRedirectNeeded) {
           history.push('/');
         } else {
@@ -157,7 +157,7 @@ class LoginForm extends Component {
 
 LoginForm.propTypes = {
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  authActions: PropTypes.func.isRequired,
+  authAction: PropTypes.func.isRequired,
   errorMsg: PropTypes.string,
 };
 
@@ -170,7 +170,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  authActions: data => dispatch(authActions({ ...data })),
+  authAction: data => dispatch(authAction({ ...data })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

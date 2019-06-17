@@ -14,7 +14,7 @@ export const setUserError = error => ({
   payload: { error },
 });
 
-export function authActions(data) {
+export function authAction(data) {
   return dispatch => {
     return httpRequests
       .loginRequest(data)
