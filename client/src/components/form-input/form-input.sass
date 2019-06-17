@@ -39,13 +39,17 @@ $error-color: #EB5757
     position: absolute
     font-size: 10px
     color: $error-color
-    left: 0
+    left: 19px
     bottom: -1.1rem
 
-    .form-input__help-icon
-      top: 2px
-      position: relative
-      margin-right: 5px
+    &:before
+      content: ''
+      width: 14px
+      height: 14px
+      background-image: url('../../assets/errorIcon.svg')
+      top: -2px
+      position: absolute
+      left: -18px
 
 .form-input.form-input_error .form-input__input
   border: 1px solid $error-color

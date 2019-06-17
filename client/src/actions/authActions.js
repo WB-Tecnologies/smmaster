@@ -20,11 +20,9 @@ export function authAction(data) {
       .loginRequest(data)
       .then(response => {
         dispatch(setCurrentUser(response));
-        return true;
       })
       .catch(error => {
         dispatch(setUserError(error.message));
-        return false;
       });
   };
 }

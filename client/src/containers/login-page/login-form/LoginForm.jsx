@@ -6,7 +6,6 @@ import { authAction } from '@/actions/authActions';
 
 import FormInput from '@/components/form-input/FormInput';
 import Button from '@/components/button/Button';
-import IconError from '@/components/icons/IconError';
 import Insta from '@/components/icons/social/Instagram';
 import VK from '@/components/icons/social/VK';
 import FB from '@/components/icons/social/FB';
@@ -108,7 +107,6 @@ class LoginForm extends Component {
             />
             {errorMsg && (
               <span className="login-form__error">
-                <IconError width={14} />
                 {errorMsg}
               </span>
             )}

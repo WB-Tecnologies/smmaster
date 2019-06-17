@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import IconError from '@/components/icons/IconError';
-
 import './form-input.sass';
 
 const FormInput = ({
@@ -25,12 +23,7 @@ const FormInput = ({
         className="form-input__input"
         required
       />
-      {error && (
-        <span className="form-input__help-block">
-          <IconError width={14} className="form-input__help-icon" />
-          {error}
-        </span>
-      )}
+      {error && <span className="form-input__help-block">{error}</span>}
     </div>
   );
 };
