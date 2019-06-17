@@ -21,7 +21,6 @@ export function fetchPosts() {
       .getPosts()
       .then(({ posts }) => {
         dispatch(fetchPostsSuccess(posts));
-        return posts;
       })
       .catch(error => dispatch(fetchPostsFailure(error.message)));
   };
