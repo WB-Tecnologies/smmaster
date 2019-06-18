@@ -1,0 +1,71 @@
+$hint-text-color: #7F84F7
+$help-text-color: #3E4B64
+$error-color: #EB5757
+$bg-color: #FFF
+
+.login-form
+  display: block
+  position: relative
+
+  &__container
+    padding: 30px
+    border-radius: 5px
+    background: $bg-color
+    box-shadow: 0px 2px 4px rgba(39, 40, 55, 0.1)
+
+  &__error
+    position: absolute
+    top: -2rem
+    font-size: 12px
+    color: $error-color
+    margin: 0
+
+    svg
+      width: 14px
+      top: 2px
+      position: relative
+      margin-right: 5px
+
+  &__btn
+    width: 100%
+
+  &__control
+
+    &_hint
+      margin: 20px 0
+      position: relative
+
+  &__hint
+    color: $hint-text-color
+    line-height: 18px
+    font-size: 12px
+    position: absolute
+    text-decoration: none
+    bottom: 5rem
+    left: 0
+
+  &__help
+    display: flex
+    justify-content: space-between
+    padding: 21px 20px
+
+    .login-form__help-text
+      font-size: 12px
+      line-height: 100%
+      color: $help-text-color
+
+.login-social-network
+  display: block
+
+  &__text
+    text-align: center
+    color: $help-text-color
+    opacity: 0.5
+    font-size: 12px
+    line-height: 100%
+    margin: 0
+    padding: 20px 0
+
+  &__btn
+    display: flex
+    justify-content: center

@@ -1,0 +1,103 @@
+$primary-bg-color: #00AAFF
+$primary-hover-color: #33BBFF
+$primary-font-color: #37404F
+
+$disabled-bg-color: #EBF8FF
+$disabled-font-color: #828F9F
+
+$active-bg-color: #CCEEFF
+$active-font-color: #00AAFF
+
+$ghost-hover-color: #F3F5F7
+$ghost-disabled-bg-color: #fff
+
+$spinner-color: #B8C7E0
+
+.btn
+  cursor: pointer
+  position: relative
+  font-weight: normal
+  line-height: 100%
+  font-style: normal
+  border: none
+  background-color: transparent
+  text-transform: uppercase
+  display: inline-block
+  text-decoration: none
+  text-align: center
+  width: 100%
+
+  &:focus
+    outline: none
+
+  /*Primary button*/
+  &-primary
+    background-color: $primary-bg-color
+    color: $primary-font-color
+    border-radius: 5px
+
+    &:hover
+      background-color: $primary-hover-color
+
+    &_large
+      font-size: 16px
+      padding: 14px 10px
+
+    &_medium
+      font-size: 12px
+      line-height: 13px
+      padding: 10px
+
+    &_spinner
+      background-color: $disabled-bg-color
+
+    &_disabled
+      background-color: $disabled-bg-color
+
+  &:disabled,
+  .btn[disabled]
+    opacity: 1
+    cursor: not-allowed
+    color: $disabled-font-color
+
+  &:active
+    background: $active-bg-color
+    color: $active-font-color
+
+  &__spinner
+    display: block
+    border-width: 2px
+    border-style: solid
+    border-color: $spinner-color $spinner-color $spinner-color transparent
+    width: 12px
+    height: 12px
+    border-radius: 50%
+    animation: spin 1.2s linear infinite
+    position: relative
+    margin: 0 auto
+
+  @keyframes spin
+
+    0%
+      transform: rotate(0deg)
+
+    100%
+      transform: rotate(360deg)
+
+  /*Ghost button*/
+  &-ghost
+    padding: 10px
+    font-size: 10px
+    transition: all 0.3s ease 0s
+    border-radius: 5px
+    width: auto
+
+    &:hover
+      background: $ghost-hover-color
+
+    &_icon
+      line-height: 0
+      padding: 0 8px
+
+      &:hover
+        background: none
