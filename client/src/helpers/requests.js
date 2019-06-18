@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_ROOT = 'https://private-1899c-elena131.apiary-mock.com'; /* temporary emulation of backend */
+const API_ROOT = 'https://private-b56f0d-smmaster.apiary-mock.com'; /* temporary emulation of backend */
 
 const isDataExist = data => data !== undefined && data !== null && data !== '';
 
@@ -25,6 +25,18 @@ export const httpPost = (endPoint, data) => {
     });
 };
 
+export const httpGet = endPoint => {
+  return axios.get(`${API_ROOT}/${endPoint}`).then(response => {
+    if (!isDataExist(response.data)) {
+      throw new Error('Data is undefined');
+    }
+    if (isError(response.data)) {
+      throw new Error(response.data.error);
+    }
+    return response.data;
+  });
+};
+
 export const isAuthUser = user =>
   user !== undefined &&
   user !== null &&
@@ -32,4 +44,5 @@ export const isAuthUser = user =>
 
 export const httpRequests = {
   loginRequest: data => httpPost('login_success', data),
+  getPosts: () => httpGet('posts'),
 };
