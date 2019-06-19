@@ -16,11 +16,12 @@ const DropdownToggle = ({ children, toggle }) => (
 );
 
 DropdownToggle.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   toggle: PropTypes.func,
 };
 
 DropdownToggle.defaultProps = {
+  children: null,
   toggle: () => {},
 };
 
@@ -33,7 +34,11 @@ const DropdownItem = ({ children }) => (
 );
 
 DropdownItem.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
+};
+
+DropdownItem.defaultProps = {
+  children: null,
 };
 
 export {
