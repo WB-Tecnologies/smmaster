@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import './logo.sass';
 
-import logo from '!svg-url-loader?noquotes!../../../src/assets/logo.svg'; // eslint-disable-line import/no-webpack-loader-syntax
+import logo from '@/assets/logo.svg';
 
 const Logo = ({ link, className }) => (
   <Link to={link} className="logo">

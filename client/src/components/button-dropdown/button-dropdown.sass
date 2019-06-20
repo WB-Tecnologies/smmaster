@@ -1,0 +1,66 @@
+$hover-toggle-color: #F3F5F7
+
+$menu-bg-color: #fff
+
+$item-font-color: #37404F
+$item-hover-bg-color: #F3F5F7
+$item-active-bg-color: #EBF8FF
+
+.button-dropdown
+  display: inline-block
+  position: relative
+
+.dropdown-toggle
+  cursor: pointer
+  position: relative
+  line-height: 0
+  border: none
+  background-color: transparent
+  display: inline-block
+  text-decoration: none
+  padding: 5px
+
+  &:hover
+    background-color: $hover-toggle-color
+    border-radius: 5px
+
+  &:focus
+    outline: none
+
+.dropdown-menu
+  display: flex
+  flex-direction: column
+  position: absolute
+  background: $menu-bg-color
+  box-shadow: 0px 4px 8px rgba(39, 40, 55, 0.1)
+  border-radius: 5px
+  padding: 8px 0
+  right: 0
+  z-index: 2
+
+.dropdown-item
+  cursor: pointer
+  position: relative
+  font-weight: normal
+  font-size: 14px
+  line-height: 100%
+  font-style: normal
+  border: none
+  background-color: transparent
+  display: inline-block
+  text-decoration: none
+  text-align: left
+  width: 100%
+  color: $item-font-color
+  padding: 8px 15px
+  white-space: nowrap
+
+  &:hover
+    background-color: $item-hover-bg-color
+    transition: prop time
+
+  &:focus
+    outline: none
+
+  &:active
+    background-color: $item-active-bg-color

@@ -1,10 +1,18 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import './header.sass';
+import Logo from '@/components/logo/Logo';
+import Button from '@/components/button/Button';
+import {
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from '@/components/button-dropdown/ButtonDropdown';
 
-import Logo from '@components/logo/Logo';
-import Button from '@components/button/Button';
+import userIcon from '@/assets/Account.svg';
+
+import './header.sass';
 
 class Header extends PureComponent {
   static propTypes = {
@@ -15,7 +23,20 @@ class Header extends PureComponent {
     title: '',
   }
 
+  state = {
+    dropdownOpen: false,
+  };
+
+  dropdownToggle = () => {
+    const { dropdownOpen } = this.state;
+
+    this.setState({
+      dropdownOpen: !dropdownOpen,
+    });
+  };
+
   render() {
+    const { dropdownOpen } = this.state;
     const { title } = this.props;
 
     return (
@@ -32,6 +53,15 @@ class Header extends PureComponent {
             >
               Новая публикация
             </Button>
+            <ButtonDropdown onClickHandler={this.dropdownToggle}>
+              <DropdownToggle>
+                <img src={userIcon} alt="user-icon" />
+              </DropdownToggle>
+              <DropdownMenu isOpen={dropdownOpen}>
+                <DropdownItem>Редактировать профиль</DropdownItem>
+                <DropdownItem>Выход</DropdownItem>
+              </DropdownMenu>
+            </ButtonDropdown>
           </div>
         </div>
       </header>

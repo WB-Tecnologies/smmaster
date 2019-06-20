@@ -25,8 +25,9 @@ class ContentPlanContainer extends PureComponent {
         <Header title="Контент-план" />
         <div className="container">
           <main className="content-plan">
-            ContentPlanContainer
+            <div>ContentPlanContainer</div>
           </main>
+
         </div>
       </>
     );
