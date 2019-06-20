@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import { fetchPosts } from '@actions/contentPlanActions';
 
+import Header from '@components/header/Header';
+
 import './content-plan.sass';
 
 class ContentPlanContainer extends PureComponent {
@@ -19,11 +21,14 @@ class ContentPlanContainer extends PureComponent {
 
   render() {
     return (
-      <div className="container">
-        <main className="content-plan">
-          <div className="content-plan__container">ContentPlanContainer</div>
-        </main>
-      </div>
+      <>
+        <Header title="Контент-план" />
+        <div className="container">
+          <main className="content-plan">
+            ContentPlanContainer
+          </main>
+        </div>
+      </>
     );
   }
 }
