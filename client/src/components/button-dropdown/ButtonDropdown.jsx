@@ -3,11 +3,27 @@ import PropTypes from 'prop-types';
 
 import './button-dropdown.sass';
 
-const ButtonDropdown = ({ children, onClickHandler }) => React.Children.map(children, child => (
-  React.cloneElement(child, {
-    onClickHandler,
-  })
-));
+const ButtonDropdown = ({ children, onClickHandler }) => (
+  <div className="button-dropdown">
+    {
+      React.Children.map(children, child => (
+        React.cloneElement(child, {
+          onClickHandler,
+        })
+      ))
+    }
+  </div>
+);
+
+ButtonDropdown.propTypes = {
+  children: PropTypes.node,
+  onClickHandler: PropTypes.func,
+};
+
+ButtonDropdown.defaultProps = {
+  children: null,
+  onClickHandler: () => {},
+};
 
 const DropdownToggle = ({ children, onClickHandler }) => (
   <button className="dropdown-toggle" onClick={onClickHandler} type="button">
