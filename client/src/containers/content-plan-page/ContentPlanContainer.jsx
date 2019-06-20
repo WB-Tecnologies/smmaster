@@ -30,7 +30,7 @@ class ContentPlanContainer extends PureComponent {
     fetchPosts();
   }
 
-  toggle = () => {
+  dropdownToggle = () => {
     const { dropdownOpen } = this.state;
 
     this.setState({
@@ -45,7 +45,7 @@ class ContentPlanContainer extends PureComponent {
       <div className="container">
         <main className="content-plan">
           <div className="content-plan__container">ContentPlanContainer</div>
-          <ButtonDropdown toggle={this.toggle}>
+          <ButtonDropdown onClickHandler={this.dropdownToggle}>
             <DropdownToggle>
               <img src={userIcon} alt="user-icon" />
             </DropdownToggle>

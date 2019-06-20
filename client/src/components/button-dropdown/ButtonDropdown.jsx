@@ -3,26 +3,26 @@ import PropTypes from 'prop-types';
 
 import './button-dropdown.sass';
 
-const ButtonDropdown = ({ children, toggle }) => React.Children.map(children, child => (
+const ButtonDropdown = ({ children, onClickHandler }) => React.Children.map(children, child => (
   React.cloneElement(child, {
-    toggle,
+    onClickHandler,
   })
 ));
 
-const DropdownToggle = ({ children, toggle }) => (
-  <button className="dropdown-toggle" onClick={toggle} type="button">
+const DropdownToggle = ({ children, onClickHandler }) => (
+  <button className="dropdown-toggle" onClick={onClickHandler} type="button">
     {children}
   </button>
 );
 
 DropdownToggle.propTypes = {
   children: PropTypes.node,
-  toggle: PropTypes.func,
+  onClickHandler: PropTypes.func,
 };
 
 DropdownToggle.defaultProps = {
   children: null,
-  toggle: () => {},
+  onClickHandler: () => {},
 };
 
 const DropdownMenu = ({ children, isOpen }) => isOpen && <div className="dropdown-menu">{children}</div>;

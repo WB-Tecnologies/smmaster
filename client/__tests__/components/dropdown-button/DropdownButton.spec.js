@@ -1,11 +1,15 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from '../../../src/components/button-dropdown/ButtonDropdown';
+import {
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from '../../../src/components/button-dropdown/ButtonDropdown';
 
 describe('ButtonDropdown component', () => {
-
-  it('renders', () => {
+  it('should render ButtonDropdown component', () => {
     const component = shallow(<ButtonDropdown />);
 
     expect(component.exists()).toBe(true);
@@ -13,11 +17,10 @@ describe('ButtonDropdown component', () => {
 });
 
 describe('DropdownToggle component', () => {
-
-  it('user click on dropdown button', () => {
+  it('should call callBack by click', () => {
     const mockCallBack = jest.fn();
 
-    const button = shallow((<DropdownToggle toggle={mockCallBack} />));
+    const button = shallow((<DropdownToggle onClickHandler={mockCallBack} />));
     button.find('button').simulate('click');
 
     expect(mockCallBack.mock.calls.length).toEqual(1);
@@ -25,19 +28,19 @@ describe('DropdownToggle component', () => {
 });
 
 describe('DropdownMenu component', () => {
-  const props = {
-    isOpen: true,
-  };
+  it('should render DropdownMenu component', () => {
+    const props = {
+      isOpen: true,
+    };
 
-  const DropdownMenuComponent = mount(<DropdownMenu {...props} />).find(
-    '.dropdown-menu',
-  );
+    const wrapper = mount(<DropdownMenu {...props} />).find('div');
 
-  expect(DropdownMenuComponent.hasClass('dropdown-menu')).toEqual(true);
+    expect(wrapper.length).toEqual(1);
+  });
 });
 
 describe('DropdownItem component', () => {
-  it('renders', () => {
+  it('should render DropdownItem component', () => {
     const component = shallow(<DropdownItem />);
 
     expect(component.exists()).toBe(true);
