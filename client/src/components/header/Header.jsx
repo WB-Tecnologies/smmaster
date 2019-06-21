@@ -10,7 +10,7 @@ import {
   DropdownItem,
 } from '@/components/button-dropdown/ButtonDropdown';
 
-import userIcon from '@/assets/Account.svg';
+import userIcon from '!svg-url-loader?noquotes!../../../src/assets/Account.svg';// eslint-disable-line import/no-webpack-loader-syntax
 
 import './header.sass';
 
