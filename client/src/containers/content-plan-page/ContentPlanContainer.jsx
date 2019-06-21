@@ -4,14 +4,8 @@ import { connect } from 'react-redux';
 
 import { fetchPosts } from '@actions/contentPlanActions';
 
-import {
-  ButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from '@components/button-dropdown/ButtonDropdown';
-
-import userIcon from '@/assets/Account.svg';
+import TabBar from '@components/tab-bar/TabBar';
+import TabBarItem from '@components/tab-bar/TabBarItem';
 
 import './content-plan.sass';
 
@@ -20,40 +14,27 @@ class ContentPlanContainer extends PureComponent {
     fetchPosts: PropTypes.func.isRequired,
   };
 
-  state = {
-    dropdownOpen: false,
-  };
-
   componentDidMount() {
     const { fetchPosts } = this.props;
 
     fetchPosts();
   }
 
-  dropdownToggle = () => {
-    const { dropdownOpen } = this.state;
-
-    this.setState({
-      dropdownOpen: !dropdownOpen,
-    });
-  };
-
   render() {
-    const { dropdownOpen } = this.state;
-
     return (
       <div className="container">
         <main className="content-plan">
-          <div className="content-plan__container">ContentPlanContainer</div>
-          <ButtonDropdown onClickHandler={this.dropdownToggle}>
-            <DropdownToggle>
-              <img src={userIcon} alt="user-icon" />
-            </DropdownToggle>
-            <DropdownMenu isOpen={dropdownOpen}>
-              <DropdownItem>Редактировать профиль</DropdownItem>
-              <DropdownItem>Выход</DropdownItem>
-            </DropdownMenu>
-          </ButtonDropdown>
+          <div className="content-plan__container">
+            <p>ContentPlanContainer</p>
+            <TabBar>
+              <TabBarItem name="calendar" label="calendar" icon="icon-calendar">
+                tab 1
+              </TabBarItem>
+              <TabBarItem name="list" label="list" icon="icon-list">
+                tab 2
+              </TabBarItem>
+            </TabBar>
+          </div>
         </main>
       </div>
     );
