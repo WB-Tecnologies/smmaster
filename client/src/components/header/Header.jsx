@@ -23,20 +23,7 @@ class Header extends PureComponent {
     title: '',
   }
 
-  state = {
-    dropdownOpen: false,
-  };
-
-  dropdownToggle = () => {
-    const { dropdownOpen } = this.state;
-
-    this.setState({
-      dropdownOpen: !dropdownOpen,
-    });
-  };
-
   render() {
-    const { dropdownOpen } = this.state;
     const { title } = this.props;
 
     return (
@@ -53,11 +40,11 @@ class Header extends PureComponent {
             >
               Новая публикация
             </Button>
-            <ButtonDropdown onClickHandler={this.dropdownToggle}>
+            <ButtonDropdown>
               <DropdownToggle>
                 <img src={userIcon} alt="user-icon" />
               </DropdownToggle>
-              <DropdownMenu isOpen={dropdownOpen}>
+              <DropdownMenu>
                 <DropdownItem>Редактировать профиль</DropdownItem>
                 <DropdownItem>Выход</DropdownItem>
               </DropdownMenu>

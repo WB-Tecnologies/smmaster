@@ -23,28 +23,18 @@ describe('Header component', () => {
     expect(component.exists()).toBe(true);
   });
 
-  it('should populate the state', () => {
-    const component = shallow(<Header />);
-
-    expect(component.state().dropdownOpen).toBe(false);
-  });
-
-  it('should have a working method called dropdownToggle', () => {
-    const component = shallow(<Header />);
-    component.instance().dropdownToggle();
-
-    expect(component.state().dropdownOpen).toBe(true);
-  });
   it('should render Logo component', () => {
     const component = mount(<Header />);
 
     expect(component.find(Logo).length).toEqual(1);
   });
+
   it('should render Button component', () => {
     const component = mount(<Header />);
 
     expect(component.find(Button).length).toEqual(1);
   });
+
   it('should render ButtonDropdown component', () => {
     const component = mount(<Header />);
 
