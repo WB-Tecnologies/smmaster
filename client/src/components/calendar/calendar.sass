@@ -1,0 +1,75 @@
+$accent-color: #EBF8FF
+$bg-color: #FFFFFF
+$font-color: #37404F
+$border-color: #E3E7EB
+$hover-color: #F3F5F7
+
+.calendar
+  display: inline-block
+
+.react-datepicker.calendar__container
+  border-radius: 5px
+  border: none
+  box-shadow: 0px 4px 8px rgba(39, 40, 55, 0.1)
+  background-color: $bg-color
+
+  .react-datepicker__triangle
+    border: none!important
+
+    &:before
+      border: none!important
+
+  .react-datepicker__navigation
+    top: 3%
+
+  .react-datepicker__navigation
+    border: none
+    background-repeat: no-repeat
+    background-position: center center
+    width: 25px
+    height: 25px
+
+    &:focus
+      outline: none
+
+    &:hover
+      background-color: $hover-color
+      border-radius: 5px
+
+  .react-datepicker__navigation.react-datepicker__navigation--previous
+    background-image: url('../../assets/arrow.svg')
+
+  .react-datepicker__navigation.react-datepicker__navigation--next
+    background-image: url('../../assets/arrow.svg')
+    transform: rotate(180deg)
+
+  .react-datepicker__month-container
+
+    .react-datepicker__header
+      background-color: $bg-color
+      border-bottom: 1px solid $border-color
+      padding: 5px
+      text-transform: uppercase
+      font-weight: normal
+      color: $font-color
+      font-size: 14px
+      line-height: 1.8
+
+    .react-datepicker__month
+      font-size: 14px
+      color: $font-color
+      line-height: 100%
+      margin: 5px
+
+      .react-datepicker__month-text
+        width: 2.75rem
+        padding: 8px
+
+        &:hover
+          background-color: $hover-color
+          border-radius: 5px
+
+      .react-datepicker__month-text.react-datepicker__month--selected
+        border-radius: 5px
+        background-color: $accent-color
+        color: $font-color

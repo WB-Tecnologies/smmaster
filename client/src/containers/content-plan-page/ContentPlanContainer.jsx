@@ -4,24 +4,16 @@ import { connect } from 'react-redux';
 
 import { fetchPosts } from '@actions/contentPlanActions';
 
-import {
-  ButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from '@components/button-dropdown/ButtonDropdown';
-
-import userIcon from '@/assets/Account.svg';
+import Calendar from '@components/calendar/Calendar';
 
 import './content-plan.sass';
+
+const monthsDictionary = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+
 
 class ContentPlanContainer extends PureComponent {
   static propTypes = {
     fetchPosts: PropTypes.func.isRequired,
-  };
-
-  state = {
-    dropdownOpen: false,
   };
 
   componentDidMount() {
@@ -30,30 +22,34 @@ class ContentPlanContainer extends PureComponent {
     fetchPosts();
   }
 
-  dropdownToggle = () => {
-    const { dropdownOpen } = this.state;
+  getFormatedDate = activeDate => {
+    const monthIndex = activeDate.getMonth();
+    const year = activeDate.getFullYear();
 
-    this.setState({
-      dropdownOpen: !dropdownOpen,
-    });
-  };
+    return `${monthsDictionary[monthIndex]} ${year}`;
+  }
+
+  handleCalendar = () => {
+    /*
+      fetch to get a new date
+    */
+  }
 
   render() {
-    const { dropdownOpen } = this.state;
+    const activeDate = new Date();
 
     return (
       <div className="container">
         <main className="content-plan">
-          <div className="content-plan__container">ContentPlanContainer</div>
-          <ButtonDropdown onClickHandler={this.dropdownToggle}>
-            <DropdownToggle>
-              <img src={userIcon} alt="user-icon" />
-            </DropdownToggle>
-            <DropdownMenu isOpen={dropdownOpen}>
-              <DropdownItem>Редактировать профиль</DropdownItem>
-              <DropdownItem>Выход</DropdownItem>
-            </DropdownMenu>
-          </ButtonDropdown>
+          <div className="content-plan__container">
+            <p>ContentPlanContainer</p>
+            <Calendar
+              formatDate={this.getFormatedDate}
+              activeDate={activeDate}
+              onChange={this.handleCalendar}
+              showMonthYearPicker
+            />
+          </div>
         </main>
       </div>
     );
