@@ -31,7 +31,8 @@ class TabBar extends Component {
   }
 
   getChildrenLabels = children => children.map(({ props }) => ({
-    label: props.label, icon: props.icon,
+    label: props.label,
+    icon: props.icon,
   }));
 
   setActiveTab = activeTab => {
@@ -45,7 +46,7 @@ class TabBar extends Component {
   };
 
   renderTabs = () => {
-    const { children = [] } = this.props;
+    const { children } = this.props;
     const { activeTab } = this.state;
 
     return this.getChildrenLabels(children).map(navAttrs => (
