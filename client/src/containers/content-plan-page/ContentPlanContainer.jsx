@@ -6,6 +6,7 @@ import { fetchPosts } from '@actions/contentPlanActions';
 
 import TabBar from '@components/tab-bar/TabBar';
 import TabBarItem from '@components/tab-bar/TabBarItem';
+import Header from '@components/header/Header';
 
 import './content-plan.sass';
 
@@ -22,9 +23,11 @@ class ContentPlanContainer extends PureComponent {
 
   render() {
     return (
-      <div className="container">
-        <main className="content-plan">
-          <div className="content-plan__container">
+      <>
+        <Header title="Контент-план" />
+        <div className="container">
+          <main className="content-plan">
+            <div className="content-plan__container">
             <p>ContentPlanContainer</p>
             <TabBar>
               <TabBarItem name="calendar" label="calendar" icon="icon-calendar">
@@ -35,8 +38,9 @@ class ContentPlanContainer extends PureComponent {
               </TabBarItem>
             </TabBar>
           </div>
-        </main>
-      </div>
+          </main>
+        </div>
+      </>
     );
   }
 }
