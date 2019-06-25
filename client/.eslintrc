@@ -31,6 +31,7 @@
       "error",
       "as-needed"
     ],
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "no-shadow": "off",
     "react/jsx-indent": ["error", 2],
     "import/no-unresolved": "off",

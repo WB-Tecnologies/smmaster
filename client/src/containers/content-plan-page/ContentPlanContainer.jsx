@@ -4,24 +4,22 @@ import { connect } from 'react-redux';
 
 import { fetchPosts } from '@actions/contentPlanActions';
 
-import {
-  ButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from '@components/button-dropdown/ButtonDropdown';
-
-import userIcon from '@/assets/Account.svg';
+import CalendarView from '@components/calendar-view/CalendarView';
 
 import './content-plan.sass';
 
 class ContentPlanContainer extends PureComponent {
   static propTypes = {
     fetchPosts: PropTypes.func.isRequired,
+    posts: PropTypes.arrayOf(PropTypes.object),
+  };
+
+  static defaultProps = {
+    posts: [],
   };
 
   state = {
-    dropdownOpen: false,
+    currentMonth: new Date(),
   };
 
   componentDidMount() {
@@ -30,32 +28,19 @@ class ContentPlanContainer extends PureComponent {
     fetchPosts();
   }
 
-  dropdownToggle = () => {
-    const { dropdownOpen } = this.state;
-
-    this.setState({
-      dropdownOpen: !dropdownOpen,
-    });
-  };
-
   render() {
-    const { dropdownOpen } = this.state;
+    const { currentMonth } = this.state;
+    const { posts } = this.props;
 
     return (
-      <div className="container">
-        <main className="content-plan">
-          <div className="content-plan__container">ContentPlanContainer</div>
-          <ButtonDropdown onClickHandler={this.dropdownToggle}>
-            <DropdownToggle>
-              <img src={userIcon} alt="user-icon" />
-            </DropdownToggle>
-            <DropdownMenu isOpen={dropdownOpen}>
-              <DropdownItem>Редактировать профиль</DropdownItem>
-              <DropdownItem>Выход</DropdownItem>
-            </DropdownMenu>
-          </ButtonDropdown>
-        </main>
-      </div>
+      <>
+        <div className="container">
+          <main className="content-plan">
+            <div className="content-plan__container">ContentPlanContainer</div>
+          </main>
+        </div>
+        <CalendarView data={posts} currentMonth={currentMonth} />
+      </>
     );
   }
 }
