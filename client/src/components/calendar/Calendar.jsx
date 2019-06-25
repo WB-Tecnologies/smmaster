@@ -19,7 +19,6 @@ const Calendar = ({
       onChange={onChange}
       name="startDate"
       calendarClassName="calendar__container"
-      className="calendar__input"
       showMonthYearPicker={showMonthYearPicker}
     />
   </div>
@@ -28,13 +27,12 @@ const Calendar = ({
 Calendar.propTypes = {
   activeDate: PropTypes.objectOf(PropTypes.string).isRequired,
   formatDate: PropTypes.func,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
   showMonthYearPicker: PropTypes.bool,
 };
 
 Calendar.defaultProps = {
   formatDate: () => {},
-  onChange: () => {},
   showMonthYearPicker: false,
 };
 
