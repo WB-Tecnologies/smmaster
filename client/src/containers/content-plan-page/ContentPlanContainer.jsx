@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import { fetchPosts } from '@actions/contentPlanActions';
 
+import TabBar from '@components/tab-bar/TabBar';
+import TabBarItem from '@components/tab-bar/TabBarItem';
 import Header from '@components/header/Header';
 
 import './content-plan.sass';
@@ -25,9 +27,18 @@ class ContentPlanContainer extends PureComponent {
         <Header title="Контент-план" />
         <div className="container">
           <main className="content-plan">
-            <div>ContentPlanContainer</div>
+            <div className="content-plan__container">
+            <p>ContentPlanContainer</p>
+            <TabBar>
+              <TabBarItem name="calendar" label="calendar" icon="icon-calendar">
+                tab 1
+              </TabBarItem>
+              <TabBarItem name="list" label="list" icon="icon-list">
+                tab 2
+              </TabBarItem>
+            </TabBar>
+          </div>
           </main>
-
         </div>
       </>
     );
