@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { fetchPosts } from '@actions/contentPlanActions';
 
 import Calendar from '@components/calendar/Calendar';
+import Header from '@components/header/Header';
 
 import './content-plan.sass';
 
@@ -39,19 +40,22 @@ class ContentPlanContainer extends PureComponent {
     const activeDate = new Date();
 
     return (
-      <div className="container">
-        <main className="content-plan">
-          <div className="content-plan__container">
-            <p>ContentPlanContainer</p>
-            <Calendar
-              formatDate={this.getFormatedDate}
-              activeDate={activeDate}
-              onChange={this.handleCalendar}
-              showMonthYearPicker
-            />
-          </div>
-        </main>
-      </div>
+      <>
+        <Header title="Контент-план" />
+        <div className="container">
+          <main className="content-plan">
+            <div className="content-plan__container">
+              <p>ContentPlanContainer</p>
+              <Calendar
+                formatDate={this.getFormatedDate}
+                activeDate={activeDate}
+                onChange={this.handleCalendar}
+                showMonthYearPicker
+              />
+            </div>
+          </main>
+        </div>
+      </>
     );
   }
 }
