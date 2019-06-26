@@ -16,6 +16,7 @@ const Button = ({
   isPrimaryMd,
   isIcon,
   isGhost,
+  isOutline,
   active,
   ...attrs
 }) => {
@@ -36,6 +37,7 @@ const Button = ({
     { 'btn-primary_medium': isPrimaryMd },
     { 'btn-ghost_icon': isIcon },
     { 'btn-ghost': isGhost },
+    { 'btn-outline': isOutline },
     { active },
   );
 
@@ -61,6 +63,7 @@ Button.propTypes = {
   isPrimaryMd: PropTypes.bool,
   isIcon: PropTypes.bool,
   isGhost: PropTypes.bool,
+  isOutline: PropTypes.bool,
 };
 
 Button.defaultProps = {
@@ -76,6 +79,7 @@ Button.defaultProps = {
   isPrimaryMd: false,
   isIcon: false,
   isGhost: false,
+  isOutline: false,
 };
 
 export default Button;

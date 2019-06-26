@@ -11,6 +11,9 @@ $active-font-color: #00AAFF
 $ghost-hover-color: #F3F5F7
 $ghost-disabled-bg-color: #fff
 
+$outline-border-color: #CCD4DB
+$outline-hover-color: #F3F5F7
+
 $spinner-color: #B8C7E0
 
 .btn
@@ -26,6 +29,8 @@ $spinner-color: #B8C7E0
   text-decoration: none
   text-align: center
   transition: background-color .25s ease-out
+  white-space: nowrap
+  vertical-align: middle
 
   &:focus
     outline: none
@@ -88,7 +93,6 @@ $spinner-color: #B8C7E0
   &-ghost
     padding: 10px
     font-size: 10px
-    transition: all 0.3s ease 0s
     border-radius: 5px
     width: auto
 
@@ -101,3 +105,19 @@ $spinner-color: #B8C7E0
 
       &:hover
         background: none
+
+  /*Outline button*/
+  &-outline
+    padding: 9px
+    font-size: 10px
+    border-radius: 5px
+    border: 1px solid $outline-border-color
+    box-sizing: border-box
+    width: auto
+
+    &:hover
+      background-color: $outline-hover-color
+
+    &:active
+      background: $active-bg-color
+      color: $active-font-color
