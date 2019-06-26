@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 
 import { fetchPosts } from '@actions/contentPlanActions';
 
-import TabBar from '@components/tab-bar/TabBar';
-import TabBarItem from '@components/tab-bar/TabBarItem';
+import Calendar from '@components/calendar/Calendar';
 import Header from '@components/header/Header';
 
 import './content-plan.sass';
+
+const monthsDictionary = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+
 
 class ContentPlanContainer extends PureComponent {
   static propTypes = {
@@ -21,23 +23,36 @@ class ContentPlanContainer extends PureComponent {
     fetchPosts();
   }
 
+  getFormatedDate = activeDate => {
+    const monthIndex = activeDate.getMonth();
+    const year = activeDate.getFullYear();
+
+    return `${monthsDictionary[monthIndex]} ${year}`;
+  }
+
+  handleCalendar = () => {
+    /*
+      fetch to get a new date
+    */
+  }
+
   render() {
+    const activeDate = new Date();
+
     return (
       <>
         <Header title="Контент-план" />
         <div className="container">
           <main className="content-plan">
             <div className="content-plan__container">
-            <p>ContentPlanContainer</p>
-            <TabBar>
-              <TabBarItem name="calendar" label="calendar" icon="icon-calendar">
-                tab 1
-              </TabBarItem>
-              <TabBarItem name="list" label="list" icon="icon-list">
-                tab 2
-              </TabBarItem>
-            </TabBar>
-          </div>
+              <p>ContentPlanContainer</p>
+              <Calendar
+                formatDate={this.getFormatedDate}
+                activeDate={activeDate}
+                onChange={this.handleCalendar}
+                showMonthYearPicker
+              />
+            </div>
           </main>
         </div>
       </>
