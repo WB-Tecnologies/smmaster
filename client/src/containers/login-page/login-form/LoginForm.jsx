@@ -126,6 +126,7 @@ class LoginForm extends Component {
               type="submit"
               disabledPrimary={isDisabled}
               disabled={isDisabled}
+              className="login-form__btn"
             >
               Войти
             </Button>

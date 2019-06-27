@@ -1,0 +1,39 @@
+$active-bg-color: #CCEEFF
+$active-svg-bg-color: invert(46%) sepia(97%) saturate(2821%) hue-rotate(176deg) brightness(108%) contrast(102%)
+$hover-bg-color: #F3F5F7
+
+.nav-item
+  cursor: pointer
+  padding: 5px
+  margin-right: 12px
+  line-height: 0
+
+  &__icon
+    display: inline-block
+    width: 20px
+    height: 20px
+    background-size: cover
+
+  &:last-child
+    margin-right: 0
+
+  &:hover
+    background-color: $hover-bg-color
+    border-radius: 5px
+
+.nav-item__icon.icon-calendar
+  background-image: url('../../assets/Calendar.svg')
+
+.nav-item__icon.icon-list
+  background-image: url('../../assets/List.svg')
+
+/*Active tab style*/
+.nav-item__icon.icon-calendar.active
+  filter: $active-svg-bg-color
+
+.nav-item__icon.icon-list.active
+  filter: $active-svg-bg-color
+
+.nav-item.active
+  background-color: $active-bg-color
+  border-radius: 5px

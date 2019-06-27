@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { fetchPosts } from '@actions/contentPlanActions';
 
 import CalendarView from '@components/calendar-view/CalendarView';
+import Header from '@components/header/Header';
 
 import './content-plan.sass';
 
@@ -34,6 +35,7 @@ class ContentPlanContainer extends PureComponent {
 
     return (
       <>
+        <Header title="Контент-план" />
         <div className="container">
           <main className="content-plan">
             <div className="content-plan__container">ContentPlanContainer</div>

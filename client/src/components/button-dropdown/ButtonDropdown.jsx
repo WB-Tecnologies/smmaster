@@ -1,29 +1,47 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import './button-dropdown.sass';
 
-const ButtonDropdown = ({ children, onClickHandler }) => (
-  <div className="button-dropdown">
-    {
-      React.Children.map(children, child => (
-        React.cloneElement(child, {
-          onClickHandler,
-        })
-      ))
-    }
-  </div>
-);
+class ButtonDropdown extends PureComponent {
+  static propTypes = {
+    children: PropTypes.node,
+  };
 
-ButtonDropdown.propTypes = {
-  children: PropTypes.node,
-  onClickHandler: PropTypes.func,
-};
+  static defaultProps = {
+    children: null,
+  };
 
-ButtonDropdown.defaultProps = {
-  children: null,
-  onClickHandler: () => {},
-};
+  state = {
+    dropdownOpen: false,
+  };
+
+  dropdownToggle = () => {
+    const { dropdownOpen } = this.state;
+
+    this.setState({
+      dropdownOpen: !dropdownOpen,
+    });
+  };
+
+  render() {
+    const { children } = this.props;
+    const { dropdownOpen } = this.state;
+
+    return (
+      <div className="button-dropdown">
+        {
+          React.Children.map(children, child => (
+            React.cloneElement(child, {
+              onClickHandler: this.dropdownToggle,
+              isOpen: dropdownOpen,
+            })
+          ))
+        }
+      </div>
+    );
+  }
+}
 
 const DropdownToggle = ({ children, onClickHandler }) => (
   <button className="dropdown-toggle" onClick={onClickHandler} type="button">

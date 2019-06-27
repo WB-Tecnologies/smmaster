@@ -1,0 +1,28 @@
+$font-color: #3E4B64
+
+.calendar-button
+  cursor: pointer
+  position: relative
+  font-weight: normal
+  font-style: normal
+  border: none
+  background-color: transparent
+  display: inline-block
+  text-decoration: none
+  text-align: center
+  width: 100%
+  font-size: 18px
+  line-height: 12px
+  padding: 10px
+  display: flex
+  align-items: center
+  color: $font-color
+
+  &:focus
+    outline: none
+
+  &:after
+    content: url('../../assets/arrow-gray.svg')
+    display: inline-block
+    background-position: center center
+    padding-left: 10px
