@@ -1,4 +1,4 @@
-export const listToMatrix = (array, elementsPerSubArray) => {
+export const splitArray = (array, elementsPerSubArray) => {
   const res = [[]];
   let elementInSubCount = 0;
 
@@ -11,4 +11,4 @@ export const listToMatrix = (array, elementsPerSubArray) => {
     elementInSubCount += 1;
   }
   return res;
-}
+};
