@@ -1,6 +1,7 @@
 $primary-bg-color: #00AAFF
 $primary-hover-color: #33BBFF
 $primary-font-color: #37404F
+$primary-icon-bg-color: #00AAFF
 
 $disabled-bg-color: #EBF8FF
 $disabled-font-color: #828F9F
@@ -10,6 +11,7 @@ $active-font-color: #00AAFF
 
 $ghost-hover-color: #F3F5F7
 $ghost-disabled-bg-color: #fff
+$ghost-icon-bg-color: #fff
 
 $outline-border-color: #CCD4DB
 $outline-hover-color: #F3F5F7
@@ -52,6 +54,16 @@ $spinner-color: #B8C7E0
       font-size: 12px
       line-height: 10px
       padding: 10px
+
+    &_icon
+      line-height: 0
+      padding: 5px
+      border-radius: 5px
+      background-color: $primary-icon-bg-color
+      box-shadow: 0px 2px 4px rgba(39, 40, 55, 0.1)
+
+      &:hover
+        background: $primary-hover-color
 
     &_spinner
       background-color: $disabled-bg-color
@@ -101,10 +113,13 @@ $spinner-color: #B8C7E0
 
     &_icon
       line-height: 0
-      padding: 0 8px
+      padding: 5px
+      border-radius: 5px
+      background-color: $ghost-icon-bg-color
+      box-shadow: 0px 2px 4px rgba(39, 40, 55, 0.1)
 
       &:hover
-        background: none
+        background: $ghost-hover-color
 
   /*Outline button*/
   &-outline
@@ -121,3 +136,4 @@ $spinner-color: #B8C7E0
     &:active
       background: $active-bg-color
       color: $active-font-color
+    
