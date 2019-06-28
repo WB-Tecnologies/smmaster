@@ -12,16 +12,18 @@ const FormInput = ({
   });
   return (
     <div className={classes}>
-      <label className="form-input__label" htmlFor={field}>
-        {label}
-      </label>
+      {label && (
+        <label className="form-input__label" htmlFor={field}>
+          {label}
+        </label>
+      )}
       <input
         onChange={onChange}
         value={value}
         type={type}
         name={field}
-        className="form-input__input"
         required
+        className="form-input__input"
       />
       {error && <span className="form-input__help-block">{error}</span>}
     </div>

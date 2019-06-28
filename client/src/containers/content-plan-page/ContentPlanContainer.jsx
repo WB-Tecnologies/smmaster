@@ -6,6 +6,7 @@ import { fetchPosts } from '@actions/contentPlanActions';
 
 import Calendar from '@components/calendar/Calendar';
 import Header from '@components/header/Header';
+import AddThemeInput from '@components/add-theme-input/AddThemeInput';
 
 import './content-plan.sass';
 
@@ -52,6 +53,7 @@ class ContentPlanContainer extends PureComponent {
                 onChange={this.handleCalendar}
                 showMonthYearPicker
               />
+              <AddThemeInput />
             </div>
           </main>
         </div>
