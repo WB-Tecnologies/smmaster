@@ -29,7 +29,7 @@ class Header extends PureComponent {
     return (
       <header className="header">
         <div className="container">
-          <div className="header__content container-p">
+          <div className="header__content">
             <Logo link="/" className="header__logo" />
             <div className="header__breadcrumb">{title}</div>
             <Button

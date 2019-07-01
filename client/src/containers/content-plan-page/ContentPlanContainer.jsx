@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { fetchPosts } from '@actions/contentPlanActions';
+import { getFormatedDate } from '@helpers/formatDate';
 
 import Calendar from '@components/calendar/Calendar';
 import Header from '@components/header/Header';
-import AddThemeInput from '@components/add-theme-input/AddThemeInput';
+import TabBar from '@components/tab-bar/TabBar';
+import TabBarItem from '@components/tab-bar/TabBarItem';
+import Button from '@components/button/Button';
 
 import './content-plan.sass';
-
-const monthsDictionary = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-
 
 class ContentPlanContainer extends PureComponent {
   static propTypes = {
@@ -24,38 +24,41 @@ class ContentPlanContainer extends PureComponent {
     fetchPosts();
   }
 
-  getFormatedDate = activeDate => {
-    const monthIndex = activeDate.getMonth();
-    const year = activeDate.getFullYear();
-
-    return `${monthsDictionary[monthIndex]} ${year}`;
-  }
-
   handleCalendar = () => {
     /*
-      fetch to get a new date
+      post request to get a new posts by date
     */
   }
 
-  render() {
-    const activeDate = new Date();
+  getContentHeader = () => (
+    <div>
+      <Calendar
+        getFormatedDate={getFormatedDate}
+        onChange={this.handleCalendar}
+        showMonthYearPicker
+      />
+      <Button isOutline type="button" className="content-plan__today-btn">
+        Сегодня
+      </Button>
+    </div>
+  );
 
+
+  render() {
     return (
       <>
         <Header title="Контент-план" />
-        <div className="container">
-          <main className="content-plan">
-            <div className="content-plan__container">
-              <p>ContentPlanContainer</p>
-              <Calendar
-                formatDate={this.getFormatedDate}
-                activeDate={activeDate}
-                onChange={this.handleCalendar}
-                showMonthYearPicker
-              />
-              <AddThemeInput />
-            </div>
-          </main>
+        <div className="content-plan">
+          <div className="container">
+            <TabBar additionalTabBarElem={this.getContentHeader()}>
+              <TabBarItem name="calendar" label="calendar" icon="icon-calendar">
+                tab 1
+              </TabBarItem>
+              <TabBarItem name="list" label="list" icon="icon-list">
+                tab 2
+              </TabBarItem>
+            </TabBar>
+          </div>
         </div>
       </>
     );
