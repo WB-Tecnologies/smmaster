@@ -6,7 +6,6 @@ import { fetchPosts } from '@actions/contentPlanActions';
 
 import CalendarView from '@components/calendar-view/CalendarView';
 import Header from '@components/header/Header';
-import AddThemeInput from '@components/add-theme-input/AddThemeInput';
 
 import './content-plan.sass';
 
