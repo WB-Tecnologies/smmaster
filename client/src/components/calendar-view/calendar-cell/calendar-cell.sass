@@ -1,0 +1,47 @@
+$border-color: #E3E7EB
+$font-color: #828F9F
+$accent-color: #00AAFF
+$first-day-of-month-border-color: #9CA9BA
+
+.calendar-cell
+  display: table-cell
+  width: calc(100%/7)
+  border: 1px solid $border-color
+  text-align: right
+  font-size: 12px
+  line-height: 18px
+  box-sizing: border-box
+  padding: 15px 0
+  color: $font-color
+  height: 93px
+
+  &:last-child
+    border-right: none
+
+  &__day
+    padding-bottom: 10px
+    padding: 0 15px
+    position: relative
+
+    &_first-day
+      text-transform: lowercase
+
+      &:before
+        content: ''
+        height: 2px
+        width: 100%
+        background-color: $first-day-of-month-border-color
+        position: absolute
+        left: 0
+        top: -15px
+
+  &__btn
+    text-align: center
+
+  &_focus
+    border: 1px double $accent-color
+    box-sizing: border-box
+
+
+    .calendar-cell__day
+      color: $accent-color

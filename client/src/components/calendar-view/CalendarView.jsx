@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { splitArray } from '@helpers/utils';
 
-import CalendarCell from './CalendarCell';
+import CalendarCell from './calendar-cell/CalendarCell';
 
 import './calendar-view.sass';
 
@@ -114,7 +114,7 @@ class CalendarView extends PureComponent {
           <div className="calendar-row" key={shortid.generate()}>
             {row.map(item => (
               <CalendarCell
-                day={String(item.date.getDate()).padStart(2, '0')}
+                day={item.date}
                 key={shortid.generate()}
                 // eslint-disable-next-line no-plusplus
                 id={`cell-${globalIndex++}`}
