@@ -11,9 +11,10 @@ $first-day-of-month-border-color: #9CA9BA
   font-size: 12px
   line-height: 18px
   box-sizing: border-box
-  padding: 15px 0
   color: $font-color
-  height: 93px
+  position: relative
+  padding-top: 15px
+  padding-bottom: 45px
 
   &:last-child
     border-right: none
@@ -22,6 +23,7 @@ $first-day-of-month-border-color: #9CA9BA
     padding-bottom: 10px
     padding: 0 15px
     position: relative
+    margin-bottom: 10px
 
     &_first-day
       text-transform: lowercase
@@ -35,8 +37,14 @@ $first-day-of-month-border-color: #9CA9BA
         left: 0
         top: -15px
 
+  &__btn-container
+    position: absolute
+    width: 86%
+    left: 15px
+    bottom: 15px
+
   &__btn
-    text-align: center
+    width: 100%
 
   &_focus
     border: 1px double $accent-color

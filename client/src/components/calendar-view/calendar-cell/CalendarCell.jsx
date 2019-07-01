@@ -79,8 +79,8 @@ class CalendarCell extends PureComponent {
           {children}
         </div>
         {isHovering && (
-          <div className="calendar-cell__btn">
-            <Button>
+          <div className="calendar-cell__btn-container">
+            <Button isOutline type="button" className="calendar-cell__btn">
               Добавить тему
             </Button>
           </div>

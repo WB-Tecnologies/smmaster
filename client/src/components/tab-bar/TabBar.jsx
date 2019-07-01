@@ -11,11 +11,13 @@ class TabBar extends Component {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
+    additionalTabBarElem: PropTypes.node,
   };
 
   static defaultProps = {
     children: null,
     className: '',
+    additionalTabBarElem: null,
   };
 
   state = {
@@ -62,13 +64,18 @@ class TabBar extends Component {
 
   render() {
     const { activeTab } = this.state;
-    const { children, className, ...attrs } = this.props;
+    const {
+      children, className, additionalTabBarElem, ...attrs
+    } = this.props;
 
     const classes = classNames('tab-bar', className);
 
     return (
       <div className={classes} {...attrs}>
-        <div className="tab-bar-nav">{this.renderTabs()}</div>
+        <div className="tab-bar__nav">
+          {additionalTabBarElem}
+          <div className="tab-bar-nav">{this.renderTabs()}</div>
+        </div>
         <div className="tab-container">
           {React.Children.map(children, child => React.cloneElement(child, { activeTab }))}
         </div>

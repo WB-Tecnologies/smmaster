@@ -1,4 +1,4 @@
-export const getFormatedDateWithoutYear = date  => {
+export const getFormatedDateWithoutYear = date => {
   const monthNames = [
     'Января',
     'Февраля',
@@ -16,4 +16,24 @@ export const getFormatedDateWithoutYear = date  => {
   const dateObj = new Date(date);
 
   return `${dateObj.getDate()} ${monthNames[dateObj.getMonth()]}`;
+};
+
+export const getFormatedDate = date => {
+  const monthNames = [
+    'Январь',
+    'Февраль',
+    'Март',
+    'Апрель',
+    'Май',
+    'Июнь',
+    'Июль',
+    'Август',
+    'Сентябрь',
+    'Октябрь',
+    'Ноябрь',
+    'Декабрь',
+  ];
+  const dateObj = new Date(date);
+
+  return `${monthNames[dateObj.getMonth()]}  ${dateObj.getFullYear()}`;
 };

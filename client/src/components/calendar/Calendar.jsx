@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import DatePicker from 'react-datepicker';
 import PropTypes from 'prop-types';
 
@@ -7,32 +7,46 @@ import CalendarButton from './CalendarButton';
 import 'react-datepicker/dist/react-datepicker.css';
 import './calendar.sass';
 
-const Calendar = ({
-  activeDate, formatDate, onChange, showMonthYearPicker,
-}) => (
+class Calendar extends PureComponent {
+  state = {
+    date: new Date(),
+  }
 
-  <div className="calendar">
-    <DatePicker
-      customInput={<CalendarButton />}
-      dateFormat={formatDate(activeDate)}
-      selected={activeDate}
-      onChange={onChange}
-      name="startDate"
-      calendarClassName="calendar__container"
-      showMonthYearPicker={showMonthYearPicker}
-    />
-  </div>
-);
+  handleChange = date => {
+    const { onChange } = this.props;
+
+    this.setState({ date });
+    onChange(date);
+  }
+
+  render() {
+    const { getFormatedDate, showMonthYearPicker } = this.props;
+    const { date } = this.state;
+
+    return (
+      <div className="calendar">
+        <DatePicker
+          customInput={<CalendarButton />}
+          dateFormat={getFormatedDate(date)}
+          selected={date}
+          onChange={this.handleChange}
+          name="startDate"
+          calendarClassName="calendar__container"
+          showMonthYearPicker={showMonthYearPicker}
+        />
+      </div>
+    );
+  }
+}
 
 Calendar.propTypes = {
-  activeDate: PropTypes.objectOf(PropTypes.string).isRequired,
-  formatDate: PropTypes.func,
+  getFormatedDate: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   showMonthYearPicker: PropTypes.bool,
 };
 
 Calendar.defaultProps = {
-  formatDate: () => {},
+  getFormatedDate: () => {},
   showMonthYearPicker: false,
 };
 
