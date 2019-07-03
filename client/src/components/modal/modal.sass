@@ -1,0 +1,48 @@
+$overlay-color: #00AAFF
+$modal-window-bg-color: #fff
+
+.modal-overlay
+  background-color: rgba($overlay-color, 0.7)
+  position: fixed
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+
+.modal-window
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  background-color: $modal-window-bg-color
+  min-height: 200px
+  width: 450px
+  // display: flex
+  // flex-direction: column
+  // justify-content: space-between
+  box-shadow: 0px 16px 32px rgba(39, 40, 55, 0.15)
+  border-radius: 5px
+
+//   &__header
+//     min-height: 60px
+//     border-bottom: 1px solid rgba(0, 0, 0, 0.2)
+//     display: flex
+//     justify-content: space-between
+//     box-sizing: border-box
+//     align-items: center
+
+// .modal-window__title
+//   font-weight: bold
+
+// .modal-window__footer
+//   display: flex
+//   justify-content: flex-end
+//   align-items: center
+
+// .modal-window__footer button:last-child
+//   margin-left: 10px
+
+// .modal-window__header,
+// .modal-window__body,
+// .modal-window__footer
+//   padding: 20px 20px 15px 20px
