@@ -24,10 +24,6 @@ class ContentPlanContainer extends PureComponent {
     posts: [],
   };
 
-  state = {
-    currentMonth: new Date(),
-  };
-
   componentDidMount() {
     const { fetchPosts } = this.props;
 
@@ -55,8 +51,7 @@ class ContentPlanContainer extends PureComponent {
 
 
   render() {
-    const { currentMonth } = this.state;
-    const { posts } = this.props;
+    const { posts, date } = this.props;
 
     return (
       <>
@@ -64,7 +59,7 @@ class ContentPlanContainer extends PureComponent {
         <div className="content-plan">
           <TabBar additionalTabBarElem={this.getContentHeader()}>
             <TabBarItem name="calendar" label="calendar" icon="icon-calendar">
-              <CalendarView data={posts} currentMonth={currentMonth} />
+              <CalendarView data={posts} currentMonth={date} getDataByMonth={this.handleCalendar} />
             </TabBarItem>
             <TabBarItem name="list" label="list" icon="icon-list">
               tab 2
@@ -78,6 +73,7 @@ class ContentPlanContainer extends PureComponent {
 
 const mapStateToProps = state => ({
   posts: state.posts.items,
+  date: state.currentDate.date,
 });
 
 const mapDispatchToProps = dispatch => ({

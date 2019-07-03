@@ -1,13 +1,20 @@
 $border-color: #E3E7EB
 $font-color: #828F9F
+$table-header-bg-color: #fff
 
 .calendar-view
-  display: table
-  width: 100%
-  border-collapse: collapse
+  display: block
+
+  &__weekdays
+    display: flex
+    padding-top: 105px
+    position: fixed
+    width: 100%
+    background-color: $table-header-bg-color
+    z-index: 8
 
   &__weekday
-    display: table-cell
+    display: block
     width: calc(100%/7)
     border-top: 1px solid $border-color
     border-bottom: 1px solid $border-color
@@ -20,5 +27,12 @@ $font-color: #828F9F
     white-space: nowrap
     height: 20px
 
+  &__content
+    display: block
+    padding-top: 125px
+    width: 100%
+    overflow: scroll
+    height: 100vh
+
 .calendar-row
-  display: table-row
+  display: flex

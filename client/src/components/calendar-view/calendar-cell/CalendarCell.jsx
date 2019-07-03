@@ -5,15 +5,13 @@ import classNames from 'classnames';
 import { getFormatedDateWithoutYear } from '@helpers/formatDate';
 
 import Button from '@components/button/Button';
+import AddThemeInput from '@components/add-theme-input/AddThemeInput';
 
 import './calendar-cell.sass';
 
 class CalendarCell extends PureComponent {
   static propTypes = {
     children: PropTypes.node,
-    setSelectedId: PropTypes.func.isRequired,
-    selectedCellId: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
     day: PropTypes.objectOf(PropTypes.string).isRequired,
   };
 
@@ -23,6 +21,15 @@ class CalendarCell extends PureComponent {
 
   state = {
     isHovering: false,
+    isShowAddThemeInput: false,
+  }
+
+  isCurrentDate = () => {
+    let { day } = this.props;
+    day = day.setHours(0, 0, 0, 0);
+    const today = new Date().setHours(0, 0, 0, 0);
+
+    return day === today;
   }
 
   handleMouseLeave = () => {
@@ -43,24 +50,28 @@ class CalendarCell extends PureComponent {
     });
   }
 
-  handleClick = () => {
-    const { setSelectedId, id } = this.props;
-
-    setSelectedId(id);
-  }
-
   getCalendarDay = day => (
     (day.getDate() === 1)
       ? (<div className="calendar-cell__day calendar-cell__day_first-day">{getFormatedDateWithoutYear(day)}</div>)
       : (<div className="calendar-cell__day">{String(day.getDate()).padStart(2, '0')}</div>)
   )
 
+  handleCellBtn = () => {
+    this.setState({
+      isShowAddThemeInput: true,
+    });
+  }
+
+  handleCloseInputBtn = () => {
+    this.setState({
+      isShowAddThemeInput: false,
+    });
+  }
+
   render() {
-    const {
-      children, day, selectedCellId, id,
-    } = this.props;
-    const { isHovering } = this.state;
-    const isFocused = selectedCellId === id;
+    const { children, day } = this.props;
+    const { isHovering, isShowAddThemeInput } = this.state;
+    const isFocused = this.isCurrentDate();
     const classes = classNames(
       'calendar-cell',
       { 'calendar-cell_focus': isFocused },
@@ -69,7 +80,7 @@ class CalendarCell extends PureComponent {
     return (
       <div
         className={classes}
-        onClick={this.handleClick}
+        ref="cellItem"
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         onMouseMove={this.handleMouseMove}
@@ -78,13 +89,14 @@ class CalendarCell extends PureComponent {
         <div className="calendar-cell__cards">
           {children}
         </div>
-        {isHovering && (
+        {(isHovering && !isShowAddThemeInput) && (
           <div className="calendar-cell__btn-container">
-            <Button isOutline type="button" className="calendar-cell__btn">
+            <Button isOutline type="button" className="calendar-cell__btn" onClick={this.handleCellBtn}>
               Добавить тему
             </Button>
           </div>
         )}
+        {isShowAddThemeInput && <AddThemeInput className="calendar-cell__input" closeBtnClick={this.handleCloseInputBtn} />}
       </div>
     );
   }

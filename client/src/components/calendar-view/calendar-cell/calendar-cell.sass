@@ -4,26 +4,28 @@ $accent-color: #00AAFF
 $first-day-of-month-border-color: #9CA9BA
 
 .calendar-cell
-  display: table-cell
+  display: flex
+  flex-direction: column
+  flex: 1
+  overflow: hidden
   width: calc(100%/7)
-  border: 1px solid $border-color
+  border-right: 1px solid $border-color
+  border-bottom: 1px solid $border-color
   text-align: right
   font-size: 12px
   line-height: 18px
   box-sizing: border-box
   color: $font-color
   position: relative
-  padding-top: 15px
-  padding-bottom: 45px
+  padding: 15px
+  min-height: 93px
 
   &:last-child
     border-right: none
 
   &__day
     padding-bottom: 10px
-    padding: 0 15px
     position: relative
-    margin-bottom: 10px
 
     &_first-day
       text-transform: lowercase
@@ -31,25 +33,27 @@ $first-day-of-month-border-color: #9CA9BA
       &:before
         content: ''
         height: 2px
-        width: 100%
+        width: 120%
         background-color: $first-day-of-month-border-color
         position: absolute
-        left: 0
+        left: -15px
         top: -15px
 
   &__btn-container
     position: absolute
-    width: 86%
-    left: 15px
     bottom: 15px
+    left: 15px
+    right: 15px
 
   &__btn
+    width: 100%
+
+  &__input
     width: 100%
 
   &_focus
     border: 1px double $accent-color
     box-sizing: border-box
-
 
     .calendar-cell__day
       color: $accent-color
