@@ -1,3 +1,4 @@
+/* eslint-disable react/no-string-refs */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
