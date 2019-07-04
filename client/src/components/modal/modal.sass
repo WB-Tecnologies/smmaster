@@ -17,30 +17,35 @@ $modal-window-bg-color: #fff
   background-color: $modal-window-bg-color
   min-height: 200px
   width: 450px
-  // display: flex
-  // flex-direction: column
-  // justify-content: space-between
+  display: flex
+  flex-direction: column
+  justify-content: space-between
   box-shadow: 0px 16px 32px rgba(39, 40, 55, 0.15)
   border-radius: 5px
+  overflow: hidden
 
-//   &__header
-//     min-height: 60px
-//     border-bottom: 1px solid rgba(0, 0, 0, 0.2)
-//     display: flex
-//     justify-content: space-between
-//     box-sizing: border-box
-//     align-items: center
+  &__header
+    font-size: 18px
+    line-height: 110%
+    color: #37404F
+    background-color: #FCFCFD
+    padding: 28px 92px
 
-// .modal-window__title
-//   font-weight: bold
+    &-img
+      max-width: 100%
+      height: auto
 
-// .modal-window__footer
-//   display: flex
-//   justify-content: flex-end
-//   align-items: center
+  &__title
+    font-weight: bold
+    margin: 0
 
-// .modal-window__footer button:last-child
-//   margin-left: 10px
+  &__body
+    font-size: 14px
+    line-height: 140%
+    padding: 30px
+
+  &__footer
+    text-align: left
 
 // .modal-window__header,
 // .modal-window__body,

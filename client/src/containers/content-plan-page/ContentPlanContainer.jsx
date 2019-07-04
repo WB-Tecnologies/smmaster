@@ -12,6 +12,8 @@ import TabBarItem from '@components/tab-bar/TabBarItem';
 import Button from '@components/button/Button';
 import Modal from '@components/modal/Modal';
 
+import ilustration from '!svg-url-loader?noquotes!../../../src/assets/ilustration.svg';// eslint-disable-line import/no-webpack-loader-syntax
+
 import './content-plan.sass';
 
 class ContentPlanContainer extends PureComponent {
@@ -74,11 +76,17 @@ class ContentPlanContainer extends PureComponent {
           </div>
         </div>
         <Modal
-          title="Test Dialog window"
+          title="Начало работы"
           isOpen={this.state.isOpen}
           onCancel={this.handleCancel}
+          label="Ок"
+          image={ilustration}
         >
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a</p>
+          <p>
+            Наши специалисты занимаются планировкой вашего контент-плана.
+            Это займет некоторое время и как только он будет готов, на почту придет уведомление.
+            Если не хотите ждать, вы можете начать самостоятельно наполять контент-план.
+          </p>
         </Modal>
       </>
     );

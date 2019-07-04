@@ -7,7 +7,7 @@ import Button from '../button/Button';
 import './modal.sass';
 
 const Modal = ({
-  title, isOpen, onCancel, onSubmit, children, label,
+  title, isOpen, onCancel, image, children, label,
 }) => {
   return (
     <>
@@ -16,14 +16,14 @@ const Modal = ({
           <div className="modal-overlay">
             <div className="modal-window">
               <div className="modal-window__header">
-                <div className="modal-window__title">{title}</div>
+                {image && <img src={image} alt="undraw-process" className="modal-window__header-img" />}
               </div>
               <div className="modal-window__body">
+                <p className="modal-window__title">{title}</p>
                 {children}
               </div>
               <div className="modal-window__footer">
-                {/* <Button onClick={onSubmit} >{label}</Button> */}
-                <Button onClick={onCancel}>Cancel</Button>
+                <Button onClick={onCancel}>{label}</Button>
               </div>
             </div>
           </div>
