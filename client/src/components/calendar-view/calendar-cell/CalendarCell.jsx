@@ -45,12 +45,6 @@ class CalendarCell extends PureComponent {
     });
   }
 
-  handleMouseMove = () => {
-    this.setState({
-      isHovering: true,
-    });
-  }
-
   getCalendarDay = day => (
     (day.getDate() === 1)
       ? (<div className="calendar-cell__day calendar-cell__day_first-day">{getFormatedDateWithoutYear(day)}</div>)
@@ -84,7 +78,6 @@ class CalendarCell extends PureComponent {
         ref="cellItem"
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        onMouseMove={this.handleMouseMove}
       >
         {this.getCalendarDay(day)}
         <div className="calendar-cell__cards">

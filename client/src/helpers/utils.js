@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 export const splitArray = (array, elementsPerSubArray) => {
   const res = [[]];
   let elementInSubCount = 0;

@@ -36,15 +36,9 @@ class AddThemeInput extends PureComponent {
     e.preventDefault();
   };
 
-  handleClose = () => {
-    const { closeBtnClick } = this.props;
-
-    closeBtnClick();
-  }
-
   render() {
     const { text, errors } = this.state;
-    const { className } = this.props;
+    const { className, closeBtnClick } = this.props;
     const classes = classNames('add-theme', className);
 
     return (
@@ -58,7 +52,7 @@ class AddThemeInput extends PureComponent {
           className="add-theme__input"
         />
         <div className="add-theme__btn-group">
-          <Button isGhostIcon type="button" onClick={this.handleClose}>
+          <Button isGhostIcon type="button" onClick={closeBtnClick}>
             <img src={cross} alt="close" />
           </Button>
           <Button

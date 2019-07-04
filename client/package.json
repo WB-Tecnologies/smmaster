@@ -7,7 +7,7 @@
     "start": "webpack-dev-server --mode development --open --hot",
     "build": "webpack --mode production",
     "test": "jest",
-    "lint": "eslint src/**/*.jsx"
+    "lint": "eslint src/**/*.jsx src/**/*.js"
   },
   "author": "wb-tech",
   "license": "ISC",

@@ -1,5 +1,3 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable arrow-body-style */
 /* eslint-disable dot-notation */
 /* eslint-disable react/no-find-dom-node */
 /* eslint-disable react/no-string-refs */
@@ -15,10 +13,10 @@ import { splitArray } from '@helpers/utils';
 import CalendarCell from './calendar-cell/CalendarCell';
 
 import './calendar-view.sass';
+import '@helpers/polifills';
 
-const weekdays = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
-const COUNT_DATE_PER_PAGE = 35;
-const COUNT_DATE_PER_ROW = 7;
+const DATE_PER_PAGE = 35;
+const DATE_PER_ROW = 7;
 
 class CalendarView extends PureComponent {
   static propTypes = {
@@ -35,30 +33,33 @@ class CalendarView extends PureComponent {
 
   componentDidMount() {
     const rect = this.calendarViewContent.getBoundingClientRect();
+    this.prevComparisonForScroll = performance.now();
     this.top = rect.top;
-    this.bottom = this.top + rect.height;
+    this.bottom = rect.bottom;
 
     this.handleScrollToTop();
   }
 
-  getWeekdays = () => (
-    weekdays.map(item => (<div key={shortid.generate()} className="calendar-view__weekday">{item}</div>))
-  )
+  getWeekdays = () => {
+    const weekdays = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
 
-  firstDay = date => (new Date(date.getFullYear(), date.getMonth(), 1));
+    return weekdays.map(item => (<div key={shortid.generate()} className="calendar-view__weekday">{item}</div>));
+  }
 
-  getCard = item => (
-    <>
-      {item.id && <div>card</div>}
-    </>
-  );
+  getFirstDay = date => (new Date(date.getFullYear(), date.getMonth(), 1));
 
-  getAllCalendarCell = () => {
-    return Object.keys(this.refs).filter(key => ('refs' in this.refs[key] && 'cellItem' in this.refs[key].refs))
-      .map(key => {
-        const rect = ReactDOM.findDOMNode(this.refs[key].refs['cellItem']).getBoundingClientRect();
-        return { date: this.refs[key].props.day, yCoord: rect.top };
-      });
+  getCard = item => (item.id && <div>card</div>);
+
+  getAllCalendarCells = () => {
+    const referenceKeys = Object.keys(this.refs);
+    const cellItemKeys = referenceKeys.filter(key => (key.startsWith('cellItem')));
+
+    return cellItemKeys.map(key => {
+      const cellItemDomNode = ReactDOM.findDOMNode(this.refs[key].refs['cellItem']);
+      const yCoord = cellItemDomNode.getBoundingClientRect().top;
+      const date = this.refs[key].props.day;
+      return { date, yCoord };
+    });
   }
 
   getCellTotalHeight = () => {
@@ -67,7 +68,7 @@ class CalendarView extends PureComponent {
       return rect.height;
     });
 
-    const rowCount = COUNT_DATE_PER_PAGE / COUNT_DATE_PER_ROW;
+    const rowCount = DATE_PER_PAGE / DATE_PER_ROW;
     let resSum = 0;
     for (let i = 0; i < Math.min(allHeights.length, rowCount); ++i) {
       resSum += allHeights[i];
@@ -76,12 +77,12 @@ class CalendarView extends PureComponent {
   }
 
   setCurrentDateIfNeedIt = () => {
-    const dateWithPosition = this.getAllCalendarCell();
+    const dateWithPosition = this.getAllCalendarCells();
     const { currentMonth, setCurrentDate } = this.props;
     const hashTable = {};
-    dateWithPosition.forEach(date => {
-      if (this.top <= date.yCoord && this.bottom >= date.yCoord) {
-        const key = String(this.firstDay(date.date).setHours(0, 0, 0, 0));
+    dateWithPosition.forEach(item => {
+      if (this.top <= item.yCoord && this.bottom >= item.yCoord) {
+        const key = String(this.getFirstDay(item.date).setHours(0, 0, 0, 0));
 
         if (key in hashTable) {
           hashTable[key] += 1;
@@ -105,17 +106,16 @@ class CalendarView extends PureComponent {
     const { getPrevDates } = this.props;
     const content = this.calendarViewContent;
     const totalHeight = this.getCellTotalHeight();
-    getPrevDates(COUNT_DATE_PER_PAGE, () => { content.scrollTo(0, totalHeight); });
+    getPrevDates(DATE_PER_PAGE, () => { content.scrollTo(0, totalHeight); });
   }
 
   handleScrollToBottom = () => {
     const { getNextDates } = this.props;
 
-    getNextDates(COUNT_DATE_PER_PAGE);
+    getNextDates(DATE_PER_PAGE);
   }
 
   handleScroll = ({ target }) => {
-    this.setCurrentDateIfNeedIt();
     if (target.scrollHeight - target.scrollTop === target.clientHeight) {
       this.handleScrollToBottom();
     }
@@ -123,6 +123,12 @@ class CalendarView extends PureComponent {
     if (target.scrollTop === 0) {
       this.handleScrollToTop(target.clientHeight);
     }
+    const now = performance.now();
+
+    if (now - this.prevComparisonForScroll < 100) return;
+
+    this.setCurrentDateIfNeedIt();
+    this.prevComparisonForScroll = now;
   }
 
   render() {
