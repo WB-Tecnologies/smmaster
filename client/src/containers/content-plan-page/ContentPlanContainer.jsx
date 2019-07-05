@@ -10,7 +10,7 @@ import Header from '@components/header/Header';
 import TabBar from '@components/tab-bar/TabBar';
 import TabBarItem from '@components/tab-bar/TabBarItem';
 import Button from '@components/button/Button';
-import Modal from '@components/modal/Modal';
+import ModalWindow from '@components/modal-window/ModalWindow';
 
 import ilustration from '!svg-url-loader?noquotes!../../../src/assets/ilustration.svg';// eslint-disable-line import/no-webpack-loader-syntax
 
@@ -51,15 +51,13 @@ class ContentPlanContainer extends PureComponent {
   );
 
   handleCancel = () => {
-    console.log('Cancel function!');
-    this.setState({ isOpen: false });
-  }
-
-  openModal = () => {
-    this.setState({ isOpen: true });
+    const { isOpen } = this.state;
+    this.setState({ isOpen: !isOpen });
   }
 
   render() {
+    const { isOpen } = this.state;
+
     return (
       <>
         <Header title="Контент-план" />
@@ -75,19 +73,17 @@ class ContentPlanContainer extends PureComponent {
             </TabBar>
           </div>
         </div>
-        <Modal
+        <ModalWindow
           title="Начало работы"
-          isOpen={this.state.isOpen}
+          isOpen={isOpen}
           onCancel={this.handleCancel}
           label="Ок"
           image={ilustration}
         >
-          <p>
-            Наши специалисты занимаются планировкой вашего контент-плана.
-            Это займет некоторое время и как только он будет готов, на почту придет уведомление.
-            Если не хотите ждать, вы можете начать самостоятельно наполять контент-план.
-          </p>
-        </Modal>
+          Наши специалисты занимаются планировкой вашего контент-плана.
+          Это займет некоторое время и как только он будет готов, на почту придет уведомление.
+          Если не хотите ждать, вы можете начать самостоятельно наполять контент-план.
+        </ModalWindow>
       </>
     );
   }
