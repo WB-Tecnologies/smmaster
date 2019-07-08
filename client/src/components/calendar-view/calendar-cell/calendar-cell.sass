@@ -23,6 +23,9 @@ $first-day-of-month-border-color: #9CA9BA
   &:last-child
     border-right: none
 
+  &:hover .calendar-cell__btn-container
+    visibility: visible
+
   &__day
     padding-bottom: 10px
     position: relative
@@ -44,6 +47,7 @@ $first-day-of-month-border-color: #9CA9BA
     bottom: 15px
     left: 15px
     right: 15px
+    visibility: hidden
 
   &__btn
     width: 100%
