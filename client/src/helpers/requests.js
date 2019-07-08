@@ -37,10 +37,7 @@ export const httpGet = endPoint => {
   });
 };
 
-export const isAuthUser = user =>
-  user !== undefined &&
-  user !== null &&
-  Object.prototype.hasOwnProperty.call(user, 'name', 'remoteId');
+export const isAuthUser = user => (user !== undefined && user !== null && Object.prototype.hasOwnProperty.call(user, 'name', 'remoteId'));
 
 export const httpRequests = {
   loginRequest: data => httpPost('login_success', data),

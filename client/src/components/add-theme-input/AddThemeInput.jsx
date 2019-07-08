@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import Button from '@components/button/Button';
 import FormInput from '@components/form-input/FormInput';
@@ -9,6 +11,16 @@ import check from '!svg-url-loader?noquotes!../../../src/assets/Check.svg';// es
 import './add-theme.sass';
 
 class AddThemeInput extends PureComponent {
+  static propTypes = {
+    className: PropTypes.string,
+    closeBtnClick: PropTypes.func,
+  };
+
+  static defaultProps = {
+    className: '',
+    closeBtnClick: () => {},
+  };
+
   state = {
     text: '',
     errors: {
@@ -26,9 +38,11 @@ class AddThemeInput extends PureComponent {
 
   render() {
     const { text, errors } = this.state;
+    const { className, closeBtnClick } = this.props;
+    const classes = classNames('add-theme', className);
 
     return (
-      <form onSubmit={this.handleSubmit} className="add-theme">
+      <form onSubmit={this.handleSubmit} className={classes}>
         <FormInput
           field="theme-name"
           value={text}
@@ -38,7 +52,7 @@ class AddThemeInput extends PureComponent {
           className="add-theme__input"
         />
         <div className="add-theme__btn-group">
-          <Button isGhostIcon type="button">
+          <Button isGhostIcon type="button" onClick={closeBtnClick}>
             <img src={cross} alt="close" />
           </Button>
           <Button

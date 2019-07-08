@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import PropTypes from 'prop-types';
+
+import { setCurrentDate } from '@/actions/currentDateActions';
 
 import CalendarButton from './CalendarButton';
 
@@ -8,20 +11,31 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './calendar.sass';
 
 class Calendar extends PureComponent {
-  state = {
-    date: new Date(),
-  }
+  static propTypes = {
+    getFormatedDate: PropTypes.func,
+    setCurrentDate: PropTypes.func,
+    showMonthYearPicker: PropTypes.bool,
+    date: PropTypes.objectOf(PropTypes.string),
+    resetAllDatesOfCurrMonth: PropTypes.func,
+  };
+
+  static defaultProps = {
+    getFormatedDate: () => {},
+    setCurrentDate: () => {},
+    resetAllDatesOfCurrMonth: () => {},
+    showMonthYearPicker: false,
+    date: {},
+  };
 
   handleChange = date => {
-    const { onChange } = this.props;
+    const { setCurrentDate, resetAllDatesOfCurrMonth } = this.props;
 
-    this.setState({ date });
-    onChange(date);
+    resetAllDatesOfCurrMonth(date);
+    setCurrentDate(date);
   }
 
   render() {
-    const { getFormatedDate, showMonthYearPicker } = this.props;
-    const { date } = this.state;
+    const { getFormatedDate, showMonthYearPicker, date } = this.props;
 
     return (
       <div className="calendar">
@@ -39,15 +53,15 @@ class Calendar extends PureComponent {
   }
 }
 
-Calendar.propTypes = {
-  getFormatedDate: PropTypes.func,
-  onChange: PropTypes.func.isRequired,
-  showMonthYearPicker: PropTypes.bool,
-};
+const mapStateToProps = state => ({
+  date: state.currentDate.date,
+});
 
-Calendar.defaultProps = {
-  getFormatedDate: () => {},
-  showMonthYearPicker: false,
-};
+const mapDispatchToProps = dispatch => ({
+  setCurrentDate: date => dispatch(setCurrentDate(date)),
+});
 
-export default Calendar;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Calendar);

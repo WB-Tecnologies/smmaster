@@ -31,6 +31,9 @@
       "error",
       "as-needed"
     ],
+    "no-plusplus": "off",
+    "padded-blocks": ["error", "never"],
+    "arrow-body-style": "off",
     "no-shadow": "off",
     "react/jsx-indent": ["error", 2],
     "import/no-unresolved": "off",
