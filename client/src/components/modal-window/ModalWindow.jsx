@@ -30,17 +30,15 @@ const ModalWindow = ({
 ));
 
 ModalWindow.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.string.isRequired,
   isOpen: PropTypes.bool,
-  onCancel: PropTypes.func,
+  onCancel: PropTypes.func.isRequired,
   image: PropTypes.string,
   children: PropTypes.node,
   label: PropTypes.string,
 };
 ModalWindow.defaultProps = {
-  title: '',
   isOpen: false,
-  onCancel: () => {},
   image: '',
   children: null,
   label: 'submit',
