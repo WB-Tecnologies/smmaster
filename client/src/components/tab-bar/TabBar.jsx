@@ -72,9 +72,13 @@ class TabBar extends Component {
 
     return (
       <div className={classes} {...attrs}>
-        <div className="tab-bar__nav">
-          {additionalTabBarElem}
-          <div className="tab-bar-nav">{this.renderTabs()}</div>
+        <div className="tab-bar__header">
+          <div className="container">
+            <div className="tab-bar__header-container">
+              {additionalTabBarElem}
+              <div className="tab-bar-nav">{this.renderTabs()}</div>
+            </div>
+          </div>
         </div>
         <div className="tab-container">
           {React.Children.map(children, child => React.cloneElement(child, { activeTab }))}

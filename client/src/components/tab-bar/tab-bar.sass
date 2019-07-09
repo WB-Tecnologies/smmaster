@@ -1,11 +1,21 @@
+$tab-bar-header-bg-color: #fff
+
 .tab-bar
   display: block
 
-  &__nav
-    display: flex
-    justify-content: space-between
-    align-items: center
-    padding: 10px 20px
+  &__header
+    display: block
+    padding-top: 53px
+    background-color: $tab-bar-header-bg-color
+    position: fixed
+    width: 100%
+    z-index: 9
+
+    &-container
+      display: flex
+      justify-content: space-between
+      align-items: center
+      padding: 10px 0
 
 .tab-bar-nav
   position: relative

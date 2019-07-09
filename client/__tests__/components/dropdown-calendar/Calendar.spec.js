@@ -1,27 +1,33 @@
 
 import React from 'react';
-import DatePicker from 'react-datepicker';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
+import configureStore from 'redux-mock-store';
 
 import Calendar from '../../../src/components/calendar/Calendar';
 import CalendarButton from '../../../src/components/calendar/CalendarButton';
 
 describe('Calendar component', () => {
-  const props = {
-    activeDate: new Date(),
-    onChange: () => {},
-  };
+  const initialState = { currentDate: { date: 'Thu Jul 04 2019 13:53:10 GMT+0300 (Москва, стандартное время)' } };
+  const mockStore = configureStore();
+  let store;
+  let container;
+  let props;
 
-  it('should render Calendar component', () => {
-    const component = mount(<Calendar {...props} />);
-
-    expect(component).toBeTruthy();
+  beforeEach(() => {
+    props = {
+      activeDate: new Date(),
+      onChange: () => {},
+    };
+    store = mockStore(initialState);
+    container = shallow(<Calendar store={store} {...props} />);
   });
 
-  it('should render DatePicker component', () => {
-    const component = mount(<Calendar {...props} />);
+  it('should render the connected(SMART) component', () => {
+    expect(container.length).toEqual(1);
+  });
 
-    expect(component.find(DatePicker).length).toEqual(1);
+  it('should check Prop matches with initialState', () => {
+    expect(container.prop('date')).toEqual(initialState.date);
   });
 
   it('should call callBack by click', () => {
