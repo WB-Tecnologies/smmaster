@@ -1,4 +1,4 @@
-import '@helpers/polifills';
+import '@/helpers/polifills';
 
 export const getFormatedDateWithoutYear = date => {
   const monthNames = [

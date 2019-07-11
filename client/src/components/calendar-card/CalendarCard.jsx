@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import shortid from 'shortid';
 
-import { getTime } from '@helpers/formatDate';
+import { getTime } from '@/helpers/formatDate';
 
 import { socialIcons } from './socialIcons';
 
