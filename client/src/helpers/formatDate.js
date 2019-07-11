@@ -1,3 +1,5 @@
+import '@helpers/polifills';
+
 export const getFormatedDateWithoutYear = date => {
   const monthNames = [
     'Января',
@@ -37,3 +39,7 @@ export const getFormatedDate = date => {
 
   return `${monthNames[dateObj.getMonth()]}  ${dateObj.getFullYear()}`;
 };
+
+export const getTime = date => (
+  `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
+);
