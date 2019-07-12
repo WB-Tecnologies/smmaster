@@ -6,10 +6,12 @@ import './button-dropdown.sass';
 class ButtonDropdown extends PureComponent {
   static propTypes = {
     children: PropTypes.node,
+    className: PropTypes.string,
   };
 
   static defaultProps = {
     children: null,
+    className: '',
   };
 
   state = {
@@ -25,7 +27,7 @@ class ButtonDropdown extends PureComponent {
   };
 
   render() {
-    const { children } = this.props;
+    const { children, className } = this.props;
     const { dropdownOpen } = this.state;
 
     return (
@@ -35,6 +37,7 @@ class ButtonDropdown extends PureComponent {
             React.cloneElement(child, {
               onClickHandler: this.dropdownToggle,
               isOpen: dropdownOpen,
+              className,
             })
           ))
         }
@@ -43,8 +46,8 @@ class ButtonDropdown extends PureComponent {
   }
 }
 
-const DropdownToggle = ({ children, onClickHandler }) => (
-  <button className="dropdown-toggle" onClick={onClickHandler} type="button">
+const DropdownToggle = ({ children, onClickHandler, className }) => (
+  <button className={`dropdown-toggle ${className}`} onClick={onClickHandler} type="button">
     {children}
   </button>
 );
@@ -52,11 +55,13 @@ const DropdownToggle = ({ children, onClickHandler }) => (
 DropdownToggle.propTypes = {
   children: PropTypes.node,
   onClickHandler: PropTypes.func,
+  className: PropTypes.string,
 };
 
 DropdownToggle.defaultProps = {
   children: null,
   onClickHandler: () => {},
+  className: '',
 };
 
 const DropdownMenu = ({ children, isOpen }) => isOpen && <div className="dropdown-menu">{children}</div>;

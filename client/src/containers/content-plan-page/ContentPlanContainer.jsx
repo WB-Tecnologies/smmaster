@@ -6,6 +6,7 @@ import { fetchPosts } from '@actions/contentPlanActions';
 import { getFormatedDate } from '@helpers/formatDate';
 
 import CalendarView from '@components/calendar-view/CalendarView';
+import ListView from '@components/list-view/ListView';
 import Header from '@components/header/Header';
 import TabBar from '@components/tab-bar/TabBar';
 import TabBarItem from '@components/tab-bar/TabBarItem';
@@ -163,7 +164,9 @@ class ContentPlanContainer extends PureComponent {
               />
             </TabBarItem>
             <TabBarItem name="list" label="list" icon="icon-list">
-              tab 2
+              <ListView
+                postsByDay={postsByDay}
+              />
             </TabBarItem>
           </TabBar>
         </div>
