@@ -100,6 +100,7 @@ class ListCard extends PureComponent {
       className,
       { 'list-card_empty': isEmpty },
     );
+
     return (
       <div className={classes}>
         <div className="list-card__container">
