@@ -38,6 +38,8 @@ class ListCard extends PureComponent {
       rubricColor: PropTypes.string,
       isEmpty: PropTypes.bool.isRequired,
       accounts: PropTypes.arrayOf(PropTypes.object),
+      descr: PropTypes.string,
+      attachments: PropTypes.arrayOf(PropTypes.object),
     }),
     className: PropTypes.string,
   };
@@ -47,6 +49,8 @@ class ListCard extends PureComponent {
     post: {
       rubricColor: '#E3E7EB',
       accounts: [],
+      descr: '',
+      attachments: [],
     },
     className: '',
   };

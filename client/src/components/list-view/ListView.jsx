@@ -5,11 +5,11 @@ import ListCard from './list-card/ListCard';
 
 class ListView extends PureComponent {
   static propTypes = {
-    postsByDay: PropTypes.node,
+    postsByDay: PropTypes.arrayOf(PropTypes.object),
   };
 
   static defaultProps = {
-    postsByDay: null,
+    postsByDay: [],
   };
 
   renderCard = (item, date) => <ListCard post={item} time={date} />
@@ -19,7 +19,7 @@ class ListView extends PureComponent {
 
     return (
       <div>
-        {postsByDay.map(item => (item.items && item.items.map(
+        { postsByDay.filter(item => item.items).map(item => (item.items.map(
           post => this.renderCard(post, item.date),
         )))}
       </div>
