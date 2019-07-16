@@ -138,6 +138,7 @@ class ContentPlanContainer extends PureComponent {
                 currentMonth={date}
                 getPrevDates={this.getPrevDates}
                 getNextDates={this.getNextDates}
+                resetAllDatesOfCurrMonth={this.resetAllDatesOfCurrMonth}
               />
             </TabBarItem>
             <TabBarItem name="list" label="list" icon="icon-list">

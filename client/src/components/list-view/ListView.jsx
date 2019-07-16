@@ -35,7 +35,7 @@ class ListView extends PureComponent {
     this.bottom = rect.bottom;
   }
 
-  renderCard = (item, date) => <ListCard post={item} time={date} />
+  renderCard = (item, date) => <ListCard post={item} time={date} key={shortid.generate()} />
 
   handleScrollToBottom = () => {
     const { getNextDates } = this.props;

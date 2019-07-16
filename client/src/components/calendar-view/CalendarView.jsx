@@ -34,11 +34,17 @@ class CalendarView extends PureComponent {
 
   componentDidMount() {
     const rect = this.calendarViewContent.getBoundingClientRect();
+    const { postsByDay } = this.props;
     this.prevComparisonForScroll = performance.now();
     this.top = rect.top;
     this.bottom = rect.bottom;
-    this.handleScrollToBottom();
-    this.handleScrollToTop();
+
+    if (postsByDay.length === DATE_PER_PAGE) {
+      this.handleScrollToBottom();
+      this.handleScrollToTop();
+    } else {
+      this.scrollToMonth(new Date());
+    }
   }
 
   getWeekdays = () => {
@@ -49,7 +55,19 @@ class CalendarView extends PureComponent {
 
   getFirstDay = date => (new Date(date.getFullYear(), date.getMonth(), 1));
 
-  renderCard = (item, date) => <CalendarCard post={item} time={date} />
+  renderCard = (item, date) => <CalendarCard post={item} time={date} key={shortid.generate()} />
+
+  scrollToViewport = () => {
+    const content = this.calendarViewContent;
+    const totalHeight = this.getCellTotalHeight();
+    content.scrollTo(0, totalHeight);
+  }
+
+  scrollToMonth = month => {
+    const content = this.calendarViewContent;
+    const totalHeight = this.getCellHeightFromTopToCurrentMonth(month);
+    content.scrollTo(0, totalHeight);
+  }
 
   getAllCalendarCells = () => {
     const referenceKeys = Object.keys(this.refs);
@@ -70,6 +88,27 @@ class CalendarView extends PureComponent {
     });
 
     const rowCount = DATE_PER_PAGE / DATE_PER_ROW;
+    let resSum = 0;
+    for (let i = 0; i < Math.min(allHeights.length, rowCount); ++i) {
+      resSum += allHeights[i];
+    }
+    return resSum;
+  }
+
+  getCellHeightFromTopToCurrentMonth = currentMonth => {
+    const { postsByDay } = this.props;
+
+    let count = 0;
+    while (postsByDay[count].date.getMonth() !== currentMonth.getMonth()
+    || postsByDay[count].date.getFullYear() !== currentMonth.getFullYear()) {
+      ++count;
+    }
+    const allHeights = Object.keys(this).filter(key => (key.startsWith('row'))).map(key => {
+      const rect = this[key].getBoundingClientRect();
+      return rect.height;
+    });
+
+    const rowCount = count / DATE_PER_ROW;
     let resSum = 0;
     for (let i = 0; i < Math.min(allHeights.length, rowCount); ++i) {
       resSum += allHeights[i];
@@ -105,9 +144,8 @@ class CalendarView extends PureComponent {
 
   handleScrollToTop = () => {
     const { getPrevDates } = this.props;
-    const content = this.calendarViewContent;
-    const totalHeight = this.getCellTotalHeight();
-    getPrevDates(DATE_PER_PAGE, () => { content.scrollTo(0, totalHeight); });
+
+    getPrevDates(DATE_PER_PAGE, this.scrollToViewport);
   }
 
   handleScrollToBottom = () => {
