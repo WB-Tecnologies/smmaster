@@ -22,6 +22,8 @@ describe('CalendarCard component', () => {
   });
   it('should render CalendarCard component', () => {
     expect(container.exists()).toBe(true);
+  });
+  it('should render CalendarCard component with props', () => {
     expect(container.props().post).toEqual(props.post);
   });
 });
