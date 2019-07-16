@@ -4,8 +4,7 @@ import classNames from 'classnames';
 import shortid from 'shortid';
 
 import { getTime } from '@/helpers/formatDate';
-
-import { socialIcons } from './socialIcons';
+import { getSocialIcons } from '@/helpers/socialIcons';
 
 import './calendar-card.sass';
 
@@ -36,6 +35,7 @@ class CalendarCard extends PureComponent {
   };
 
   renderSocialIcon = socialMedia => {
+    const socialIcons = getSocialIcons(7);
     if (socialMedia in socialIcons) {
       return <span className="calendar-card__account-social-icon">{socialIcons[socialMedia]}</span>;
     }
@@ -80,8 +80,8 @@ class CalendarCard extends PureComponent {
 
     return (
       <div onClick={onClick} className={classes}>
+        <div className="calendar-card__oval" style={{ backgroundColor: rubricColor }} />
         <div className="calendar-card__header">
-          <div className="calendar-card__oval" style={{ backgroundColor: rubricColor }} />
           <h3 className="calendar-card__title">{title}</h3>
         </div>
         <div className="calendar-card__body">
