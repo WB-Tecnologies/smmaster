@@ -8,6 +8,11 @@ import { getSocialIcons } from '@/helpers/socialIcons';
 
 import './calendar-card.sass';
 
+// while doesn't have backend
+/* eslint-disable import/no-useless-path-segments */
+/* eslint-disable no-unused-vars */
+import avatar from '../../../src/assets/avatar.jpg';
+
 const MAX_ACCOUNT_TO_SHOW = 4;
 
 class CalendarCard extends PureComponent {
