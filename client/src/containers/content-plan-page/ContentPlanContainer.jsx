@@ -13,6 +13,8 @@ import Button from '@components/button/Button';
 import Calendar from '@components/calendar/Calendar';
 import ListView from '@components/list-view/ListView';
 
+import { calendarUtils } from './calendarUtils';
+
 import './content-plan.sass';
 
 class ContentPlanContainer extends PureComponent {
@@ -36,8 +38,8 @@ class ContentPlanContainer extends PureComponent {
 
     fetchPosts();
     this.setState({
-      allDatesOfCurrMonth: this.getAllDatesOfMonth(date),
-      allActualDatesOfCurrMonth: this.getAllDatesOfMonthStartFromToday(date),
+      allDatesOfCurrMonth: calendarUtils.getAllDatesOfMonth(date),
+      allActualDatesOfCurrMonth: calendarUtils.getAllDatesOfMonthStartFromToday(date),
     });
   }
 
@@ -56,31 +58,7 @@ class ContentPlanContainer extends PureComponent {
   );
 
   resetAllDatesOfCurrMonth = date => {
-    this.setState({ allDatesOfCurrMonth: this.getAllDatesOfMonth(date) });
-  }
-
-  getFirstDayForMonth = currentMonth => {
-    const year = currentMonth.getFullYear();
-    const month = currentMonth.getMonth();
-    const firstDay = new Date(year, month, 1);
-
-    while (firstDay.getDay() !== 1) {
-      firstDay.setDate(firstDay.getDate() - 1);
-    }
-
-    return firstDay;
-  }
-
-  getLastDayForMonth = currentMonth => {
-    const year = currentMonth.getFullYear();
-    const month = currentMonth.getMonth();
-    const lastDay = new Date(year, month + 1, 0);
-
-    while (lastDay.getDay() !== 0) {
-      lastDay.setDate(lastDay.getDate() + 1);
-    }
-
-    return lastDay;
+    this.setState({ allDatesOfCurrMonth: calendarUtils.getAllDatesOfMonth(date) });
   }
 
   getPrevDates = (count, callback) => {
@@ -89,7 +67,7 @@ class ContentPlanContainer extends PureComponent {
     for (let i = 0; i < count; ++i) {
       const firstDay = new Date(allDatesOfCurrMonth[0]);
       if (!firstDay) return;
-      allDatesOfCurrMonth.unshift(this.getPrevDay(firstDay));
+      allDatesOfCurrMonth.unshift(calendarUtils.getPrevDay(firstDay));
     }
     this.setState({ allDatesOfCurrMonth: [...allDatesOfCurrMonth] }, callback);
   }
@@ -100,7 +78,7 @@ class ContentPlanContainer extends PureComponent {
     for (let i = 0; i < count; ++i) {
       const lastDay = new Date(allDatesOfCurrMonth[allDatesOfCurrMonth.length - 1]);
       if (!lastDay) return;
-      allDatesOfCurrMonth.push(this.getNextDay(lastDay));
+      allDatesOfCurrMonth.push(calendarUtils.getNextDay(lastDay));
     }
 
     this.setState({ allDatesOfCurrMonth: [...allDatesOfCurrMonth] });
@@ -112,37 +90,10 @@ class ContentPlanContainer extends PureComponent {
     for (let i = 0; i < count; ++i) {
       const lastDay = new Date(allActualDatesOfCurrMonth[allActualDatesOfCurrMonth.length - 1]);
       if (!lastDay) return;
-      allActualDatesOfCurrMonth.push(this.getNextDay(lastDay));
+      allActualDatesOfCurrMonth.push(calendarUtils.getNextDay(lastDay));
     }
 
     this.setState({ allActualDatesOfCurrMonth: [...allActualDatesOfCurrMonth] });
-  }
-
-  getPrevDay = day => (new Date(day.setDate(day.getDate() - 1)));
-
-  getNextDay = day => (new Date(day.setDate(day.getDate() + 1)));
-
-  getAllDatesOfMonth = currentMonth => {
-    const result = [];
-    const firstDay = this.getFirstDayForMonth(currentMonth);
-    const lastDay = this.getLastDayForMonth(currentMonth);
-
-    for (let day = firstDay; day <= lastDay; day.setDate(day.getDate() + 1)) {
-      result.push(new Date(day));
-    }
-
-    return result;
-  }
-
-  getAllDatesOfMonthStartFromToday = currentMonth => {
-    const result = [];
-    const lastDay = this.getLastDayForMonth(currentMonth);
-
-    for (let day = currentMonth; day <= lastDay; day.setDate(day.getDate() + 1)) {
-      result.push(new Date(day));
-    }
-
-    return result;
   }
 
   getPostsByDayInCalendar = (dateArray, posts) => {
