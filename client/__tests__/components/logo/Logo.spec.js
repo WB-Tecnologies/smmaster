@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount, renderer } from 'enzyme';
+import { shallow } from 'enzyme';
 
 import Logo from '../../../src/components/logo/Logo';
 

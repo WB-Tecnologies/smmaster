@@ -77,7 +77,7 @@
     "moduleNameMapper": {
       "@/(.*)$": "<rootDir>/src/$1",
       "\\.(css|less|sass|scss)$": "identity-obj-proxy",
-      "\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js"
+      "\\.(jpg|jpeg|png|gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js"
     }
   },
   "browserslist": [
