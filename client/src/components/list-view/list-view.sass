@@ -1,0 +1,23 @@
+$bg-color: #FCFCFD
+$divider-color: #E3E7EB
+
+.list-view
+
+  &__container
+    padding-top: 105px
+    background-color: $bg-color
+    width: 100%
+    overflow: scroll
+    height: 100vh
+
+    &:before
+      content: ''
+      position: absolute
+      height: 1px
+      width: 100%
+      background-color: $divider-color
+
+  &__content
+    width: 610px
+    margin: 0 auto
+    padding-top: 27px
