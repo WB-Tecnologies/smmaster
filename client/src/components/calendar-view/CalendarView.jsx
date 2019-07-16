@@ -9,11 +9,12 @@ import PropTypes from 'prop-types';
 
 import { setCurrentDate } from '@actions/currentDateActions';
 import { splitArray } from '@helpers/utils';
+import '@helpers/polifills';
 
+import CalendarCard from '@components/calendar-card/CalendarCard';
 import CalendarCell from './calendar-cell/CalendarCell';
 
 import './calendar-view.sass';
-import '@helpers/polifills';
 
 const DATE_PER_PAGE = 35;
 const DATE_PER_ROW = 7;
@@ -36,7 +37,7 @@ class CalendarView extends PureComponent {
     this.prevComparisonForScroll = performance.now();
     this.top = rect.top;
     this.bottom = rect.bottom;
-
+    this.handleScrollToBottom();
     this.handleScrollToTop();
   }
 
@@ -48,7 +49,7 @@ class CalendarView extends PureComponent {
 
   getFirstDay = date => (new Date(date.getFullYear(), date.getMonth(), 1));
 
-  getCard = item => (item.id && <div>card</div>);
+  renderCard = (item, date) => <CalendarCard post={item} time={date} />
 
   getAllCalendarCells = () => {
     const referenceKeys = Object.keys(this.refs);
@@ -151,7 +152,7 @@ class CalendarView extends PureComponent {
                   key={shortid.generate()}
                   index={globalIndex++}
                 >
-                  {this.getCard(item)}
+                  {item.items && item.items.map(post => this.renderCard(post, item.date))}
                 </CalendarCell>
               ))}
             </div>

@@ -6,12 +6,12 @@ import { fetchPosts } from '@actions/contentPlanActions';
 import { getFormatedDate } from '@helpers/formatDate';
 
 import CalendarView from '@components/calendar-view/CalendarView';
+import ListView from '@components/list-view/ListView';
 import Header from '@components/header/Header';
 import TabBar from '@components/tab-bar/TabBar';
 import TabBarItem from '@components/tab-bar/TabBarItem';
 import Button from '@components/button/Button';
 import Calendar from '@components/calendar/Calendar';
-import ListView from '@components/list-view/ListView';
 
 import { calendarUtils } from './calendarUtils';
 

@@ -1,3 +1,5 @@
+import '@/helpers/polifills';
+
 export const getFormatedDateWithoutYear = date => {
   const monthNames = [
     'Января',
@@ -44,3 +46,7 @@ export const getDayWithWeekdayName = date => {
 
   return `${dateObj.getDate()}, ${weekdays[dateObj.getDay()]}`;
 };
+
+export const getTime = date => (
+  `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
+);

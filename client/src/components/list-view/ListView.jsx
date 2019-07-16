@@ -10,6 +10,7 @@ import shortid from 'shortid';
 import { setCurrentDate } from '@actions/currentDateActions';
 
 import ListCell from './list-cell/ListCell';
+import ListCard from './list-card/ListCard';
 
 import './list-view.sass';
 
@@ -34,7 +35,7 @@ class ListView extends PureComponent {
     this.bottom = rect.bottom;
   }
 
-  renderCard = (post, date) => <div post={post} date={date}>card</div>
+  renderCard = (item, date) => <ListCard post={item} time={date} />
 
   handleScrollToBottom = () => {
     const { getNextDates } = this.props;
