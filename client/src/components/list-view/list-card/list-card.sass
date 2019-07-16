@@ -1,0 +1,142 @@
+$filler-bg-color: #fff
+$font-color: #37404f
+$time-font-color: rgba(#828f9f, .5)
+$hover-color: #00aaff
+$more-bg-color: #f3f5f7
+$more-font-color: #BDC4CC
+$dividing-border-color: #e3e7eb
+$border-color: rgba(0, 0, 0, 0.03)
+
+$empty-bg-color: #fcfcfd
+
+.list-card
+  display: block
+  background: $filler-bg-color
+  border-radius: 5px
+  border: 1px solid $border-color
+  box-sizing: border-box
+  box-shadow: 0px 1px 0px rgba(39, 40, 55, 0.1)
+  margin-bottom: 27px
+  position: relative
+  overflow: hidden
+
+  &_empty
+    background: $empty-bg-color
+    box-shadow: none
+
+  &__container
+    padding: 30px 30px 20px 30px
+
+  &__header
+    overflow: hidden
+
+  &__oval
+    position: absolute
+    left: -7.5px
+    width: 15px
+    height: 25px
+    border-radius: 50px
+
+  &__title
+    cursor: pointer
+    margin: 0
+    display: inline-block
+    color: $font-color
+    font-size: 18px
+    font-weight: 900
+    line-height: 100%
+    text-align: left
+    white-space: nowrap
+    text-overflow: ellipsis
+    overflow: hidden
+
+    &:hover
+      color: $hover-color
+
+  &__body
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+  &__time
+    font-size: 12px
+    line-height: 100%
+    color: $time-font-color
+
+  &__accounts
+    display: flex
+    margin: 0
+    list-style-type: none
+    padding: 0
+
+  &__account
+    margin-right: 2px
+    position: relative
+
+    &:last-child
+      margin-right: 0
+
+    &-img
+      display: block
+      max-width: 100%
+      height: auto
+      border-radius: 5px
+
+      &_more
+        width: 30px
+        height: 30px
+        line-height: 33px
+        border-radius: 5px
+        background-color: $more-bg-color
+        text-align: center
+        font-size: 16px
+        color: $more-font-color
+        vertical-align: middle
+
+    &-social-icon
+      position: absolute
+      bottom: 0
+      right: 0
+      line-height: 0
+
+  &__descr
+    padding-top: 20px
+
+    &-text
+      margin: 0
+      font-size: 16px
+      line-height: 145%
+      color: $font-color
+
+  &__attachments
+    display: flex
+    margin: 0
+    list-style-type: none
+    padding: 0
+    margin-top: 20px
+
+  &__attachment
+    margin-right: 14px
+
+    &:last-child
+      margin-right: 0
+
+    &-img
+      max-width: 100%
+      height: auto
+      border-radius: 5px
+
+  &__controls
+    display: flex
+    justify-content: space-between
+    align-items: center
+    border-top: 1px solid $dividing-border-color
+    padding: 10px 20px
+
+  &__btn
+    width: 137px
+    border: none
+
+  &__btn-dropdown
+    width: 30px
+    height: 30px
