@@ -55,7 +55,21 @@ class CalendarView extends PureComponent {
 
   getFirstDay = date => (new Date(date.getFullYear(), date.getMonth(), 1));
 
-  renderCard = (item, date) => <CalendarCard post={item} time={date} key={shortid.generate()} />
+  renderCards = (items, date) => (
+    items && (
+      items.map(post => {
+        const isOutdated = date.setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
+        return (
+          <CalendarCard
+            post={post}
+            time={date}
+            isOutdated={isOutdated}
+            key={shortid.generate()}
+          />
+        );
+      })
+    )
+  )
 
   scrollToViewport = () => {
     const content = this.calendarViewContent;
@@ -183,14 +197,14 @@ class CalendarView extends PureComponent {
         <div ref={c => { this.calendarViewContent = c; }} className="calendar-view__content" onScroll={this.handleScroll}>
           {splitedDays.map((row, rowIdx) => (
             <div className="calendar-row" ref={c => { this[`row${rowIdx}`] = c; }} key={shortid.generate()}>
-              {row.map(item => (
+              {row.map(({ date, items }) => (
                 <CalendarCell
-                  day={item.date}
+                  day={date}
                   ref={`cellItem${globalIndex}`}
                   key={shortid.generate()}
                   index={globalIndex++}
                 >
-                  {item.items && item.items.map(post => this.renderCard(post, item.date))}
+                  {this.renderCards(items, date)}
                 </CalendarCell>
               ))}
             </div>
