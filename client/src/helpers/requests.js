@@ -42,4 +42,5 @@ export const isAuthUser = user => (user !== undefined && user !== null && Object
 export const httpRequests = {
   loginRequest: data => httpPost('login_success', data),
   getPosts: () => httpGet('posts'),
+  addPost: data => httpPost('post', data),
 };

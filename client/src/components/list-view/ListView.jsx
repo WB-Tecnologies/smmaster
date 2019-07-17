@@ -141,7 +141,7 @@ class ListView extends PureComponent {
     });
 
     const maxDateValue = Object.keys(hashTable).reduce((a, b) => (
-      (hashTable[a] > hashTable[b]) ? a : b));
+      (hashTable[a] > hashTable[b]) ? a : b), 0);
 
     const maxDate = new Date(parseInt(maxDateValue, 10));
 

@@ -1,6 +1,7 @@
 import {
   FETCH_POSTS_SUCCESS,
   FETCH_POSTS_FAILURE,
+  ADD_POST,
 } from '@/constants/actionTypes';
 
 import { httpRequests } from '@/helpers/requests';
@@ -15,12 +16,26 @@ export const fetchPostsFailure = error => ({
   payload: { error },
 });
 
+export const addPostSuccess = post => ({
+  type: ADD_POST,
+  payload: { post },
+});
+
 export function fetchPosts() {
   return dispatch => {
-    return httpRequests
-      .getPosts()
+    return httpRequests.getPosts()
       .then(({ posts }) => {
         dispatch(fetchPostsSuccess(posts));
+      })
+      .catch(error => dispatch(fetchPostsFailure(error.message)));
+  };
+}
+
+export function addPost(post, date) {
+  return dispatch => {
+    return httpRequests.addPost(post, date)
+      .then(({ post }) => {
+        dispatch(addPostSuccess(post));
       })
       .catch(error => dispatch(fetchPostsFailure(error.message)));
   };

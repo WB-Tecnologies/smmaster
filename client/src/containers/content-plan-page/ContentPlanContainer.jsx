@@ -20,7 +20,7 @@ import './content-plan.sass';
 class ContentPlanContainer extends PureComponent {
   static propTypes = {
     fetchPosts: PropTypes.func.isRequired,
-    posts: PropTypes.arrayOf(PropTypes.objectOf),
+    posts: PropTypes.arrayOf(PropTypes.object),
     date: PropTypes.objectOf(PropTypes.string).isRequired,
   };
 

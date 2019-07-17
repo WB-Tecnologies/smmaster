@@ -22,7 +22,7 @@ class CalendarCard extends PureComponent {
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       rubricColor: PropTypes.string,
-      isEmpty: PropTypes.bool.isRequired,
+      isEmpty: PropTypes.bool,
       accounts: PropTypes.arrayOf(PropTypes.object),
     }),
     className: PropTypes.string,

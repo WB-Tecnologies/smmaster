@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 export const splitArray = (array, elementsPerSubArray) => {
   const res = [[]];
   let elementInSubCount = 0;
@@ -13,3 +12,5 @@ export const splitArray = (array, elementsPerSubArray) => {
   }
   return res;
 };
+
+export const getZeroDate = date => new Date(date).setHours(0, 0, 0, 0);

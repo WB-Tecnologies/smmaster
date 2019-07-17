@@ -62,7 +62,7 @@ class ListCell extends PureComponent {
               </Button>
             </div>
           )}
-          {isShowAddThemeInput && <AddThemeInput className="list-cell__input" closeBtnClick={this.handleCloseInputBtn} />}
+          {isShowAddThemeInput && <AddThemeInput className="list-cell__input" closeBtnClick={this.handleCloseInputBtn} date={day} />}
         </div>
         <div className="list-cell__cards">
           {children}
