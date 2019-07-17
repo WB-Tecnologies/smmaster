@@ -22,6 +22,10 @@ class ListView extends PureComponent {
     postsByDay: PropTypes.arrayOf(PropTypes.object),
     setCurrentDate: PropTypes.func.isRequired,
     getNextDates: PropTypes.func.isRequired,
+    onRef: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+    ]).isRequired,
   };
 
   static defaultProps = {
@@ -30,12 +34,41 @@ class ListView extends PureComponent {
 
   componentDidMount() {
     const rect = this.calendarViewContent.getBoundingClientRect();
+    const { onRef } = this.props;
+
+    onRef(this);
     this.prevComparisonForScroll = performance.now();
     this.top = rect.top;
     this.bottom = rect.bottom;
   }
 
-  renderCard = (item, date) => <ListCard post={item} time={date} key={shortid.generate()} />
+  componentWillUnmount() {
+    const { onRef } = this.props;
+
+    onRef(null);
+  }
+
+  scrollToToday = () => {
+    this.scrollToMonth(new Date());
+  }
+
+  scrollToMonth = month => {
+    const content = this.calendarViewContent;
+    const totalHeight = this.getCellHeightFromTopToCurrentMonth(month);
+    content.scrollTo(0, totalHeight);
+  }
+
+  renderCards = (items, date) => (
+    items && (
+      items.map(post => (
+        <ListCard
+          post={post}
+          time={date}
+          key={shortid.generate()}
+        />
+      ))
+    )
+  )
 
   handleScrollToBottom = () => {
     const { getNextDates } = this.props;
@@ -68,17 +101,22 @@ class ListView extends PureComponent {
     });
   }
 
-  getCellTotalHeight = () => {
-    const referenceKeys = Object.keys(this.refs);
-    const cellItemKeys = referenceKeys.filter(key => (key.startsWith('cellItem')));
+  getCellHeightFromTopToCurrentMonth = currentMonth => {
+    const { postsByDay } = this.props;
 
-    const allHeights = cellItemKeys.map(key => {
-      const rect = this.refs[key].getBoundingClientRect();
+    let count = 0;
+    while (postsByDay[count].date.getMonth() !== currentMonth.getMonth()
+    || postsByDay[count].date.getFullYear() !== currentMonth.getFullYear()) {
+      ++count;
+    }
+    const allHeights = Object.keys(this).filter(key => (key.startsWith('row'))).map(key => {
+      const rect = this[key].getBoundingClientRect();
       return rect.height;
     });
 
+    const rowCount = count;
     let resSum = 0;
-    for (let i = 0; i < Math.min(allHeights.length, DATE_PER_PAGE); ++i) {
+    for (let i = 0; i < Math.min(allHeights.length, rowCount); ++i) {
       resSum += allHeights[i];
     }
     return resSum;
@@ -120,16 +158,16 @@ class ListView extends PureComponent {
       <div className="list-view">
         <div className="list-view__container" ref={c => { this.calendarViewContent = c; }} onScroll={this.handleScroll}>
           <div className="list-view__content">
-            {postsByDay.map(item => (
+            {postsByDay.map(({ date, items }) => (
               <ListCell
                 className="list-view__day"
-                day={item.date}
+                day={date}
                 ref={`cellItem${globalIndex}`}
                 key={shortid.generate()}
                 index={globalIndex++}
               >
                 <div className="list-view__cards" key={shortid.generate()}>
-                  {item.items && item.items.map(post => this.renderCard(post, item.date))}
+                  {this.renderCards(items, date)}
                 </div>
               </ListCell>
             ))}

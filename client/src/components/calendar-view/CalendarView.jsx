@@ -26,6 +26,10 @@ class CalendarView extends PureComponent {
     setCurrentDate: PropTypes.func.isRequired,
     getPrevDates: PropTypes.func.isRequired,
     getNextDates: PropTypes.func.isRequired,
+    onRef: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+    ]).isRequired,
   };
 
   static defaultProps = {
@@ -34,7 +38,9 @@ class CalendarView extends PureComponent {
 
   componentDidMount() {
     const rect = this.calendarViewContent.getBoundingClientRect();
-    const { postsByDay } = this.props;
+    const { postsByDay, onRef } = this.props;
+
+    onRef(this);
     this.prevComparisonForScroll = performance.now();
     this.top = rect.top;
     this.bottom = rect.bottom;
@@ -43,8 +49,18 @@ class CalendarView extends PureComponent {
       this.handleScrollToBottom();
       this.handleScrollToTop();
     } else {
-      this.scrollToMonth(new Date());
+      this.scrollToToday();
     }
+  }
+
+  componentWillUnmount() {
+    const { onRef } = this.props;
+
+    onRef(null);
+  }
+
+  scrollToToday = () => {
+    this.scrollToMonth(new Date());
   }
 
   getWeekdays = () => {
