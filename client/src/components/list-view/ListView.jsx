@@ -48,6 +48,12 @@ class ListView extends PureComponent {
     onRef(null);
   }
 
+  addDataToEndOfPage = () => {
+    const { getNextDates } = this.props;
+
+    getNextDates(DATE_PER_PAGE);
+  }
+
   scrollToToday = () => {
     this.scrollToMonth(new Date());
   }
@@ -71,9 +77,7 @@ class ListView extends PureComponent {
   )
 
   handleScrollToBottom = () => {
-    const { getNextDates } = this.props;
-
-    getNextDates(DATE_PER_PAGE);
+    this.addDataToEndOfPage();
   }
 
   handleScroll = ({ target }) => {

@@ -46,8 +46,8 @@ class CalendarView extends PureComponent {
     this.bottom = rect.bottom;
 
     if (postsByDay.length === DATE_PER_PAGE) {
-      this.handleScrollToBottom();
-      this.handleScrollToTop();
+      this.addDataToEndOfPage();
+      this.addDataToBeignOfPage();
     } else {
       this.scrollToToday();
     }
@@ -61,6 +61,18 @@ class CalendarView extends PureComponent {
 
   scrollToToday = () => {
     this.scrollToMonth(new Date());
+  }
+
+  addDataToEndOfPage = () => {
+    const { getNextDates } = this.props;
+
+    getNextDates(DATE_PER_PAGE);
+  }
+
+  addDataToBeignOfPage = () => {
+    const { getPrevDates } = this.props;
+
+    getPrevDates(DATE_PER_PAGE, this.scrollToViewport);
   }
 
   getWeekdays = () => {
@@ -173,15 +185,11 @@ class CalendarView extends PureComponent {
   }
 
   handleScrollToTop = () => {
-    const { getPrevDates } = this.props;
-
-    getPrevDates(DATE_PER_PAGE, this.scrollToViewport);
+    this.addDataToBeignOfPage();
   }
 
   handleScrollToBottom = () => {
-    const { getNextDates } = this.props;
-
-    getNextDates(DATE_PER_PAGE);
+    this.addDataToEndOfPage();
   }
 
   handleScroll = ({ target }) => {
