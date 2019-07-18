@@ -6,6 +6,8 @@ import shortid from 'shortid';
 import { getTime } from '@/helpers/formatDate';
 import { getSocialIcons } from '@/helpers/socialIcons';
 
+import Post from '@/components/post/Post';
+
 import './calendar-card.sass';
 
 // while doesn't have backend
@@ -26,7 +28,6 @@ class CalendarCard extends PureComponent {
       accounts: PropTypes.arrayOf(PropTypes.object),
     }),
     className: PropTypes.string,
-    onClick: PropTypes.func,
   };
 
   static defaultProps = {
@@ -36,8 +37,23 @@ class CalendarCard extends PureComponent {
       accounts: [],
     },
     className: '',
-    onClick: () => {},
   };
+
+  state = {
+    isOpen: false,
+  }
+
+  handleDisplayPost = () => {
+    this.setState({ isOpen: true });
+  }
+
+  handleSubmit = () => {
+    this.setState({ isOpen: false });
+  }
+
+  handleCancel = () => {
+    this.setState({ isOpen: false });
+  }
 
   renderSocialIcon = socialMedia => {
     const socialIcons = getSocialIcons(7);
@@ -64,6 +80,20 @@ class CalendarCard extends PureComponent {
     );
   };
 
+  renderPost = () => {
+    const { isOpen } = this.state;
+    const { post } = this.props;
+
+    return (
+      <Post
+        post={post}
+        isOpen={isOpen}
+        onCancel={this.handleCancel}
+        onSubmit={this.handleSubmit}
+      />
+    );
+  }
+
   render() {
     const {
       post: {
@@ -72,7 +102,6 @@ class CalendarCard extends PureComponent {
         rubricColor,
         isEmpty,
       },
-      onClick,
       time,
       className,
     } = this.props;
@@ -84,20 +113,24 @@ class CalendarCard extends PureComponent {
     );
 
     return (
-      <div onClick={onClick} className={classes}>
-        <div className="calendar-card__oval" style={{ backgroundColor: rubricColor }} />
-        <div className="calendar-card__header">
-          <h3 className="calendar-card__title">{title}</h3>
+      <>
+        <div onClick={this.handleDisplayPost} className={classes}>
+          <div className="calendar-card__oval" style={{ backgroundColor: rubricColor }} />
+          <div className="calendar-card__header">
+            <h3 className="calendar-card__title">{title}</h3>
+          </div>
+          <div className="calendar-card__body">
+            <div className="calendar-card__time">{getTime(time)}</div>
+            <ul className="calendar-card__accounts">
+              {this.renderAccount(accounts)}
+            </ul>
+          </div>
         </div>
-        <div className="calendar-card__body">
-          <div className="calendar-card__time">{getTime(time)}</div>
-          <ul className="calendar-card__accounts">
-            {this.renderAccount(accounts)}
-          </ul>
-        </div>
-      </div>
+        {this.renderPost()}
+      </>
     );
   }
 }
+
 
 export default CalendarCard;
