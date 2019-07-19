@@ -22,11 +22,12 @@ class CalendarCard extends PureComponent {
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       rubricColor: PropTypes.string,
-      isEmpty: PropTypes.bool.isRequired,
+      isEmpty: PropTypes.bool,
       accounts: PropTypes.arrayOf(PropTypes.object),
     }),
     className: PropTypes.string,
     onClick: PropTypes.func,
+    isOutdated: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -37,6 +38,7 @@ class CalendarCard extends PureComponent {
     },
     className: '',
     onClick: () => {},
+    isOutdated: false,
   };
 
   renderSocialIcon = socialMedia => {
@@ -75,12 +77,14 @@ class CalendarCard extends PureComponent {
       onClick,
       time,
       className,
+      isOutdated,
     } = this.props;
 
     const classes = classNames(
       'calendar-card',
       className,
       { 'calendar-card_empty': isEmpty },
+      { 'calendar-card_outdated': isOutdated },
     );
 
     return (

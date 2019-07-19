@@ -33,6 +33,7 @@
     ],
     "no-plusplus": "off",
     "padded-blocks": ["error", "never"],
+    "no-return-assign": "off",
     "arrow-body-style": "off",
     "no-shadow": "off",
     "react/jsx-indent": ["error", 2],

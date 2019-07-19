@@ -1,12 +1,16 @@
+/* eslint-disable import/no-webpack-loader-syntax */
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+
+import { addPost } from '@actions/contentPlanActions';
 
 import Button from '@components/button/Button';
 import FormInput from '@components/form-input/FormInput';
 
-import cross from '!svg-url-loader?noquotes!../../../src/assets/Cross.svg';// eslint-disable-line import/no-webpack-loader-syntax
-import check from '!svg-url-loader?noquotes!../../../src/assets/Check.svg';// eslint-disable-line import/no-webpack-loader-syntax
+import cross from '!svg-url-loader?noquotes!../../../src/assets/Cross.svg';
+import check from '!svg-url-loader?noquotes!../../../src/assets/Check.svg';
 
 import './add-theme.sass';
 
@@ -14,11 +18,15 @@ class AddThemeInput extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     closeBtnClick: PropTypes.func,
+    addPost: PropTypes.func,
+    date: PropTypes.objectOf(PropTypes.string),
   };
 
   static defaultProps = {
     className: '',
     closeBtnClick: () => {},
+    addPost: () => {},
+    date: {},
   };
 
   state = {
@@ -34,6 +42,10 @@ class AddThemeInput extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
+    const { addPost, date } = this.props;
+    const { text } = this.state;
+
+    addPost(text, date);
   };
 
   render() {
@@ -59,11 +71,19 @@ class AddThemeInput extends PureComponent {
             isPrimaryIcon
             type="submit"
           >
-            <img src={check} alt="apply" />
+            <img src={check} alt="approve" />
           </Button>
         </div>
       </form>
     );
   }
 }
-export default AddThemeInput;
+
+const mapDispatchToProps = dispatch => ({
+  addPost: (data, date) => dispatch(addPost(data, date)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(AddThemeInput);

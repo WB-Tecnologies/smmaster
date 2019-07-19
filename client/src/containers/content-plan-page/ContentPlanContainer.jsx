@@ -13,12 +13,14 @@ import TabBarItem from '@components/tab-bar/TabBarItem';
 import Button from '@components/button/Button';
 import Calendar from '@components/calendar/Calendar';
 
+import { calendarUtils } from './calendarUtils';
+
 import './content-plan.sass';
 
 class ContentPlanContainer extends PureComponent {
   static propTypes = {
     fetchPosts: PropTypes.func.isRequired,
-    posts: PropTypes.arrayOf(PropTypes.objectOf),
+    posts: PropTypes.arrayOf(PropTypes.object),
     date: PropTypes.objectOf(PropTypes.string).isRequired,
   };
 
@@ -28,6 +30,7 @@ class ContentPlanContainer extends PureComponent {
 
   state = {
     allDatesOfCurrMonth: [],
+    allActualDatesOfCurrMonth: [],
   }
 
   componentDidMount() {
@@ -35,7 +38,8 @@ class ContentPlanContainer extends PureComponent {
 
     fetchPosts();
     this.setState({
-      allDatesOfCurrMonth: this.getAllDatesOfMonth(date),
+      allDatesOfCurrMonth: calendarUtils.getAllDatesOfMonth(date),
+      allActualDatesOfCurrMonth: calendarUtils.getAllDatesOfMonthStartFromToday(date),
     });
   }
 
@@ -47,38 +51,18 @@ class ContentPlanContainer extends PureComponent {
         showMonthYearPicker
         resetAllDatesOfCurrMonth={this.resetAllDatesOfCurrMonth}
       />
-      <Button isOutline type="button" className="content-plan__today-btn">
+      <Button isOutline type="button" className="content-plan__today-btn" onClick={this.handleTodayBtn}>
         Сегодня
       </Button>
     </div>
   );
 
+  handleTodayBtn = () => {
+    this.child.scrollToToday();
+  };
+
   resetAllDatesOfCurrMonth = date => {
-    this.setState({ allDatesOfCurrMonth: this.getAllDatesOfMonth(date) });
-  }
-
-  getFirstDayForMonth = currentMonth => {
-    const year = currentMonth.getFullYear();
-    const month = currentMonth.getMonth();
-    const firstDay = new Date(year, month, 1);
-
-    while (firstDay.getDay() !== 1) {
-      firstDay.setDate(firstDay.getDate() - 1);
-    }
-
-    return firstDay;
-  }
-
-  getLastDayForMonth = currentMonth => {
-    const year = currentMonth.getFullYear();
-    const month = currentMonth.getMonth();
-    const lastDay = new Date(year, month + 1, 0);
-
-    while (lastDay.getDay() !== 0) {
-      lastDay.setDate(lastDay.getDate() + 1);
-    }
-
-    return lastDay;
+    this.setState({ allDatesOfCurrMonth: calendarUtils.getAllDatesOfMonth(date) });
   }
 
   getPrevDates = (count, callback) => {
@@ -87,7 +71,7 @@ class ContentPlanContainer extends PureComponent {
     for (let i = 0; i < count; ++i) {
       const firstDay = new Date(allDatesOfCurrMonth[0]);
       if (!firstDay) return;
-      allDatesOfCurrMonth.unshift(this.getPrevDay(firstDay));
+      allDatesOfCurrMonth.unshift(calendarUtils.getPrevDay(firstDay));
     }
     this.setState({ allDatesOfCurrMonth: [...allDatesOfCurrMonth] }, callback);
   }
@@ -98,26 +82,22 @@ class ContentPlanContainer extends PureComponent {
     for (let i = 0; i < count; ++i) {
       const lastDay = new Date(allDatesOfCurrMonth[allDatesOfCurrMonth.length - 1]);
       if (!lastDay) return;
-      allDatesOfCurrMonth.push(this.getNextDay(lastDay));
+      allDatesOfCurrMonth.push(calendarUtils.getNextDay(lastDay));
     }
 
     this.setState({ allDatesOfCurrMonth: [...allDatesOfCurrMonth] });
   }
 
-  getPrevDay = day => (new Date(day.setDate(day.getDate() - 1)));
+  getNextDatesForListView = count => {
+    const { allActualDatesOfCurrMonth } = this.state;
 
-  getNextDay = day => (new Date(day.setDate(day.getDate() + 1)));
-
-  getAllDatesOfMonth = currentMonth => {
-    const result = [];
-    const firstDay = this.getFirstDayForMonth(currentMonth);
-    const lastDay = this.getLastDayForMonth(currentMonth);
-
-    for (let day = firstDay; day <= lastDay; day.setDate(day.getDate() + 1)) {
-      result.push(new Date(day));
+    for (let i = 0; i < count; ++i) {
+      const lastDay = new Date(allActualDatesOfCurrMonth[allActualDatesOfCurrMonth.length - 1]);
+      if (!lastDay) return;
+      allActualDatesOfCurrMonth.push(calendarUtils.getNextDay(lastDay));
     }
 
-    return result;
+    this.setState({ allActualDatesOfCurrMonth: [...allActualDatesOfCurrMonth] });
   }
 
   getPostsByDayInCalendar = (dateArray, posts) => {
@@ -147,8 +127,9 @@ class ContentPlanContainer extends PureComponent {
 
   render() {
     const { posts, date } = this.props;
-    const { allDatesOfCurrMonth } = this.state;
+    const { allDatesOfCurrMonth, allActualDatesOfCurrMonth } = this.state;
     const postsByDay = this.getPostsByDayInCalendar(allDatesOfCurrMonth, posts);
+    const postsByActualDay = this.getPostsByDayInCalendar(allActualDatesOfCurrMonth, posts);
 
     return (
       <>
@@ -157,15 +138,20 @@ class ContentPlanContainer extends PureComponent {
           <TabBar additionalTabBarElem={this.getContentHeader()}>
             <TabBarItem name="calendar" label="calendar" icon="icon-calendar">
               <CalendarView
+                onRef={ref => (this.child = ref)}
                 postsByDay={postsByDay}
                 currentMonth={date}
                 getPrevDates={this.getPrevDates}
                 getNextDates={this.getNextDates}
+                resetAllDatesOfCurrMonth={this.resetAllDatesOfCurrMonth}
               />
             </TabBarItem>
             <TabBarItem name="list" label="list" icon="icon-list">
               <ListView
-                postsByDay={postsByDay}
+                onRef={ref => (this.child = ref)}
+                postsByDay={postsByActualDay}
+                currentMonth={date}
+                getNextDates={this.getNextDatesForListView}
               />
             </TabBarItem>
           </TabBar>

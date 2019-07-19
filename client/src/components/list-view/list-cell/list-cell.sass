@@ -1,0 +1,30 @@
+$accent-color: #00AAFF
+$font-color: #BDC4CC
+
+.list-cell
+
+  &__header
+    display: flex
+    align-items: center
+
+    &:hover .list-cell__btn-container
+      visibility: visible
+
+  &__day
+    font-size: 15px
+    color: $font-color
+    font-weight: normal
+    padding-right: 60px
+    white-space: nowrap
+
+    &_today
+      color: $accent-color
+
+  &__btn-container
+    visibility: hidden
+
+  &__btn
+    width: 100%
+
+  &__input
+    width: 100%

@@ -26,6 +26,10 @@ class CalendarView extends PureComponent {
     setCurrentDate: PropTypes.func.isRequired,
     getPrevDates: PropTypes.func.isRequired,
     getNextDates: PropTypes.func.isRequired,
+    onRef: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+    ]).isRequired,
   };
 
   static defaultProps = {
@@ -34,11 +38,41 @@ class CalendarView extends PureComponent {
 
   componentDidMount() {
     const rect = this.calendarViewContent.getBoundingClientRect();
+    const { postsByDay, onRef } = this.props;
+
+    onRef(this);
     this.prevComparisonForScroll = performance.now();
     this.top = rect.top;
     this.bottom = rect.bottom;
-    this.handleScrollToBottom();
-    this.handleScrollToTop();
+
+    if (postsByDay.length === DATE_PER_PAGE) {
+      this.addDataToEndOfPage();
+      this.addDataToBeignOfPage();
+    } else {
+      this.scrollToToday();
+    }
+  }
+
+  componentWillUnmount() {
+    const { onRef } = this.props;
+
+    onRef(null);
+  }
+
+  scrollToToday = () => {
+    this.scrollToMonth(new Date());
+  }
+
+  addDataToEndOfPage = () => {
+    const { getNextDates } = this.props;
+
+    getNextDates(DATE_PER_PAGE);
+  }
+
+  addDataToBeignOfPage = () => {
+    const { getPrevDates } = this.props;
+
+    getPrevDates(DATE_PER_PAGE, this.scrollToViewport);
   }
 
   getWeekdays = () => {
@@ -49,7 +83,33 @@ class CalendarView extends PureComponent {
 
   getFirstDay = date => (new Date(date.getFullYear(), date.getMonth(), 1));
 
-  renderCard = (item, date) => <CalendarCard post={item} time={date} />
+  renderCards = (items, date) => (
+    items && (
+      items.map(post => {
+        const isOutdated = date.setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
+        return (
+          <CalendarCard
+            post={post}
+            time={date}
+            isOutdated={isOutdated}
+            key={shortid.generate()}
+          />
+        );
+      })
+    )
+  )
+
+  scrollToViewport = () => {
+    const content = this.calendarViewContent;
+    const totalHeight = this.getCellTotalHeight();
+    content.scrollTo(0, totalHeight);
+  }
+
+  scrollToMonth = month => {
+    const content = this.calendarViewContent;
+    const totalHeight = this.getCellHeightFromTopToCurrentMonth(month);
+    content.scrollTo(0, totalHeight);
+  }
 
   getAllCalendarCells = () => {
     const referenceKeys = Object.keys(this.refs);
@@ -77,6 +137,27 @@ class CalendarView extends PureComponent {
     return resSum;
   }
 
+  getCellHeightFromTopToCurrentMonth = currentMonth => {
+    const { postsByDay } = this.props;
+
+    let count = 0;
+    while (postsByDay[count].date.getMonth() !== currentMonth.getMonth()
+    || postsByDay[count].date.getFullYear() !== currentMonth.getFullYear()) {
+      ++count;
+    }
+    const allHeights = Object.keys(this).filter(key => (key.startsWith('row'))).map(key => {
+      const rect = this[key].getBoundingClientRect();
+      return rect.height;
+    });
+
+    const rowCount = count / DATE_PER_ROW;
+    let resSum = 0;
+    for (let i = 0; i < Math.min(allHeights.length, rowCount); ++i) {
+      resSum += allHeights[i];
+    }
+    return resSum;
+  }
+
   setCurrentDateIfNeedIt = () => {
     const dateWithPosition = this.getAllCalendarCells();
     const { currentMonth, setCurrentDate } = this.props;
@@ -94,7 +175,7 @@ class CalendarView extends PureComponent {
     });
 
     const maxDateValue = Object.keys(hashTable).reduce((a, b) => (
-      (hashTable[a] > hashTable[b]) ? a : b));
+      (hashTable[a] > hashTable[b]) ? a : b), 0);
 
     const maxDate = new Date(parseInt(maxDateValue, 10));
 
@@ -104,16 +185,11 @@ class CalendarView extends PureComponent {
   }
 
   handleScrollToTop = () => {
-    const { getPrevDates } = this.props;
-    const content = this.calendarViewContent;
-    const totalHeight = this.getCellTotalHeight();
-    getPrevDates(DATE_PER_PAGE, () => { content.scrollTo(0, totalHeight); });
+    this.addDataToBeignOfPage();
   }
 
   handleScrollToBottom = () => {
-    const { getNextDates } = this.props;
-
-    getNextDates(DATE_PER_PAGE);
+    this.addDataToEndOfPage();
   }
 
   handleScroll = ({ target }) => {
@@ -145,14 +221,14 @@ class CalendarView extends PureComponent {
         <div ref={c => { this.calendarViewContent = c; }} className="calendar-view__content" onScroll={this.handleScroll}>
           {splitedDays.map((row, rowIdx) => (
             <div className="calendar-row" ref={c => { this[`row${rowIdx}`] = c; }} key={shortid.generate()}>
-              {row.map(item => (
+              {row.map(({ date, items }) => (
                 <CalendarCell
-                  day={item.date}
+                  day={date}
                   ref={`cellItem${globalIndex}`}
                   key={shortid.generate()}
                   index={globalIndex++}
                 >
-                  {item.items && item.items.map(post => this.renderCard(post, item.date))}
+                  {this.renderCards(items, date)}
                 </CalendarCell>
               ))}
             </div>

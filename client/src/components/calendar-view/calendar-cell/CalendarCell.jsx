@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { getFormatedDateWithoutYear } from '@helpers/formatDate';
+import { getZeroDate } from '@helpers/utils';
 
 import Button from '@components/button/Button';
 import AddThemeInput from '@components/add-theme-input/AddThemeInput';
@@ -54,9 +55,11 @@ class CalendarCell extends PureComponent {
     const { children, day } = this.props;
     const { isShowAddThemeInput } = this.state;
     const isFocused = this.isCurrentDate();
+    const isActualDay = getZeroDate(day) >= getZeroDate(new Date());
     const classes = classNames(
       'calendar-cell',
       { 'calendar-cell_focus': isFocused },
+      { 'calendar-cell_actual-day': isActualDay },
     );
 
     return (
@@ -72,7 +75,7 @@ class CalendarCell extends PureComponent {
             </Button>
           </div>
         )}
-        {isShowAddThemeInput && <AddThemeInput className="calendar-cell__input" closeBtnClick={this.handleCloseInputBtn} />}
+        {isShowAddThemeInput && <AddThemeInput className="calendar-cell__input" date={day} closeBtnClick={this.handleCloseInputBtn} />}
       </div>
     );
   }

@@ -37,7 +37,14 @@ export const getFormatedDate = date => {
   ];
   const dateObj = new Date(date);
 
-  return `${monthNames[dateObj.getMonth()]}  ${dateObj.getFullYear()}`;
+  return `${monthNames[dateObj.getMonth()]}`;
+};
+
+export const getDayWithWeekdayName = date => {
+  const weekdays = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
+  const dateObj = new Date(date);
+
+  return `${dateObj.getDate()}, ${weekdays[dateObj.getDay()]}`;
 };
 
 export const getTime = date => (
