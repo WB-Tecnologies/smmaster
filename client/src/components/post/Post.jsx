@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
 
 import { getSocialIcons } from '@/helpers/socialIcons';
-// import { checkAccount } from '@actions/postDetailsActions';
+import { checkAccount } from '@/actions/postDetailsActions';
 
 import Portal from '@/components/portal/Portal';
 import Button from '@/components/button/Button';
@@ -23,6 +24,7 @@ class Post extends PureComponent {
     isOpen: PropTypes.bool,
     onCancel: PropTypes.func,
     isLoading: PropTypes.bool,
+    checkAccount: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -35,18 +37,18 @@ class Post extends PureComponent {
     isLoading: false,
   };
 
+  handleCheck = id => {
+    const { checkAccount } = this.props;
+
+    checkAccount(id);
+  }
+
   renderSocialIcon = socialMedia => {
     const socialIcons = getSocialIcons(16);
     if (socialMedia in socialIcons) {
       return <span className="post__account-social-icon">{socialIcons[socialMedia]}</span>;
     }
   };
-
-  handleCheck = () => {
-    // const { checkAccount, id } = this.props;
-
-    // checkAccount(id);
-  }
 
   renderAccount = accounts => {
     const accountsIsLonger = accounts.length > MAX_ACCOUNT_TO_SHOW;
@@ -63,7 +65,7 @@ class Post extends PureComponent {
         }) => (
           <li key={shortid.generate()} className="post__account">
             <Checkbox
-              onChange={this.handleCheck}
+              onChange={() => { this.handleCheck(id); }}
               id={id}
               isChecked={isChecked}
             >
@@ -126,4 +128,11 @@ class Post extends PureComponent {
   }
 }
 
-export default Post;
+const mapDispatchToProps = dispatch => ({
+  checkAccount: id => dispatch(checkAccount(id)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Post);

@@ -6,12 +6,12 @@ import {
 } from '@/constants/actionTypes';
 
 export const initialState = {
-  items: {},
+  item: {},
   error: null,
   loading: false,
 };
 
-const postDetails = (state = initialState, { type, payload }) => {
+const postDetails = (state = initialState, { type, payload, id }) => {
   switch (type) {
     case FETCH_POST_STARTED: {
       return {
@@ -22,7 +22,7 @@ const postDetails = (state = initialState, { type, payload }) => {
     case FETCH_POST_SUCCESS: {
       return {
         ...state,
-        items: payload.post,
+        item: payload.post,
         error: null,
         loading: false,
       };
@@ -32,7 +32,7 @@ const postDetails = (state = initialState, { type, payload }) => {
         ...state,
         error: payload.error,
         loading: false,
-        items: {},
+        item: {},
       };
     }
     case CHECK_ACCOUNT: {
@@ -40,7 +40,15 @@ const postDetails = (state = initialState, { type, payload }) => {
         ...state,
         error: null,
         loading: false,
-        items: {},
+        item: {
+          ...state.item,
+          accounts: state.item.accounts.map(account => {
+            if (account.id === id) {
+              account.isChecked = !account.isChecked;
+            }
+            return account;
+          }),
+        },
       };
     }
     default:

@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 
 import CalendarCard from '../../../src/components/calendar-card/CalendarCard';
@@ -32,12 +32,9 @@ describe('CalendarCard component', () => {
       className: 'class',
     };
     store = mockStore(initialState);
-    container = mount(<CalendarCard store={store} {...props} />);
+    container = shallow(<CalendarCard store={store} {...props} />);
   });
   it('should render CalendarCard component', () => {
     expect(container.exists()).toBe(true);
-  });
-  it('should render CalendarCard component with props', () => {
-    expect(container.props().post).toEqual(props.post);
   });
 });

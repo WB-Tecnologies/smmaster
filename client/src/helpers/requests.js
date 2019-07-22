@@ -43,4 +43,5 @@ export const httpRequests = {
   loginRequest: data => httpPost('login_success', data),
   getPosts: () => httpGet('posts'),
   getPostDetails: () => httpGet('post_details'),
+  addPost: data => httpPost('post', data),
 };

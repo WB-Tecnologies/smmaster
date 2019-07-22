@@ -24,19 +24,20 @@ class CalendarCard extends PureComponent {
     fetchPost: PropTypes.func.isRequired,
     postDetails: PropTypes.shape({
       id: PropTypes.string,
-      date: PropTypes.objectOf(PropTypes.string),
+      date: PropTypes.string,
       accounts: PropTypes.arrayOf(PropTypes.object),
-    }).isRequired,
+    }),
     isLoading: PropTypes.bool.isRequired,
     time: PropTypes.objectOf(PropTypes.string),
     post: PropTypes.shape({
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       rubricColor: PropTypes.string,
-      isEmpty: PropTypes.bool.isRequired,
+      isEmpty: PropTypes.bool,
       accounts: PropTypes.arrayOf(PropTypes.object),
     }),
     className: PropTypes.string,
+    isOutdated: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -45,7 +46,9 @@ class CalendarCard extends PureComponent {
       rubricColor: '#E3E7EB',
       accounts: [],
     },
+    postDetails: {},
     className: '',
+    isOutdated: false,
   };
 
   state = {
@@ -117,12 +120,14 @@ class CalendarCard extends PureComponent {
       },
       time,
       className,
+      isOutdated,
     } = this.props;
 
     const classes = classNames(
       'calendar-card',
       className,
       { 'calendar-card_empty': isEmpty },
+      { 'calendar-card_outdated': isOutdated },
     );
 
     return (
@@ -146,7 +151,7 @@ class CalendarCard extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  postDetails: state.postDetails.items,
+  postDetails: state.postDetails.item,
   isLoading: state.postDetails.loading,
 });
 

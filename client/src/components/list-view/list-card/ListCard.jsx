@@ -82,7 +82,7 @@ class ListCard extends PureComponent {
 
   renderAttachments = attachments => (
     attachments.map(({ img, alt }) => (
-      <li className="list-card__attachment"><img src={img} className="list-card__attachment-img" alt={alt} /></li>
+      <li className="list-card__attachment" key={shortid.generate()}><img src={img} className="list-card__attachment-img" alt={alt} /></li>
     ))
   )
 

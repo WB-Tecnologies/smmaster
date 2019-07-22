@@ -1,10 +1,13 @@
-$main-accent: #00AAFF
+$main-accent: #00aaff
 
 .checkbox
   display: block
   position: relative
   cursor: pointer
   user-select: none
+
+  &_inactive
+    opacity: .1
 
   &__input
     position: absolute
@@ -25,6 +28,3 @@ $main-accent: #00AAFF
     border: 2px solid transparent
     border-radius: 5px
     margin: -2px
-
-  &:hover .checkbox__input ~ .checkbox__checkmark
-    border-color: $main-accent
