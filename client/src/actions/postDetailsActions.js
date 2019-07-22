@@ -5,7 +5,7 @@ import {
   CHECK_ACCOUNT,
 } from '@/constants/actionTypes';
 
-import { httpRequests } from '@/helpers/requests';
+import { API } from '@/helpers/requests';
 
 const fetchPostSuccess = post => ({
   type: FETCH_POST_SUCCESS,
@@ -24,8 +24,7 @@ const fetchPostStarted = () => ({
 export function fetchPost() {
   return dispatch => {
     dispatch(fetchPostStarted());
-    return httpRequests
-      .getPostDetails()
+    return API.getPostDetails()
       .then(({ post }) => {
         dispatch(fetchPostSuccess(post));
       })

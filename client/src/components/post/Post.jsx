@@ -37,6 +37,12 @@ class Post extends PureComponent {
     isLoading: false,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.socialIcons = getSocialIcons({ size: 16 });
+  }
+
   handleCheck = id => {
     const { checkAccount } = this.props;
 
@@ -44,16 +50,15 @@ class Post extends PureComponent {
   }
 
   renderSocialIcon = socialMedia => {
-    const socialIcons = getSocialIcons(16);
-    if (socialMedia in socialIcons) {
-      return <span className="post__account-social-icon">{socialIcons[socialMedia]}</span>;
+    if (socialMedia in this.socialIcons) {
+      return <span className="post__account-social-icon">{this.socialIcons[socialMedia]}</span>;
     }
   };
 
   renderAccount = accounts => {
     const accountsIsLonger = accounts.length > MAX_ACCOUNT_TO_SHOW;
     const moreAccounts = accounts.length - MAX_ACCOUNT_TO_SHOW;
-    accounts = accountsIsLonger ? accounts.slice(0, 4) : accounts;
+    accounts = accountsIsLonger ? accounts.slice(0, 10) : accounts;
 
     return (
       <>
@@ -79,13 +84,50 @@ class Post extends PureComponent {
     );
   };
 
-  render() {
+  renderPostContent = () => {
     const {
-      isOpen,
       onCancel,
       post: {
         accounts,
       },
+    } = this.props;
+
+    return (
+      <div className="post__container">
+        <header className="post__header">
+          <h2 className="post__title">Редактирование публикации</h2>
+          <Button isGhostIcon onClick={onCancel} className="post__close-btn">
+            <img src={cross} alt="close" />
+          </Button>
+        </header>
+        <div className="post__accounts">
+          {this.renderAccount(accounts)}
+        </div>
+        <div className="post__body">
+          <main className="post__content">
+            <p>text</p>
+          </main>
+          <aside className="post__aside">
+            <div>Время публикации</div>
+            <div>Рубрика</div>
+            <div>Тема</div>
+            <div>Примеры</div>
+          </aside>
+        </div>
+        <footer className="post__footer">
+          <Button isOutline>Удалить</Button>
+          <div className="post__footer-btn-group">
+            <Button isOutline className="post__footer-btn-cancel">Отмена</Button>
+            <Button isPrimary isPrimaryMd>Запланировать</Button>
+          </div>
+        </footer>
+      </div>
+    );
+  }
+
+  render() {
+    const {
+      isOpen,
       isLoading,
     } = this.props;
 
@@ -96,29 +138,7 @@ class Post extends PureComponent {
             <div className="post">
               {isLoading
                 ? <span className="post__spinner" />
-                : (
-                  <div className="post__container">
-                    <div className="post__header">
-                      <h2 className="post__title">Редактирование публикации</h2>
-                      <Button isGhostIcon onClick={onCancel} className="post__close-btn">
-                        <img src={cross} alt="close" />
-                      </Button>
-                    </div>
-                    <div className="post__accounts">
-                      {this.renderAccount(accounts)}
-                    </div>
-                    <div className="post__body">
-                        текст
-                    </div>
-                    <div className="post__footer">
-                      <Button isOutline>Удалить</Button>
-                      <div className="post__footer-btn-group">
-                        <Button isOutline className="post__footer-btn-cancel">Отмена</Button>
-                        <Button isPrimary isPrimaryMd>Запланировать</Button>
-                      </div>
-                    </div>
-                  </div>
-                )
+                : (this.renderPostContent())
               }
             </div>
           </div>

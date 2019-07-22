@@ -1,7 +1,9 @@
 $overlay-color: #00AAFF
-$bg-color: #FCFCFD
+$bg-color: #fcfcfd
+$text-block-bg-color: #fff
 $font-color: #3E4B64
 $spinner-color: #00AAFF
+$container-padding: 20px
 
 .post-overlay
   z-index: 10
@@ -19,14 +21,13 @@ $spinner-color: #00AAFF
   height: 100%
   background-color: $bg-color
   width: 52.4%
-  display: flex
-  flex-direction: column
-  justify-content: space-between
   box-shadow: 0px 16px 32px rgba(39, 40, 55, 0.15)
   overflow: hidden
 
   &__container
-    padding: 20px
+    display: flex
+    flex-direction: column
+    height: 100vh
 
   &__spinner
     position: absolute
@@ -46,6 +47,7 @@ $spinner-color: #00AAFF
     display: flex
     justify-content: space-between
     align-items: center
+    padding: $container-padding
 
   &__title
     font-size: 22px
@@ -61,7 +63,10 @@ $spinner-color: #00AAFF
     display: flex
     margin: 0
     list-style-type: none
-    padding: 15px 0
+    padding-right: $container-padding
+    padding-left: $container-padding
+    padding-top: 15px
+    padding-bottom: 15px
 
   &__account
     margin-right: 10px
@@ -84,9 +89,25 @@ $spinner-color: #00AAFF
       right: 0
       line-height: 0
 
+  &__body
+    flex: 3
+    display: flex
+    justify-content: space-between
+    padding-left: $container-padding
+    padding-right: $container-padding
+
+  &__content
+    flex: 2
+    background-color: $text-block-bg-color
+    padding: 22px 20px 0 20px
+
+  &__aside
+    padding-left: $container-padding
+
   &__footer
     display: flex
     justify-content: space-between
+    padding: $container-padding
 
   &__footer-btn-cancel
     border: none

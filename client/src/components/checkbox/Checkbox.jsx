@@ -10,7 +10,7 @@ const Checkbox = ({
   const classes = classNames(
     'checkbox',
     className,
-    { checkbox_inactive: !isChecked },
+    { checkbox_active: isChecked },
   );
 
   return (

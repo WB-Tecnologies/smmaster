@@ -6,7 +6,7 @@ const isDataExist = data => data !== undefined && data !== null && data !== '';
 
 const isError = data => isDataExist(data) && data.error && data.error.length > 0;
 
-export const httpPost = (endPoint, data) => {
+const httpPost = (endPoint, data) => {
   return axios
     .post(`${API_ROOT}/${endPoint}`, {
       headers: {
@@ -25,7 +25,7 @@ export const httpPost = (endPoint, data) => {
     });
 };
 
-export const httpGet = endPoint => {
+const httpGet = endPoint => {
   return axios.get(`${API_ROOT}/${endPoint}`).then(response => {
     if (!isDataExist(response.data)) {
       throw new Error('Data is undefined');
@@ -39,7 +39,7 @@ export const httpGet = endPoint => {
 
 export const isAuthUser = user => (user !== undefined && user !== null && Object.prototype.hasOwnProperty.call(user, 'name', 'remoteId'));
 
-export const httpRequests = {
+export const API = {
   loginRequest: data => httpPost('login_success', data),
   getPosts: () => httpGet('posts'),
   getPostDetails: () => httpGet('post_details'),

@@ -2,7 +2,7 @@ import {
   SET_CURRENT_USER,
   AUTHENTICATION_FAILURE,
 } from '@/constants/actionTypes';
-import { httpRequests } from '@/helpers/requests';
+import { API } from '@/helpers/requests';
 
 export const setCurrentUser = user => ({
   type: SET_CURRENT_USER,
@@ -16,8 +16,7 @@ export const setUserError = error => ({
 
 export function authAction(data) {
   return dispatch => {
-    return httpRequests
-      .loginRequest(data)
+    return API.loginRequest(data)
       .then(response => {
         dispatch(setCurrentUser(response));
       })

@@ -51,6 +51,12 @@ class CalendarCard extends PureComponent {
     isOutdated: false,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.socialIcons = getSocialIcons({ size: 7 });
+  }
+
   state = {
     isOpen: false,
   }
@@ -71,9 +77,8 @@ class CalendarCard extends PureComponent {
   }
 
   renderSocialIcon = socialMedia => {
-    const socialIcons = getSocialIcons(7);
-    if (socialMedia in socialIcons) {
-      return <span className="calendar-card__account-social-icon">{socialIcons[socialMedia]}</span>;
+    if (socialMedia in this.socialIcons) {
+      return <span className="calendar-card__account-social-icon">{this.socialIcons[socialMedia]}</span>;
     }
   };
 
@@ -152,12 +157,12 @@ class CalendarCard extends PureComponent {
 
 const mapStateToProps = state => ({
   postDetails: state.postDetails.item,
-  isLoading: state.postDetails.loading,
+  isLoading: state.postDetails.isLoading,
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchPost: () => dispatch(fetchPost()),
-});
+const mapDispatchToProps = {
+  fetchPost,
+};
 
 export default connect(
   mapStateToProps,

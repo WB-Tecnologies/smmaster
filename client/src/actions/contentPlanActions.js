@@ -4,7 +4,7 @@ import {
   ADD_POST,
 } from '@/constants/actionTypes';
 
-import { httpRequests } from '@/helpers/requests';
+import { API } from '@/helpers/requests';
 
 export const fetchPostsSuccess = posts => ({
   type: FETCH_POSTS_SUCCESS,
@@ -23,7 +23,7 @@ export const addPostSuccess = post => ({
 
 export function fetchPosts() {
   return dispatch => {
-    return httpRequests.getPosts()
+    return API.getPosts()
       .then(({ posts }) => {
         dispatch(fetchPostsSuccess(posts));
       })
@@ -33,7 +33,7 @@ export function fetchPosts() {
 
 export function addPost(post, date) {
   return dispatch => {
-    return httpRequests.addPost(post, date)
+    return API.addPost(post, date)
       .then(({ post }) => {
         dispatch(addPostSuccess(post));
       })

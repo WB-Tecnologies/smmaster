@@ -8,7 +8,7 @@ import {
 export const initialState = {
   item: {},
   error: null,
-  loading: false,
+  isLoading: false,
 };
 
 const postDetails = (state = initialState, { type, payload, id }) => {
@@ -16,7 +16,7 @@ const postDetails = (state = initialState, { type, payload, id }) => {
     case FETCH_POST_STARTED: {
       return {
         ...state,
-        loading: true,
+        isLoading: true,
       };
     }
     case FETCH_POST_SUCCESS: {
@@ -24,14 +24,14 @@ const postDetails = (state = initialState, { type, payload, id }) => {
         ...state,
         item: payload.post,
         error: null,
-        loading: false,
+        isLoading: false,
       };
     }
     case FETCH_POST_FAILURE: {
       return {
         ...state,
         error: payload.error,
-        loading: false,
+        isLoading: false,
         item: {},
       };
     }
@@ -39,7 +39,7 @@ const postDetails = (state = initialState, { type, payload, id }) => {
       return {
         ...state,
         error: null,
-        loading: false,
+        isLoading: false,
         item: {
           ...state.item,
           accounts: state.item.accounts.map(account => {
