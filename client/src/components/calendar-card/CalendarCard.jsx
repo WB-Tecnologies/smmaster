@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import shortid from 'shortid';
 
 import { getTime } from '@/helpers/formatDate';
 import { getSocialIcons } from '@/helpers/socialIcons';
+import { fetchPost } from '@/actions/postDetailsActions';
 
 import Post from '@/components/post/Post';
 
@@ -19,6 +21,13 @@ const MAX_ACCOUNT_TO_SHOW = 4;
 
 class CalendarCard extends PureComponent {
   static propTypes = {
+    fetchPost: PropTypes.func.isRequired,
+    postDetails: PropTypes.shape({
+      id: PropTypes.string,
+      date: PropTypes.objectOf(PropTypes.string),
+      accounts: PropTypes.arrayOf(PropTypes.object),
+    }).isRequired,
+    isLoading: PropTypes.bool.isRequired,
     time: PropTypes.objectOf(PropTypes.string),
     post: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -44,6 +53,9 @@ class CalendarCard extends PureComponent {
   }
 
   handleDisplayPost = () => {
+    const { fetchPost } = this.props;
+
+    fetchPost();
     this.setState({ isOpen: true });
   }
 
@@ -82,11 +94,12 @@ class CalendarCard extends PureComponent {
 
   renderPost = () => {
     const { isOpen } = this.state;
-    const { post } = this.props;
+    const { postDetails, isLoading } = this.props;
 
     return (
       <Post
-        post={post}
+        post={postDetails}
+        isLoading={isLoading}
         isOpen={isOpen}
         onCancel={this.handleCancel}
         onSubmit={this.handleSubmit}
@@ -132,5 +145,16 @@ class CalendarCard extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  postDetails: state.postDetails.items,
+  isLoading: state.postDetails.loading,
+});
 
-export default CalendarCard;
+const mapDispatchToProps = dispatch => ({
+  fetchPost: () => dispatch(fetchPost()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CalendarCard);

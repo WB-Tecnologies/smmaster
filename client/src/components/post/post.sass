@@ -1,6 +1,7 @@
 $overlay-color: #00AAFF
 $bg-color: #FCFCFD
 $font-color: #3E4B64
+$spinner-color: #00AAFF
 
 .post-overlay
   z-index: 10
@@ -27,6 +28,20 @@ $font-color: #3E4B64
   &__container
     padding: 20px
 
+  &__spinner
+    position: absolute
+    top: 50%
+    display: block
+    border-width: 3px
+    border-style: solid
+    border-color: $spinner-color $spinner-color $spinner-color transparent
+    width: 24px
+    height: 24px
+    border-radius: 50%
+    animation: spin 1.2s linear infinite
+    position: relative
+    margin: 0 auto
+
   &__header
     display: flex
     justify-content: space-between
@@ -46,11 +61,13 @@ $font-color: #3E4B64
     display: flex
     margin: 0
     list-style-type: none
-    padding: 0
+    padding: 15px 0
 
   &__account
     margin-right: 10px
     position: relative
+    width: 40px
+    height: 40px
 
     &:last-child
       margin-right: 0
@@ -74,3 +91,11 @@ $font-color: #3E4B64
   &__footer-btn-cancel
     border: none
     margin-right: 10px
+
+@keyframes spin
+
+  0%
+    transform: rotate(0deg)
+
+  100%
+    transform: rotate(360deg)
