@@ -58,7 +58,7 @@ class Post extends PureComponent {
   renderAccount = accounts => {
     const accountsIsLonger = accounts.length > MAX_ACCOUNT_TO_SHOW;
     const moreAccounts = accounts.length - MAX_ACCOUNT_TO_SHOW;
-    accounts = accountsIsLonger ? accounts.slice(0, 10) : accounts;
+    accounts = accountsIsLonger ? accounts.slice(0, MAX_ACCOUNT_TO_SHOW) : accounts;
 
     return (
       <>
