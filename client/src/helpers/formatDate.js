@@ -50,3 +50,23 @@ export const getDayWithWeekdayName = date => {
 export const getTime = date => (
   `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
 );
+
+// Date format: 'dd.mm.yyyy, short weekday hh:mm'
+export const getDayWithTime = date => {
+  const weekdays = ['вc', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+  const dateObj = new Date(date);
+
+  let day = dateObj.getDate();
+  let month = dateObj.getMonth() + 1;
+  const year = dateObj.getFullYear();
+
+  if (day < 10) {
+    day = `0${day}`;
+  }
+
+  if (month < 10) {
+    month = `0${month}`;
+  }
+
+  return `${day}.${month}.${year}, ${weekdays[dateObj.getDay()]}`;
+};

@@ -4,11 +4,13 @@ import PropTypes from 'prop-types';
 import shortid from 'shortid';
 
 import { getSocialIcons } from '@/helpers/socialIcons';
+import { getDayWithTime } from '@/helpers/formatDate';
 import { checkAccount } from '@/actions/postDetailsActions';
 
 import Portal from '@/components/portal/Portal';
 import Button from '@/components/button/Button';
 import Checkbox from '@/components/checkbox/Checkbox';
+import Calendar from '@/components/calendar/Calendar';
 
 import cross from '!svg-url-loader?noquotes!../../../src/assets/Cross.svg';// eslint-disable-line import/no-webpack-loader-syntax
 
@@ -108,7 +110,24 @@ class Post extends PureComponent {
             <p>text</p>
           </main>
           <aside className="post__aside">
-            <div>Время публикации</div>
+            <div className="post__publish-time">
+              <h4 className="post__publish-time-title">Время публикации</h4>
+              <Calendar
+                // onChange={this.handleChange}
+                getFormatedDate={getDayWithTime}
+                className="post__publish-time-date"
+              />
+              <Calendar
+                // onChange={this.handleChange}
+                className="post__publish-time-time"
+                timeIntervals={60}
+                timeFormat="hh:mm"
+                showTimeSelect
+                showTimeSelectOnly
+                timeCaption="Время"
+                getFormatedDate={() => 'hh:mm'}
+              />
+            </div>
             <div>Рубрика</div>
             <div>Тема</div>
             <div>Примеры</div>

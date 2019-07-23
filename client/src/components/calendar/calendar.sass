@@ -10,8 +10,18 @@ $hover-color: #F3F5F7
 .react-datepicker.calendar__container
   border-radius: 5px
   border: none
-  box-shadow: 0px 4px 8px rgba(39, 40, 55, 0.1)
+  box-shadow: 0 4px 8px rgba(39, 40, 55, .1)
   background-color: $bg-color
+
+  .react-datepicker__header
+    background-color: $bg-color
+    border-bottom: 1px solid $border-color
+    padding: 5px
+    text-transform: uppercase
+    font-weight: normal
+    color: $font-color
+    font-size: 14px
+    line-height: 1.8
 
   .react-datepicker__triangle
     border: none!important
@@ -43,9 +53,9 @@ $hover-color: #F3F5F7
 
   .react-datepicker__month-container
 
-    .react-datepicker__header
+    .react-datepicker__header,
+    .react-datepicker__current-month
       background-color: $bg-color
-      border-bottom: 1px solid $border-color
       padding: 5px
       text-transform: uppercase
       font-weight: normal
@@ -53,15 +63,35 @@ $hover-color: #F3F5F7
       font-size: 14px
       line-height: 1.8
 
+    .react-datepicker__header
+      border-bottom: 1px solid $border-color
+
+    .react-datepicker__day-names
+
+      .react-datepicker__day-name
+        text-transform: capitalize
+
     .react-datepicker__month
       font-size: 14px
       color: $font-color
       line-height: 100%
       margin: 5px
 
+      .react-datepicker__week
+
+        .react-datepicker__day
+          width: 1.8rem
+          line-height: 1.8rem
+
+        .react-datepicker__day.react-datepicker__day--selected
+          border-radius: 5px
+          background-color: $accent-color
+          color: $font-color
+
       .react-datepicker__month-text
         width: 2.75rem
         padding: 8px
+        text-transform: capitalize
 
         &:hover
           background-color: $hover-color
@@ -71,3 +101,42 @@ $hover-color: #F3F5F7
         border-radius: 5px
         background-color: $accent-color
         color: $font-color
+
+.react-datepicker.calendar__container.react-datepicker--time-only
+  border-radius: 5px
+  border: none
+  box-shadow: 0 4px 8px rgba(39, 40, 55, .1)
+  background-color: $bg-color
+
+  .react-datepicker__header.react-datepicker__header--time
+    background-color: $bg-color
+    border-bottom: 1px solid $border-color
+    padding: 5px
+
+    .react-datepicker-time__header
+      text-transform: uppercase
+      font-weight: normal
+      color: $font-color
+      font-size: 14px
+      line-height: 1.8
+
+  .react-datepicker__time-container
+
+    .react-datepicker__time-box
+      border-radius: 0
+
+      .react-datepicker__time-list
+
+        .react-datepicker__time-list-item
+          color: $font-color
+          display: flex
+          justify-content: center
+          align-items: center
+
+          &:hover
+            background-color: $hover-color
+
+          &--selected
+            background-color: $accent-color
+            color: $font-color
+            font-weight: normal
