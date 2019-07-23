@@ -3,15 +3,21 @@ import {
   FETCH_POST_FAILURE,
   FETCH_POST_STARTED,
   CHECK_ACCOUNT,
+  EDIT_DATE,
 } from '@/constants/actionTypes';
 
 export const initialState = {
   item: {},
   error: null,
-  isLoading: false,
+  isLoading: true,
 };
 
-const postDetails = (state = initialState, { type, payload, id }) => {
+const postDetails = (state = initialState, {
+  type,
+  payload,
+  id,
+  date,
+}) => {
   switch (type) {
     case FETCH_POST_STARTED: {
       return {
@@ -48,6 +54,17 @@ const postDetails = (state = initialState, { type, payload, id }) => {
             }
             return account;
           }),
+        },
+      };
+    }
+    case EDIT_DATE: {
+      return {
+        ...state,
+        error: null,
+        isLoading: false,
+        item: {
+          ...state.item,
+          date: String(date),
         },
       };
     }

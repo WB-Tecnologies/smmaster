@@ -18,12 +18,6 @@ class Calendar extends PureComponent {
     showMonthYearPicker: PropTypes.bool,
     date: PropTypes.objectOf(PropTypes.string),
     resetAllDatesOfCurrMonth: PropTypes.func,
-    timeFormat: PropTypes.string,
-    timeCaption: PropTypes.string,
-    showTimeSelect: PropTypes.bool,
-    className: PropTypes.string,
-    showTimeSelectOnly: PropTypes.bool,
-    timeIntervals: PropTypes.number,
   };
 
   static defaultProps = {
@@ -32,12 +26,6 @@ class Calendar extends PureComponent {
     resetAllDatesOfCurrMonth: () => {},
     showMonthYearPicker: false,
     date: {},
-    timeFormat: '',
-    timeCaption: '',
-    showTimeSelect: false,
-    className: '',
-    showTimeSelectOnly: false,
-    timeIntervals: 60,
   };
 
   handleChange = date => {
@@ -52,18 +40,12 @@ class Calendar extends PureComponent {
       getFormatedDate,
       showMonthYearPicker,
       date,
-      showTimeSelect,
-      showTimeSelectOnly,
-      timeIntervals,
-      timeFormat,
-      timeCaption,
-      className,
     } = this.props;
 
     return (
       <div className="calendar">
         <DatePicker
-          customInput={<CalendarButton calendarClassName={className} />}
+          customInput={<CalendarButton />}
           dateFormat={getFormatedDate(date)}
           locale={ru}
           selected={date}
@@ -71,11 +53,6 @@ class Calendar extends PureComponent {
           name="startDate"
           calendarClassName="calendar__container"
           showMonthYearPicker={showMonthYearPicker}
-          showTimeSelect={showTimeSelect}
-          timeIntervals={timeIntervals}
-          showTimeSelectOnly={showTimeSelectOnly}
-          timeFormat={timeFormat}
-          timeCaption={timeCaption}
         />
       </div>
     );

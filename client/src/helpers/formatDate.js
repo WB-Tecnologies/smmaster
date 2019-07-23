@@ -1,59 +1,28 @@
 import '@/helpers/polifills';
 
-export const getFormatedDateWithoutYear = date => {
-  const monthNames = [
-    'Января',
-    'Февраля',
-    'Марта',
-    'Апреля',
-    'Мая',
-    'Июня',
-    'Июля',
-    'Августа',
-    'Сентября',
-    'Октября',
-    'Ноября',
-    'Декабря',
-  ];
+export const getShortDayLongMonth = date => {
   const dateObj = new Date(date);
 
-  return `${dateObj.getDate()} ${monthNames[dateObj.getMonth()]}`;
+  return `${dateObj.getDate()} ${dateObj.toLocaleString('ru', { month: 'long' })}`;
 };
 
-export const getFormatedDate = date => {
-  const monthNames = [
-    'Январь',
-    'Февраль',
-    'Март',
-    'Апрель',
-    'Май',
-    'Июнь',
-    'Июль',
-    'Август',
-    'Сентябрь',
-    'Октябрь',
-    'Ноябрь',
-    'Декабрь',
-  ];
+export const getLongMonthName = date => {
   const dateObj = new Date(date);
 
-  return `${monthNames[dateObj.getMonth()]}`;
+  return `${dateObj.toLocaleString('ru', { month: 'long' })}`;
 };
 
-export const getDayWithWeekdayName = date => {
-  const weekdays = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
+export const getShortDayLongWeekday = date => {
   const dateObj = new Date(date);
 
-  return `${dateObj.getDate()}, ${weekdays[dateObj.getDay()]}`;
+  return `${dateObj.getDate()}, ${dateObj.toLocaleString('ru', { weekday: 'long' })}`;
 };
 
 export const getTime = date => (
   `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
 );
 
-// Date format: 'dd.mm.yyyy, short weekday hh:mm'
-export const getDayWithTime = date => {
-  const weekdays = ['вc', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+export const getFullDateLongWeekday = date => {
   const dateObj = new Date(date);
 
   let day = dateObj.getDate();
@@ -68,5 +37,5 @@ export const getDayWithTime = date => {
     month = `0${month}`;
   }
 
-  return `${day}.${month}.${year}, ${weekdays[dateObj.getDay()]}`;
+  return `${day}.${month}.${year}, ${dateObj.toLocaleString('ru', { weekday: 'short' })}`;
 };

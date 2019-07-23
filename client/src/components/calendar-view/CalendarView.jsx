@@ -11,7 +11,7 @@ import { setCurrentDate } from '@actions/currentDateActions';
 import { splitArray } from '@helpers/utils';
 import '@helpers/polifills';
 
-import CalendarCard from '@components/calendar-card/CalendarCard';
+import CalendarCard from './calendar-card/CalendarCard';
 import CalendarCell from './calendar-cell/CalendarCell';
 
 import './calendar-view.sass';
@@ -87,6 +87,7 @@ class CalendarView extends PureComponent {
     items && (
       items.map(post => {
         const isOutdated = date.setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
+
         return (
           <CalendarCard
             post={post}

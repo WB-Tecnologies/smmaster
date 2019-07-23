@@ -1,12 +1,10 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import shortid from 'shortid';
 
 import { getTime } from '@/helpers/formatDate';
 import { getSocialIcons } from '@/helpers/socialIcons';
-import { fetchPost } from '@/actions/postDetailsActions';
 
 import Post from '@/components/post/Post';
 
@@ -15,19 +13,12 @@ import './calendar-card.sass';
 // while doesn't have backend
 /* eslint-disable import/no-useless-path-segments */
 /* eslint-disable no-unused-vars */
-import avatar from '../../../src/assets/avatar.jpg';
+import avatar from '../../../../src/assets/avatar.jpg';
 
 const MAX_ACCOUNT_TO_SHOW = 4;
 
 class CalendarCard extends PureComponent {
   static propTypes = {
-    fetchPost: PropTypes.func.isRequired,
-    postDetails: PropTypes.shape({
-      id: PropTypes.string,
-      date: PropTypes.string,
-      accounts: PropTypes.arrayOf(PropTypes.object),
-    }),
-    isLoading: PropTypes.bool.isRequired,
     time: PropTypes.objectOf(PropTypes.string),
     post: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -46,7 +37,6 @@ class CalendarCard extends PureComponent {
       rubricColor: '#E3E7EB',
       accounts: [],
     },
-    postDetails: {},
     className: '',
     isOutdated: false,
   };
@@ -62,9 +52,6 @@ class CalendarCard extends PureComponent {
   }
 
   handleDisplayPost = () => {
-    const { fetchPost } = this.props;
-
-    fetchPost();
     this.setState({ isOpen: true });
   }
 
@@ -102,16 +89,14 @@ class CalendarCard extends PureComponent {
 
   renderPost = () => {
     const { isOpen } = this.state;
-    const { postDetails, isLoading } = this.props;
-
     return (
-      <Post
-        post={postDetails}
-        isLoading={isLoading}
-        isOpen={isOpen}
-        onCancel={this.handleCancel}
-        onSubmit={this.handleSubmit}
-      />
+      (isOpen) ? (
+        <Post
+          isOpen={isOpen}
+          onCancel={this.handleCancel}
+          onSubmit={this.handleSubmit}
+        />
+      ) : null
     );
   }
 
@@ -155,16 +140,4 @@ class CalendarCard extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  postDetails: state.postDetails.item,
-  isLoading: state.postDetails.isLoading,
-});
-
-const mapDispatchToProps = {
-  fetchPost,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CalendarCard);
+export default CalendarCard;
