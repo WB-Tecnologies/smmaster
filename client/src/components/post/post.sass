@@ -1,0 +1,122 @@
+$overlay-color: #00AAFF
+$bg-color: #fcfcfd
+$text-block-bg-color: #fff
+$font-color: #3E4B64
+$spinner-color: #00AAFF
+$container-padding: 20px
+
+.post-overlay
+  z-index: 10
+  background-color: rgba($overlay-color, 0.7)
+  position: fixed
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+
+.post
+  position: absolute
+  top: 0
+  left: 0
+  height: 100%
+  background-color: $bg-color
+  width: 52.4%
+  box-shadow: 0px 16px 32px rgba(39, 40, 55, 0.15)
+  overflow: hidden
+
+  &__container
+    display: flex
+    flex-direction: column
+    height: 100vh
+
+  &__spinner
+    position: absolute
+    top: 50%
+    display: block
+    border-width: 3px
+    border-style: solid
+    border-color: $spinner-color $spinner-color $spinner-color transparent
+    width: 24px
+    height: 24px
+    border-radius: 50%
+    animation: spin 1.2s linear infinite
+    position: relative
+    margin: 0 auto
+
+  &__header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    padding: $container-padding
+
+  &__title
+    font-size: 22px
+    line-height: 100%
+    color: $font-color
+    margin: 0
+
+  &__close-btn
+    box-shadow: none
+    background-color: $bg-color
+
+  &__accounts
+    display: flex
+    margin: 0
+    list-style-type: none
+    padding-right: $container-padding
+    padding-left: $container-padding
+    padding-top: 15px
+    padding-bottom: 15px
+
+  &__account
+    margin-right: 10px
+    position: relative
+    width: 40px
+    height: 40px
+
+    &:last-child
+      margin-right: 0
+
+    &-img
+      display: block
+      border-radius: 5px
+      width: 40px
+      height: 40px
+
+    &-social-icon
+      position: absolute
+      bottom: 0
+      right: 0
+      line-height: 0
+
+  &__body
+    flex: 3
+    display: flex
+    justify-content: space-between
+    padding-left: $container-padding
+    padding-right: $container-padding
+
+  &__content
+    flex: 2
+    background-color: $text-block-bg-color
+    padding: 22px 20px 0 20px
+
+  &__aside
+    padding-left: $container-padding
+
+  &__footer
+    display: flex
+    justify-content: space-between
+    padding: $container-padding
+
+  &__footer-btn-cancel
+    border: none
+    margin-right: 10px
+
+@keyframes spin
+
+  0%
+    transform: rotate(0deg)
+
+  100%
+    transform: rotate(360deg)

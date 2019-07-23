@@ -1,10 +1,14 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import shortid from 'shortid';
 
 import { getTime } from '@/helpers/formatDate';
 import { getSocialIcons } from '@/helpers/socialIcons';
+import { fetchPost } from '@/actions/postDetailsActions';
+
+import Post from '@/components/post/Post';
 
 import './calendar-card.sass';
 
@@ -17,6 +21,13 @@ const MAX_ACCOUNT_TO_SHOW = 4;
 
 class CalendarCard extends PureComponent {
   static propTypes = {
+    fetchPost: PropTypes.func.isRequired,
+    postDetails: PropTypes.shape({
+      id: PropTypes.string,
+      date: PropTypes.string,
+      accounts: PropTypes.arrayOf(PropTypes.object),
+    }),
+    isLoading: PropTypes.bool.isRequired,
     time: PropTypes.objectOf(PropTypes.string),
     post: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -26,7 +37,6 @@ class CalendarCard extends PureComponent {
       accounts: PropTypes.arrayOf(PropTypes.object),
     }),
     className: PropTypes.string,
-    onClick: PropTypes.func,
     isOutdated: PropTypes.bool,
   };
 
@@ -36,22 +46,46 @@ class CalendarCard extends PureComponent {
       rubricColor: '#E3E7EB',
       accounts: [],
     },
+    postDetails: {},
     className: '',
-    onClick: () => {},
     isOutdated: false,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.socialIcons = getSocialIcons({ size: 7 });
+  }
+
+  state = {
+    isOpen: false,
+  }
+
+  handleDisplayPost = () => {
+    const { fetchPost } = this.props;
+
+    fetchPost();
+    this.setState({ isOpen: true });
+  }
+
+  handleSubmit = () => {
+    this.setState({ isOpen: false });
+  }
+
+  handleCancel = () => {
+    this.setState({ isOpen: false });
+  }
+
   renderSocialIcon = socialMedia => {
-    const socialIcons = getSocialIcons(7);
-    if (socialMedia in socialIcons) {
-      return <span className="calendar-card__account-social-icon">{socialIcons[socialMedia]}</span>;
+    if (socialMedia in this.socialIcons) {
+      return <span className="calendar-card__account-social-icon">{this.socialIcons[socialMedia]}</span>;
     }
   };
 
   renderAccount = accounts => {
     const accountsIsLonger = accounts.length > MAX_ACCOUNT_TO_SHOW;
     const moreAccounts = accounts.length - MAX_ACCOUNT_TO_SHOW;
-    accounts = accountsIsLonger ? accounts.slice(0, 4) : accounts;
+    accounts = accountsIsLonger ? accounts.slice(0, MAX_ACCOUNT_TO_SHOW) : accounts;
 
     return (
       <>
@@ -66,6 +100,21 @@ class CalendarCard extends PureComponent {
     );
   };
 
+  renderPost = () => {
+    const { isOpen } = this.state;
+    const { postDetails, isLoading } = this.props;
+
+    return (
+      <Post
+        post={postDetails}
+        isLoading={isLoading}
+        isOpen={isOpen}
+        onCancel={this.handleCancel}
+        onSubmit={this.handleSubmit}
+      />
+    );
+  }
+
   render() {
     const {
       post: {
@@ -74,7 +123,6 @@ class CalendarCard extends PureComponent {
         rubricColor,
         isEmpty,
       },
-      onClick,
       time,
       className,
       isOutdated,
@@ -88,20 +136,35 @@ class CalendarCard extends PureComponent {
     );
 
     return (
-      <div onClick={onClick} className={classes}>
-        <div className="calendar-card__oval" style={{ backgroundColor: rubricColor }} />
-        <div className="calendar-card__header">
-          <h3 className="calendar-card__title">{title}</h3>
+      <>
+        <div onClick={this.handleDisplayPost} className={classes}>
+          <div className="calendar-card__oval" style={{ backgroundColor: rubricColor }} />
+          <div className="calendar-card__header">
+            <h3 className="calendar-card__title">{title}</h3>
+          </div>
+          <div className="calendar-card__body">
+            <div className="calendar-card__time">{getTime(time)}</div>
+            <ul className="calendar-card__accounts">
+              {this.renderAccount(accounts)}
+            </ul>
+          </div>
         </div>
-        <div className="calendar-card__body">
-          <div className="calendar-card__time">{getTime(time)}</div>
-          <ul className="calendar-card__accounts">
-            {this.renderAccount(accounts)}
-          </ul>
-        </div>
-      </div>
+        {this.renderPost()}
+      </>
     );
   }
 }
 
-export default CalendarCard;
+const mapStateToProps = state => ({
+  postDetails: state.postDetails.item,
+  isLoading: state.postDetails.isLoading,
+});
+
+const mapDispatchToProps = {
+  fetchPost,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CalendarCard);

@@ -1,0 +1,31 @@
+$main-accent: #00aaff
+
+.checkbox
+  display: block
+  position: relative
+  cursor: pointer
+  user-select: none
+  opacity: .1
+
+  &_active
+    opacity: 1
+
+  &__input
+    position: absolute
+    opacity: 0
+    cursor: pointer
+    height: 0
+    width: 0
+
+    &:checked ~ .checkbox__checkmark
+      border-color: $main-accent
+
+  &__checkmark
+    position: absolute
+    top: 0
+    left: 0
+    height: 40px
+    width: 40px
+    border: 2px solid transparent
+    border-radius: 5px
+    margin: -2px

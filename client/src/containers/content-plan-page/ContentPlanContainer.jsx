@@ -166,9 +166,9 @@ const mapStateToProps = state => ({
   date: state.currentDate.date,
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchPosts: () => dispatch(fetchPosts()),
-});
+const mapDispatchToProps = {
+  fetchPosts,
+};
 
 export default connect(
   mapStateToProps,
