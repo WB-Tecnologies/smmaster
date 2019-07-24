@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import shortid from 'shortid';
 
 import { getSocialIcons } from '@/helpers/socialIcons';
-import { getFullDateLongWeekday } from '@/helpers/formatDate';
+import { formatDate } from '@/helpers/formatDate';
 import { fetchPost, checkAccount, editDate } from '@/actions/postDetailsActions';
 
 import Portal from '@/components/portal/Portal';
@@ -137,7 +137,8 @@ class Post extends PureComponent {
               <DateEditorCalendar
                 date={new Date(date)}
                 onChange={this.handleDate}
-                getFormatedDate={getFullDateLongWeekday}
+                getFormatedDate={formatDate}
+                format="full-date-long-weekday"
                 className="post__publish-date"
               />
               <DateEditorCalendar

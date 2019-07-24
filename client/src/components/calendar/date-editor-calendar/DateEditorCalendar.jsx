@@ -18,6 +18,7 @@ class DateEditorCalendar extends PureComponent {
     showTimeSelect: PropTypes.bool,
     className: PropTypes.string,
     showTimeSelectOnly: PropTypes.bool,
+    format: PropTypes.string,
   };
 
   static defaultProps = {
@@ -27,6 +28,7 @@ class DateEditorCalendar extends PureComponent {
     showTimeSelect: false,
     className: '',
     showTimeSelectOnly: false,
+    format: '',
   };
 
   render() {
@@ -39,13 +41,14 @@ class DateEditorCalendar extends PureComponent {
       timeCaption,
       className,
       onChange,
+      format,
     } = this.props;
 
     return (
       <div className="calendar">
         <DatePicker
           customInput={<CalendarButton calendarClassName={className} />}
-          dateFormat={getFormatedDate(date)}
+          dateFormat={getFormatedDate({ date, format })}
           locale={ru}
           selected={date}
           onChange={onChange}

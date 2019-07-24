@@ -27,7 +27,6 @@ const postDetails = (state = initialState, {
     }
     case FETCH_POST_SUCCESS: {
       return {
-        ...state,
         item: payload.post,
         error: null,
         isLoading: false,
@@ -35,7 +34,6 @@ const postDetails = (state = initialState, {
     }
     case FETCH_POST_FAILURE: {
       return {
-        ...state,
         error: payload.error,
         isLoading: false,
         item: {},
@@ -43,7 +41,6 @@ const postDetails = (state = initialState, {
     }
     case CHECK_ACCOUNT: {
       return {
-        ...state,
         error: null,
         isLoading: false,
         item: {
@@ -59,7 +56,6 @@ const postDetails = (state = initialState, {
     }
     case EDIT_DATE: {
       return {
-        ...state,
         error: null,
         isLoading: false,
         item: {

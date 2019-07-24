@@ -6,13 +6,13 @@ export const getShortDayLongMonth = date => {
   return `${dateObj.getDate()} ${dateObj.toLocaleString('ru', { month: 'long' })}`;
 };
 
-export const getLongMonthName = date => {
+const getLongMonthName = date => {
   const dateObj = new Date(date);
 
   return `${dateObj.toLocaleString('ru', { month: 'long' })}`;
 };
 
-export const getShortDayLongWeekday = date => {
+const getShortDayLongWeekday = date => {
   const dateObj = new Date(date);
 
   return `${dateObj.getDate()}, ${dateObj.toLocaleString('ru', { weekday: 'long' })}`;
@@ -22,7 +22,7 @@ export const getTime = date => (
   `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
 );
 
-export const getFullDateLongWeekday = date => {
+const getFullDateLongWeekday = date => {
   const dateObj = new Date(date);
 
   let day = dateObj.getDate();
@@ -38,4 +38,24 @@ export const getFullDateLongWeekday = date => {
   }
 
   return `${day}.${month}.${year}, ${dateObj.toLocaleString('ru', { weekday: 'short' })}`;
+};
+
+export const formatDate = ({ date, format }) => {
+  switch (format) {
+    case 'full-date-long-weekday': {
+      return getFullDateLongWeekday(date);
+    }
+    case 'short-date-long-weekday': {
+      return getShortDayLongWeekday(date);
+    }
+    case 'long-month': {
+      return getLongMonthName(date);
+    }
+    case 'short-date-long-month': {
+      return getShortDayLongMonth(date);
+    }
+    default: {
+      return date;
+    }
+  }
 };

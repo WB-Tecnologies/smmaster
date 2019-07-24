@@ -18,6 +18,7 @@ class Calendar extends PureComponent {
     showMonthYearPicker: PropTypes.bool,
     date: PropTypes.objectOf(PropTypes.string),
     resetAllDatesOfCurrMonth: PropTypes.func,
+    format: PropTypes.string,
   };
 
   static defaultProps = {
@@ -26,6 +27,7 @@ class Calendar extends PureComponent {
     resetAllDatesOfCurrMonth: () => {},
     showMonthYearPicker: false,
     date: {},
+    format: '',
   };
 
   handleChange = date => {
@@ -40,13 +42,14 @@ class Calendar extends PureComponent {
       getFormatedDate,
       showMonthYearPicker,
       date,
+      format,
     } = this.props;
 
     return (
       <div className="calendar">
         <DatePicker
           customInput={<CalendarButton />}
-          dateFormat={getFormatedDate(date)}
+          dateFormat={getFormatedDate({ date, format })}
           locale={ru}
           selected={date}
           onChange={this.handleChange}
