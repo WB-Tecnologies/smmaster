@@ -3,12 +3,13 @@ import {
   FETCH_POST_FAILURE,
   FETCH_POST_STARTED,
   CHECK_ACCOUNT,
+  SELECT_RUBRIC,
 } from '@/constants/actionTypes';
 
 export const initialState = {
   item: {},
   error: null,
-  isLoading: false,
+  isLoading: true,
 };
 
 const postDetails = (state = initialState, { type, payload, id }) => {
@@ -47,6 +48,19 @@ const postDetails = (state = initialState, { type, payload, id }) => {
               account.isChecked = !account.isChecked;
             }
             return account;
+          }),
+        },
+      };
+    }
+    case SELECT_RUBRIC: {
+      return {
+        error: null,
+        isLoading: false,
+        item: {
+          ...state.item,
+          rubrics: state.item.rubrics.map(rubric => {
+            rubric.isSelected = rubric.id === id;
+            return rubric;
           }),
         },
       };

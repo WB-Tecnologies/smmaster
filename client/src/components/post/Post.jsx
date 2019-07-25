@@ -4,17 +4,19 @@ import PropTypes from 'prop-types';
 import shortid from 'shortid';
 
 import { getSocialIcons } from '@/helpers/socialIcons';
-import { checkAccount } from '@/actions/postDetailsActions';
+import { checkAccount, selectRubric } from '@/actions/postDetailsActions';
 
 import Portal from '@/components/portal/Portal';
 import Button from '@/components/button/Button';
 import Checkbox from '@/components/checkbox/Checkbox';
+import Select from '@/components/select/Select';
 
 import cross from '!svg-url-loader?noquotes!../../../src/assets/Cross.svg';// eslint-disable-line import/no-webpack-loader-syntax
 
 import './post.sass';
 
 const MAX_ACCOUNT_TO_SHOW = 10;
+
 
 class Post extends PureComponent {
   static propTypes = {
@@ -25,6 +27,7 @@ class Post extends PureComponent {
     onCancel: PropTypes.func,
     isLoading: PropTypes.bool,
     checkAccount: PropTypes.func.isRequired,
+    selectRubric: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -47,6 +50,12 @@ class Post extends PureComponent {
     const { checkAccount } = this.props;
 
     checkAccount(id);
+  }
+
+  handleSelect = id => {
+    const { selectRubric } = this.props;
+
+    selectRubric(id);
   }
 
   renderSocialIcon = socialMedia => {
@@ -89,6 +98,7 @@ class Post extends PureComponent {
       onCancel,
       post: {
         accounts,
+        rubrics,
       },
     } = this.props;
 
@@ -109,7 +119,9 @@ class Post extends PureComponent {
           </main>
           <aside className="post__aside">
             <div>Время публикации</div>
-            <div>Рубрика</div>
+            <div className="post__rubric">
+              <Select headerTitle="Без рубрики" dotColor="#E3E7EB" list={rubrics} onClick={this.handleSelect} />
+            </div>
             <div>Тема</div>
             <div>Примеры</div>
           </aside>
@@ -150,6 +162,7 @@ class Post extends PureComponent {
 
 const mapDispatchToProps = dispatch => ({
   checkAccount: id => dispatch(checkAccount(id)),
+  selectRubric: id => dispatch(selectRubric(id)),
 });
 
 export default connect(

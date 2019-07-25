@@ -1,0 +1,97 @@
+$hover-toggle-color: #F3F5F7
+
+$menu-bg-color: #fff
+
+$accent-color: #00AAFF
+$border-color: #E3E7EB
+$header-font-color: #3E4B64
+
+$item-font-color: #37404F
+$item-hover-bg-color: #F3F5F7
+$item-active-bg-color: #ebf8ff
+
+%arrow
+  position: absolute
+  right: 10px
+  height: 10px
+  width: 10px
+  background-image: url('../../assets/arrow-gray.svg')
+  background-position: center center
+  display: inline-block
+  transition: all .25s ease-out
+
+.select
+  position: relative
+  cursor: pointer
+
+  &__dot
+    height: 10px
+    width: 10px
+    background-color: $border-color
+    border-radius: 50%
+    display: inline-block
+    margin-right: 10px
+
+  &__header
+    position: relative
+    display: flex
+    align-items: center
+    padding: 10px
+    font-size: 12px
+    border: 1px solid $border-color
+    color: $header-font-color
+    box-sizing: border-box
+    border-radius: 5px
+    line-height: 100%
+
+    &:after
+      content: ''
+      @extend %arrow
+
+    &_active
+      border: 1px solid $accent-color
+      transition: border-color .25s ease-out
+
+      &:after
+        content: ''
+        @extend %arrow
+        transform: rotate(180deg)
+
+  &__list
+    display: flex
+    flex-direction: column
+    position: absolute
+    right: 0
+    left: 0
+    margin: 0
+    z-index: 2
+    background: $menu-bg-color
+    box-shadow: 0 4px 8px rgba(39, 40, 55, .1)
+    border-radius: 5px
+    padding: 8px 0
+
+  &__list-item
+    cursor: pointer
+    position: relative
+    font-weight: normal
+    font-size: 14px
+    line-height: 100%
+    font-style: normal
+    border: none
+    background-color: transparent
+    display: inline-block
+    text-decoration: none
+    text-align: left
+    color: $item-font-color
+    padding: 8px 15px
+    white-space: nowrap
+
+    &:hover
+      background-color: $item-hover-bg-color
+      transition: prop time
+
+    &:focus
+      outline: none
+
+    &:active
+      background-color: $item-active-bg-color

@@ -105,13 +105,15 @@ class CalendarCard extends PureComponent {
     const { postDetails, isLoading } = this.props;
 
     return (
-      <Post
-        post={postDetails}
-        isLoading={isLoading}
-        isOpen={isOpen}
-        onCancel={this.handleCancel}
-        onSubmit={this.handleSubmit}
-      />
+      isOpen && (
+        <Post
+          post={postDetails}
+          isLoading={isLoading}
+          isOpen={isOpen}
+          onCancel={this.handleCancel}
+          onSubmit={this.handleSubmit}
+        />
+      )
     );
   }
 

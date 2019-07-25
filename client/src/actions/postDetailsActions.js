@@ -3,6 +3,7 @@ import {
   FETCH_POST_FAILURE,
   FETCH_POST_STARTED,
   CHECK_ACCOUNT,
+  SELECT_RUBRIC,
 } from '@/constants/actionTypes';
 
 import { API } from '@/helpers/requests';
@@ -34,5 +35,10 @@ export function fetchPost() {
 
 export const checkAccount = id => ({
   type: CHECK_ACCOUNT,
+  id,
+});
+
+export const selectRubric = id => ({
+  type: SELECT_RUBRIC,
   id,
 });
