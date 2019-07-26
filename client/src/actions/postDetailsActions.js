@@ -3,6 +3,7 @@ import {
   FETCH_POST_FAILURE,
   FETCH_POST_STARTED,
   CHECK_ACCOUNT,
+  EDIT_DATE,
 } from '@/constants/actionTypes';
 
 import { API } from '@/helpers/requests';
@@ -35,4 +36,9 @@ export function fetchPost() {
 export const checkAccount = id => ({
   type: CHECK_ACCOUNT,
   id,
+});
+
+export const editDate = date => ({
+  type: EDIT_DATE,
+  date,
 });

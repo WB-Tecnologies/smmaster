@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { getFormatedDateWithoutYear } from '@helpers/formatDate';
+import { formatDate } from '@helpers/formatDate';
 import { getZeroDate } from '@helpers/utils';
 
 import Button from '@components/button/Button';
@@ -35,7 +35,7 @@ class CalendarCell extends PureComponent {
 
   getCalendarDay = day => (
     (day.getDate() === 1)
-      ? (<div className="calendar-cell__day calendar-cell__day_first-day">{getFormatedDateWithoutYear(day)}</div>)
+      ? (<div className="calendar-cell__day calendar-cell__day_first-day">{formatDate({ date: day, format: 'short-date-long-month' })}</div>)
       : (<div className="calendar-cell__day">{String(day.getDate()).padStart(2, '0')}</div>)
   )
 

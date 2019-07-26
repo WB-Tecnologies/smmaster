@@ -1,19 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import configureStore from 'redux-mock-store';
 
-import CalendarCard from '../../../src/components/calendar-card/CalendarCard';
+import CalendarCard from '../../../src/components/calendar-view/calendar-card/CalendarCard';
 
 describe('CalendarCard component', () => {
-  const initialState = {
-    postDetails: {
-      items: {},
-      error: null,
-      loading: false,
-    },
-  };
-  const mockStore = configureStore();
-  let store;
   let container;
   let props;
 
@@ -31,8 +21,8 @@ describe('CalendarCard component', () => {
       time: new Date(),
       className: 'class',
     };
-    store = mockStore(initialState);
-    container = shallow(<CalendarCard store={store} {...props} />);
+
+    container = shallow(<CalendarCard {...props} />);
   });
   it('should render CalendarCard component', () => {
     expect(container.exists()).toBe(true);

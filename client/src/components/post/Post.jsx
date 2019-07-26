@@ -4,11 +4,13 @@ import PropTypes from 'prop-types';
 import shortid from 'shortid';
 
 import { getSocialIcons } from '@/helpers/socialIcons';
-import { checkAccount } from '@/actions/postDetailsActions';
+import { formatDate } from '@/helpers/formatDate';
+import { fetchPost, checkAccount, editDate } from '@/actions/postDetailsActions';
 
 import Portal from '@/components/portal/Portal';
 import Button from '@/components/button/Button';
 import Checkbox from '@/components/checkbox/Checkbox';
+import DateEditorCalendar from '@/components/calendar/date-editor-calendar/DateEditorCalendar';
 
 import cross from '!svg-url-loader?noquotes!../../../src/assets/Cross.svg';// eslint-disable-line import/no-webpack-loader-syntax
 
@@ -18,23 +20,26 @@ const MAX_ACCOUNT_TO_SHOW = 10;
 
 class Post extends PureComponent {
   static propTypes = {
-    post: PropTypes.shape({
+    fetchPost: PropTypes.func.isRequired,
+    postDetails: PropTypes.shape({
+      id: PropTypes.string,
+      date: PropTypes.objectOf(PropTypes.string),
       accounts: PropTypes.arrayOf(PropTypes.object),
     }),
+    isLoading: PropTypes.bool.isRequired,
     isOpen: PropTypes.bool,
     onCancel: PropTypes.func,
-    isLoading: PropTypes.bool,
     checkAccount: PropTypes.func.isRequired,
+    editDate: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    post: {
+    postDetails: {
       rubricColor: '#E3E7EB',
       accounts: [],
     },
     onCancel: () => {},
     isOpen: false,
-    isLoading: false,
   };
 
   constructor(props) {
@@ -43,10 +48,28 @@ class Post extends PureComponent {
     this.socialIcons = getSocialIcons({ size: 16 });
   }
 
+  componentDidMount() {
+    const { fetchPost } = this.props;
+
+    fetchPost();
+  }
+
   handleCheck = id => {
     const { checkAccount } = this.props;
 
     checkAccount(id);
+  }
+
+  handleDate = date => {
+    const { editDate } = this.props;
+
+    editDate(date);
+  }
+
+  handleTime = date => {
+    const { editDate } = this.props;
+
+    editDate(date);
   }
 
   renderSocialIcon = socialMedia => {
@@ -87,7 +110,8 @@ class Post extends PureComponent {
   renderPostContent = () => {
     const {
       onCancel,
-      post: {
+      postDetails: {
+        date,
         accounts,
       },
     } = this.props;
@@ -108,7 +132,27 @@ class Post extends PureComponent {
             <p>text</p>
           </main>
           <aside className="post__aside">
-            <div>Время публикации</div>
+            <div className="post__publish">
+              <h4 className="post__publish-title">Время публикации</h4>
+              <DateEditorCalendar
+                date={new Date(date)}
+                onChange={this.handleDate}
+                getFormatedDate={formatDate}
+                format="full-date-long-weekday"
+                className="post__publish-date"
+              />
+              <DateEditorCalendar
+                date={new Date(date)}
+                onChange={this.handleTime}
+                className="post__publish-time"
+                timeIntervals={60}
+                timeFormat="HH:mm"
+                showTimeSelect
+                showTimeSelectOnly
+                timeCaption="Время"
+                getFormatedDate={() => 'HH:mm'}
+              />
+            </div>
             <div>Рубрика</div>
             <div>Тема</div>
             <div>Примеры</div>
@@ -148,11 +192,18 @@ class Post extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  postDetails: state.postDetails.item,
+  isLoading: state.postDetails.isLoading,
+});
+
 const mapDispatchToProps = dispatch => ({
   checkAccount: id => dispatch(checkAccount(id)),
+  editDate: date => dispatch(editDate(date)),
+  fetchPost: () => dispatch(fetchPost()),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(Post);

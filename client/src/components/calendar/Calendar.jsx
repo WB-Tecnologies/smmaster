@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import PropTypes from 'prop-types';
+import ru from 'date-fns/locale/ru';
 
 import { setCurrentDate } from '@/actions/currentDateActions';
 
@@ -17,6 +18,7 @@ class Calendar extends PureComponent {
     showMonthYearPicker: PropTypes.bool,
     date: PropTypes.objectOf(PropTypes.string),
     resetAllDatesOfCurrMonth: PropTypes.func,
+    format: PropTypes.string,
   };
 
   static defaultProps = {
@@ -25,6 +27,7 @@ class Calendar extends PureComponent {
     resetAllDatesOfCurrMonth: () => {},
     showMonthYearPicker: false,
     date: {},
+    format: '',
   };
 
   handleChange = date => {
@@ -35,13 +38,19 @@ class Calendar extends PureComponent {
   }
 
   render() {
-    const { getFormatedDate, showMonthYearPicker, date } = this.props;
+    const {
+      getFormatedDate,
+      showMonthYearPicker,
+      date,
+      format,
+    } = this.props;
 
     return (
       <div className="calendar">
         <DatePicker
           customInput={<CalendarButton />}
-          dateFormat={getFormatedDate(date)}
+          dateFormat={getFormatedDate({ date, format })}
+          locale={ru}
           selected={date}
           onChange={this.handleChange}
           name="startDate"

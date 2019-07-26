@@ -1,52 +1,61 @@
 import '@/helpers/polifills';
 
-export const getFormatedDateWithoutYear = date => {
-  const monthNames = [
-    'Января',
-    'Февраля',
-    'Марта',
-    'Апреля',
-    'Мая',
-    'Июня',
-    'Июля',
-    'Августа',
-    'Сентября',
-    'Октября',
-    'Ноября',
-    'Декабря',
-  ];
+export const getShortDayLongMonth = date => {
   const dateObj = new Date(date);
 
-  return `${dateObj.getDate()} ${monthNames[dateObj.getMonth()]}`;
+  return `${dateObj.getDate()} ${dateObj.toLocaleString('ru', { month: 'long' })}`;
 };
 
-export const getFormatedDate = date => {
-  const monthNames = [
-    'Январь',
-    'Февраль',
-    'Март',
-    'Апрель',
-    'Май',
-    'Июнь',
-    'Июль',
-    'Август',
-    'Сентябрь',
-    'Октябрь',
-    'Ноябрь',
-    'Декабрь',
-  ];
+const getLongMonthName = date => {
   const dateObj = new Date(date);
 
-  return `${monthNames[dateObj.getMonth()]}`;
+  return `${dateObj.toLocaleString('ru', { month: 'long' })}`;
 };
 
-export const getDayWithWeekdayName = date => {
-  const weekdays = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
+const getShortDayLongWeekday = date => {
   const dateObj = new Date(date);
 
-  return `${dateObj.getDate()}, ${weekdays[dateObj.getDay()]}`;
+  return `${dateObj.getDate()}, ${dateObj.toLocaleString('ru', { weekday: 'long' })}`;
 };
 
 export const getTime = date => (
   `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
 );
+
+const getFullDateLongWeekday = date => {
+  const dateObj = new Date(date);
+
+  let day = dateObj.getDate();
+  let month = dateObj.getMonth() + 1;
+  const year = dateObj.getFullYear();
+
+  if (day < 10) {
+    day = `0${day}`;
+  }
+
+  if (month < 10) {
+    month = `0${month}`;
+  }
+
+  return `${day}.${month}.${year}, ${dateObj.toLocaleString('ru', { weekday: 'short' })}`;
+};
+
+export const formatDate = ({ date, format }) => {
+  switch (format) {
+    case 'full-date-long-weekday': {
+      return getFullDateLongWeekday(date);
+    }
+    case 'short-date-long-weekday': {
+      return getShortDayLongWeekday(date);
+    }
+    case 'long-month': {
+      return getLongMonthName(date);
+    }
+    case 'short-date-long-month': {
+      return getShortDayLongMonth(date);
+    }
+    default: {
+      return date;
+    }
+  }
+};

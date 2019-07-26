@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { fetchPosts } from '@actions/contentPlanActions';
-import { getFormatedDate } from '@helpers/formatDate';
+import { formatDate } from '@helpers/formatDate';
 
 import CalendarView from '@components/calendar-view/CalendarView';
 import ListView from '@components/list-view/ListView';
@@ -46,8 +46,8 @@ class ContentPlanContainer extends PureComponent {
   getContentHeader = () => (
     <div>
       <Calendar
-        getFormatedDate={getFormatedDate}
-        onChange={this.handleCalendar}
+        getFormatedDate={formatDate}
+        format="long-month"
         showMonthYearPicker
         resetAllDatesOfCurrMonth={this.resetAllDatesOfCurrMonth}
       />

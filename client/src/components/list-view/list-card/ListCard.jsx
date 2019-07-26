@@ -6,6 +6,7 @@ import shortid from 'shortid';
 import TextTruncate from 'react-text-truncate';
 
 import { getTime } from '@/helpers/formatDate';
+import { getSocialIcons } from '@/helpers/socialIcons';
 
 import Button from '@components/button/Button';
 import {
@@ -16,8 +17,6 @@ import {
 } from '@/components/button-dropdown/ButtonDropdown';
 
 import verticalDots from '!svg-url-loader?noquotes!../../../../src/assets/verticalDots.svg';// eslint-disable-line import/no-webpack-loader-syntax
-
-import { getSocialIcons } from './socialIcons';
 
 // while doesn't have backend
 import pic1 from '@/assets/pic1.png';
@@ -56,7 +55,7 @@ class ListCard extends PureComponent {
   };
 
   renderSocialIcon = socialMedia => {
-    const socialIcons = getSocialIcons(16);
+    const socialIcons = getSocialIcons({ size: 16 });
     if (socialMedia in socialIcons) {
       return <span className="list-card__account-social-icon">{socialIcons[socialMedia]}</span>;
     }

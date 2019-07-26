@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { getDayWithWeekdayName } from '@helpers/formatDate';
+import { formatDate } from '@helpers/formatDate';
 
 import Button from '@components/button/Button';
 import AddThemeInput from '@components/add-theme-input/AddThemeInput';
@@ -32,7 +32,7 @@ class ListCell extends PureComponent {
   }
 
   getCalendarDay = day => (
-    <div className={`list-cell__day ${this.isTodayDate() ? 'list-cell__day_today' : ''}`}>{getDayWithWeekdayName(day)}</div>
+    <div className={`list-cell__day ${this.isTodayDate() ? 'list-cell__day_today' : ''}`}>{formatDate({ date: day, format: 'short-date-long-weekday' })}</div>
   )
 
   handleCellBtn = () => {
