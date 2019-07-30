@@ -11,6 +11,7 @@ import Portal from '@/components/portal/Portal';
 import Button from '@/components/button/Button';
 import Checkbox from '@/components/checkbox/Checkbox';
 import DateEditorCalendar from '@/components/calendar/date-editor-calendar/DateEditorCalendar';
+import ImageDropLoader from '@/components/image-drop-loader/ImageDropLoader';
 
 import cross from '!svg-url-loader?noquotes!../../../src/assets/Cross.svg';// eslint-disable-line import/no-webpack-loader-syntax
 
@@ -107,6 +108,10 @@ class Post extends PureComponent {
     );
   };
 
+  renderImages = () => (
+    <ImageDropLoader />
+  )
+
   renderPostContent = () => {
     const {
       onCancel,
@@ -130,6 +135,9 @@ class Post extends PureComponent {
         <div className="post__body">
           <main className="post__content">
             <p>text</p>
+            <div>
+              {this.renderImages()}
+            </div>
           </main>
           <aside className="post__aside">
             <div className="post__publish">
