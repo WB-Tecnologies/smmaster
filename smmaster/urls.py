@@ -25,6 +25,6 @@ urlpatterns = [
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
-        url(r'^', TemplateView.as_view(template_name='index.html')),
+        url(r'^$', TemplateView.as_view(template_name='index.html')),
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
