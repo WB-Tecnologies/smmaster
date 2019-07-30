@@ -194,6 +194,7 @@ class CalendarView extends PureComponent {
   }
 
   handleScroll = ({ target }) => {
+    if (!this.calendarViewContent.contains(target)) return;
     if (target.scrollHeight - target.scrollTop === target.clientHeight) {
       this.handleScrollToBottom();
     }

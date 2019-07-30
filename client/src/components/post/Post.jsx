@@ -17,6 +17,7 @@ import Button from '@/components/button/Button';
 import Checkbox from '@/components/checkbox/Checkbox';
 import DateEditorCalendar from '@/components/calendar/date-editor-calendar/DateEditorCalendar';
 import Select from '@/components/select/Select';
+import Sample from '@/components/sample/Sample';
 
 import cross from '!svg-url-loader?noquotes!../../../src/assets/Cross.svg';// eslint-disable-line import/no-webpack-loader-syntax
 
@@ -86,6 +87,14 @@ class Post extends PureComponent {
     selectRubric(id);
   }
 
+  renderSamples = samples => {
+    return (
+      samples.map(sample => (
+        <Sample content={sample} key={sample.id} />
+      ))
+    );
+  }
+
   renderSocialIcon = socialMedia => {
     if (socialMedia in this.socialIcons) {
       return <span className="post__account-social-icon">{this.socialIcons[socialMedia]}</span>;
@@ -128,6 +137,7 @@ class Post extends PureComponent {
         date,
         accounts,
         rubrics,
+        samples,
       },
     } = this.props;
 
@@ -173,7 +183,10 @@ class Post extends PureComponent {
               <Select headerTitle="Без рубрики" dotColor="#E3E7EB" list={rubrics} onClick={this.handleSelect} />
             </div>
             <div>Тема</div>
-            <div>Примеры</div>
+            <div className="post__samples">
+              <h4 className="post__aside-title">Примеры</h4>
+              {this.renderSamples(samples)}
+            </div>
           </aside>
         </div>
         <footer className="post__footer">
