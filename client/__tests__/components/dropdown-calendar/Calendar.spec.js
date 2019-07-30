@@ -20,7 +20,6 @@ describe('Calendar component', () => {
     };
     store = mockStore(initialState);
     container = shallow(<Calendar store={store} {...props} />);
-    console.log(container.debug())
   });
 
   it('should render the connected(SMART) component', () => {
