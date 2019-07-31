@@ -5,12 +5,19 @@ import shortid from 'shortid';
 
 import { getSocialIcons } from '@/helpers/socialIcons';
 import { formatDate } from '@/helpers/formatDate';
-import { fetchPost, checkAccount, editDate } from '@/actions/postDetailsActions';
+import {
+  fetchPost,
+  checkAccount,
+  editDate,
+  selectRubric,
+} from '@/actions/postDetailsActions';
 
 import Portal from '@/components/portal/Portal';
 import Button from '@/components/button/Button';
 import Checkbox from '@/components/checkbox/Checkbox';
 import DateEditorCalendar from '@/components/calendar/date-editor-calendar/DateEditorCalendar';
+import Select from '@/components/select/Select';
+import Sample from '@/components/sample/Sample';
 
 import cross from '!svg-url-loader?noquotes!../../../src/assets/Cross.svg';// eslint-disable-line import/no-webpack-loader-syntax
 
@@ -18,12 +25,13 @@ import './post.sass';
 
 const MAX_ACCOUNT_TO_SHOW = 10;
 
+
 class Post extends PureComponent {
   static propTypes = {
     fetchPost: PropTypes.func.isRequired,
     postDetails: PropTypes.shape({
       id: PropTypes.string,
-      date: PropTypes.objectOf(PropTypes.string),
+      date: PropTypes.string,
       accounts: PropTypes.arrayOf(PropTypes.object),
     }),
     isLoading: PropTypes.bool.isRequired,
@@ -31,6 +39,7 @@ class Post extends PureComponent {
     onCancel: PropTypes.func,
     checkAccount: PropTypes.func.isRequired,
     editDate: PropTypes.func.isRequired,
+    selectRubric: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -70,6 +79,20 @@ class Post extends PureComponent {
     const { editDate } = this.props;
 
     editDate(date);
+  }
+
+  handleSelect = id => {
+    const { selectRubric } = this.props;
+
+    selectRubric(id);
+  }
+
+  renderSamples = samples => {
+    return (
+      samples.map(sample => (
+        <Sample content={sample} key={sample.id} />
+      ))
+    );
   }
 
   renderSocialIcon = socialMedia => {
@@ -113,6 +136,8 @@ class Post extends PureComponent {
       postDetails: {
         date,
         accounts,
+        rubrics,
+        samples,
       },
     } = this.props;
 
@@ -133,7 +158,7 @@ class Post extends PureComponent {
           </main>
           <aside className="post__aside">
             <div className="post__publish">
-              <h4 className="post__publish-title">Время публикации</h4>
+              <h4 className="post__aside-title">Время публикации</h4>
               <DateEditorCalendar
                 date={new Date(date)}
                 onChange={this.handleDate}
@@ -153,9 +178,15 @@ class Post extends PureComponent {
                 getFormatedDate={() => 'HH:mm'}
               />
             </div>
-            <div>Рубрика</div>
+            <div className="post__rubric">
+              <h4 className="post__aside-title">Рубрика</h4>
+              <Select headerTitle="Без рубрики" dotColor="#E3E7EB" list={rubrics} onClick={this.handleSelect} />
+            </div>
             <div>Тема</div>
-            <div>Примеры</div>
+            <div className="post__samples">
+              <h4 className="post__aside-title">Примеры</h4>
+              {this.renderSamples(samples)}
+            </div>
           </aside>
         </div>
         <footer className="post__footer">
@@ -198,9 +229,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  fetchPost: () => dispatch(fetchPost()),
   checkAccount: id => dispatch(checkAccount(id)),
   editDate: date => dispatch(editDate(date)),
-  fetchPost: () => dispatch(fetchPost()),
+  selectRubric: id => dispatch(selectRubric(id)),
 });
 
 export default connect(
