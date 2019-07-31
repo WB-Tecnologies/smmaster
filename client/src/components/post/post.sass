@@ -6,6 +6,8 @@ $container-padding: 20px
 $title-font-color: #828f9f
 $border-color: #E3E7EB
 
+$aside-title-font-color: #828F9F
+
 .post-overlay
   z-index: 10
   background-color: rgba($accent-color, 0.7)
@@ -28,6 +30,7 @@ $border-color: #E3E7EB
     display: flex
     flex-direction: column
     height: 100vh
+    overflow-y: scroll
 
   &__spinner
     position: absolute
@@ -108,14 +111,17 @@ $border-color: #E3E7EB
   &__aside
     padding-left: $container-padding
 
-  &__publish
-
     &-title
-      margin: 0
       font-size: 12px
-      line-height: 100%
+      color: $aside-title-font-color
+      margin: 0
       padding-bottom: 5px
-      color: $title-font-color
+
+  &__publish,
+  &__rubric
+    margin-bottom: 20px
+
+  &__publish
 
     &-date,
     &-time

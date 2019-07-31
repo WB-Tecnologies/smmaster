@@ -89,6 +89,7 @@ class CalendarCard extends PureComponent {
 
   renderPost = () => {
     const { isOpen } = this.state;
+
     return (
       isOpen && (
         <Post

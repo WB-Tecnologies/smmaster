@@ -4,6 +4,7 @@ import {
   FETCH_POST_STARTED,
   CHECK_ACCOUNT,
   EDIT_DATE,
+  SELECT_RUBRIC,
 } from '@/constants/actionTypes';
 
 import { API } from '@/helpers/requests';
@@ -41,4 +42,9 @@ export const checkAccount = id => ({
 export const editDate = date => ({
   type: EDIT_DATE,
   date,
+});
+
+export const selectRubric = id => ({
+  type: SELECT_RUBRIC,
+  id,
 });
