@@ -10,6 +10,7 @@ import {
   checkAccount,
   editDate,
   selectRubric,
+  editPostText,
 } from '@/actions/postDetailsActions';
 
 import Portal from '@/components/portal/Portal';
@@ -41,6 +42,7 @@ class Post extends PureComponent {
     checkAccount: PropTypes.func.isRequired,
     editDate: PropTypes.func.isRequired,
     selectRubric: PropTypes.func.isRequired,
+    editPostText: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -141,6 +143,7 @@ class Post extends PureComponent {
         rubrics,
         samples,
       },
+      editPostText,
     } = this.props;
 
     return (
@@ -156,9 +159,15 @@ class Post extends PureComponent {
         </div>
         <div className="post__body">
           <main className="post__content">
-            <TextEditor
-              text={text}
-            />
+            <div className="post__text-editor">
+              <TextEditor
+                text={text}
+                editPostText={editPostText}
+              />
+            </div>
+            <div className="post__content-footer">
+              img gallery
+            </div>
           </main>
           <aside className="post__aside">
             <div className="post__publish">
@@ -237,6 +246,7 @@ const mapDispatchToProps = dispatch => ({
   checkAccount: id => dispatch(checkAccount(id)),
   editDate: date => dispatch(editDate(date)),
   selectRubric: id => dispatch(selectRubric(id)),
+  editPostText: text => dispatch(editPostText(text)),
 });
 
 export default connect(

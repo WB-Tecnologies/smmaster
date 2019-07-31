@@ -10,21 +10,22 @@ import './text-editor.sass';
 
 const Inline = Quill.import('blots/inline');
 
-class SpanBlock extends Inline {
+class EmBlock extends Inline {
   static create() {
     const node = super.create();
-    node.setAttribute('class', 'glvrd-underline');
+    node.setAttribute('class', 'glvrd-hint');
     return node;
   }
 }
 
-SpanBlock.blotName = 'glvrd-underline';
-SpanBlock.tagName = 'em';
-Quill.register(SpanBlock);
+EmBlock.blotName = 'glvrd-hint';
+EmBlock.tagName = 'em';
+Quill.register(EmBlock);
 
 class TextEditor extends Component {
   static propTypes = {
     text: PropTypes.string,
+    editPostText: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -43,6 +44,7 @@ class TextEditor extends Component {
 
   componentDidMount() {
     const { text } = this.props;
+
     getProofread(text, fragments => {
       this.setState({ hints: fragments });
     });
@@ -54,35 +56,44 @@ class TextEditor extends Component {
 
     hints.forEach(({ start, end }) => {
       const range = { index: start, length: end - start };
-      editor.formatText(range, 'glvrd-underline', 'api');
+      editor.formatText(range, 'glvrd-hint', 'api');
     });
 
     this.addListeners();
   }
 
-  handleChange = (text, delta, source) => {
-    // eslint-disable-next-line no-useless-return
+  handleChange = (text, delta, source, editor) => {
+    const { editPostText } = this.props;
+
     if (!this.reactQuillRef || source === 'api') return;
 
-    // action to save text editPostText(text)
+    editPostText(text);
+    getProofread(editor.getText(), fragments => {
+      this.setState({ hints: fragments });
+    });
   }
 
   addListeners = () => {
-    const qr = document.querySelectorAll('.glvrd-underline');
+    const glvrdHint = document.querySelectorAll('.glvrd-hint');
     const { hints } = this.state;
 
-    qr.forEach((item, index) => {
-      item.setAttribute('data-index', index);
-      item.addEventListener('mouseenter', ({ target }) => {
+    glvrdHint.forEach((hint, index) => {
+      hint.setAttribute('data-index', index);
+      hint.addEventListener('mouseenter', ({ target }) => {
+        const { isVisibleHint } = this.state;
+
+        if (isVisibleHint) return;
+
         const currentIndex = parseInt(target.getAttribute('data-index'), 10);
         const newPosition = { top: target.offsetTop, left: target.offsetLeft };
+
         this.setState({
           hintContent: hints[currentIndex].hint.description,
           isVisibleHint: true,
           hintPosition: newPosition,
         });
       });
-      item.addEventListener('mouseout', () => {
+      hint.addEventListener('mouseleave', () => {
         this.setState({ isVisibleHint: false });
       });
     });
