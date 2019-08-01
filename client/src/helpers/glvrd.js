@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 export const getProofread = (text, callback) => {
   window.glvrd.proofread(text, result => {
     if (result.status === 'ok') {
