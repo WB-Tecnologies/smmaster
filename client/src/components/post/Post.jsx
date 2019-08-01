@@ -34,6 +34,7 @@ class Post extends PureComponent {
       id: PropTypes.string,
       date: PropTypes.string,
       accounts: PropTypes.arrayOf(PropTypes.object),
+      attachments: PropTypes.arrayOf(PropTypes.object),
     }),
     isLoading: PropTypes.bool.isRequired,
     isOpen: PropTypes.bool,
@@ -47,6 +48,7 @@ class Post extends PureComponent {
     postDetails: {
       rubricColor: '#E3E7EB',
       accounts: [],
+      attachments: [],
     },
     onCancel: () => {},
     isOpen: false,
@@ -131,8 +133,10 @@ class Post extends PureComponent {
     );
   };
 
-  renderImages = () => (
-    <ImageDropLoader />
+  renderImages = attachments => (
+    attachments.map(({ path }) => (
+      path && <img src={path} alt="img" className="post__attachment" />
+    ))
   )
 
   renderPostContent = () => {
@@ -143,6 +147,7 @@ class Post extends PureComponent {
         accounts,
         rubrics,
         samples,
+        attachments,
       },
     } = this.props;
 
@@ -160,8 +165,11 @@ class Post extends PureComponent {
         <div className="post__body">
           <main className="post__content">
             <p>text</p>
-            <div>
-              {this.renderImages()}
+            <div className="post__content-footer">
+              <div className="post__attachments">
+                {this.renderImages(attachments)}
+                <ImageDropLoader />
+              </div>
             </div>
           </main>
           <aside className="post__aside">

@@ -107,6 +107,21 @@ $aside-title-font-color: #828F9F
     box-shadow: 0 2px 4px rgba(39, 40, 55, .1)
     border-radius: 5px
 
+  &__attachments
+    display: flex
+    flex-wrap: wrap
+    justify-content: flex-start
+
+  &__attachment
+    width: 60px
+    height: 60px
+    //temp size of img, means backend image cropping
+    display: block
+    max-width: 100%
+    border-radius: 5px
+    overflow: hidden
+    margin-right: 10px
+
   &__aside
     padding-left: $container-padding
 
