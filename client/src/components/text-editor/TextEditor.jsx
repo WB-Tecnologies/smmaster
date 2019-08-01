@@ -48,6 +48,9 @@ class TextEditor extends Component {
     getProofread(text, fragments => {
       this.setState({ hints: fragments });
     });
+
+    const quill = document.querySelector('.ql-editor');
+    quill.addEventListener('mousemove', this.handleMouseMove);
   }
 
   componentDidUpdate() {
@@ -59,7 +62,7 @@ class TextEditor extends Component {
       editor.formatText(range, 'glvrd-hint', 'api');
     });
 
-    this.addListeners();
+    this.setDataIndices();
   }
 
   handleChange = (text, delta, source, editor) => {
@@ -73,29 +76,30 @@ class TextEditor extends Component {
     });
   }
 
-  addListeners = () => {
+  setDataIndices = () => {
     const glvrdHint = document.querySelectorAll('.glvrd-hint');
-    const { hints } = this.state;
 
     glvrdHint.forEach((hint, index) => {
       hint.setAttribute('data-index', index);
-      hint.addEventListener('mouseenter', ({ target }) => {
-        const { isVisibleHint } = this.state;
+    });
+  }
 
-        if (isVisibleHint) return;
+  handleMouseMove = ({ target }) => {
+    if (target.tagName !== 'EM') {
+      this.setState({ isVisibleHint: false });
+      return;
+    }
+    const { isVisibleHint, hints } = this.state;
 
-        const currentIndex = parseInt(target.getAttribute('data-index'), 10);
-        const newPosition = { top: target.offsetTop, left: target.offsetLeft };
+    if (isVisibleHint) return;
 
-        this.setState({
-          hintContent: hints[currentIndex].hint.description,
-          isVisibleHint: true,
-          hintPosition: newPosition,
-        });
-      });
-      hint.addEventListener('mouseleave', () => {
-        this.setState({ isVisibleHint: false });
-      });
+    const currentIndex = parseInt(target.getAttribute('data-index'), 10);
+    const newPosition = { top: target.offsetTop, left: target.offsetLeft };
+
+    this.setState({
+      hintContent: hints[currentIndex].hint.description,
+      isVisibleHint: true,
+      hintPosition: newPosition,
     });
   }
 
