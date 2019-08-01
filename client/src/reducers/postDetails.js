@@ -4,6 +4,7 @@ import {
   FETCH_POST_STARTED,
   CHECK_ACCOUNT,
   EDIT_DATE,
+  SELECT_RUBRIC,
 } from '@/constants/actionTypes';
 
 export const initialState = {
@@ -61,6 +62,19 @@ const postDetails = (state = initialState, {
         item: {
           ...state.item,
           date: String(date),
+        },
+      };
+    }
+    case SELECT_RUBRIC: {
+      return {
+        error: null,
+        isLoading: false,
+        item: {
+          ...state.item,
+          rubrics: state.item.rubrics.map(rubric => {
+            rubric.isSelected = rubric.id === id;
+            return rubric;
+          }),
         },
       };
     }
