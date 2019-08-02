@@ -6,6 +6,8 @@ $container-padding: 20px
 $title-font-color: #828f9f
 $border-color: #E3E7EB
 
+$attachment-btn-color: #37404F
+
 $aside-title-font-color: #828F9F
 
 .post-overlay
@@ -109,18 +111,36 @@ $aside-title-font-color: #828F9F
 
   &__attachments
     display: flex
-    flex-wrap: wrap
+    flex-flow: row wrap
     justify-content: flex-start
+    height: 140px
 
   &__attachment
-    width: 60px
-    height: 60px
-    //temp size of img, means backend image cropping
-    display: block
-    max-width: 100%
-    border-radius: 5px
-    overflow: hidden
-    margin-right: 10px
+    position: relative
+
+    &-img
+      width: 60px
+      height: 60px
+      //temp size of img, means backend image cropping
+      display: block
+      max-width: 100%
+      border-radius: 5px
+      overflow: hidden
+      margin-right: 10px
+
+    &-btn
+      position: absolute
+      top: 5px
+      right: 15px
+      width: 20px
+      height: 20px
+      background: $attachment-btn-color
+      opacity: .85
+      padding: 3px
+
+      &:hover
+        background: $attachment-btn-color
+        opacity: 1
 
   &__aside
     padding-left: $container-padding

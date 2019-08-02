@@ -2,27 +2,28 @@
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 import plus from '!svg-url-loader?noquotes!../../../src/assets/plus.svg';// eslint-disable-line import/no-webpack-loader-syntax
 
 import './image-drop-loader.sass';
 
-const imageMaxSize = 1000000000; // bytes
+const imageMaxSize = 10000000; // bytes
 const acceptedFileTypes = 'image/x-png, image/png, image/jpg, image/jpeg, image/gif';
 const acceptedFileTypesArray = acceptedFileTypes.split(',').map(item => item.trim());
 
-export default function ImageDropLoader() {
+export default function ImageDropLoader({ loadImage }) {
   const verifyFile = files => {
     if (files && files.length > 0) {
       const currentFile = files[0];
       const currentFileType = currentFile.type;
       const currentFileSize = currentFile.size;
       if (currentFileSize > imageMaxSize) {
-        alert(`This file is not allowed. ${currentFileSize} bytes is too large`);
+        alert(`Превышен лимит максимального размера файла ${currentFileSize} bytes. Максимально допустимый размер - 10MB`);
         return false;
       }
       if (!acceptedFileTypesArray.includes(currentFileType)) {
-        alert('This file is not allowed. Only images are allowed');
+        alert('Данный файл недопустим. Допустимы такие форматы изображения: x-png, png, jpg, jpeg, gif');
         return false;
       }
       return true;
@@ -37,11 +38,15 @@ export default function ImageDropLoader() {
     if (files && files.length > 0) {
       const isVerified = verifyFile(files);
       if (isVerified) {
+        // imageBase64Data
         const currentFile = files[0];
         const myFileItemReader = new FileReader();
-        console.log(currentFile);
+        myFileItemReader.addEventListener('load', () => {
+          loadImage(myFileItemReader.result);
+        }, false);
+
         myFileItemReader.readAsDataURL(currentFile);
-      };
+      }
     }
   }, []);
 
@@ -53,16 +58,22 @@ export default function ImageDropLoader() {
   );
 
   return (
-    <>
-      <div {...getRootProps({ className: classes })}>
-        <input
-          {...getInputProps()}
-          accept={acceptedFileTypes}
-          multiple={false}
-          maxSize={imageMaxSize}
-        />
-        <img src={plus} alt="Drag 'n' drop some files here, or click to select files" />
-      </div>
-    </>
+    <div {...getRootProps({ className: classes })}>
+      <input
+        {...getInputProps()}
+        accept={acceptedFileTypes}
+        multiple={false}
+        maxsize={imageMaxSize}
+      />
+      <img src={plus} alt="Drag 'n' drop some files here, or click to select files" />
+    </div>
   );
 }
+
+ImageDropLoader.propTypes = {
+  loadImage: PropTypes.func,
+};
+
+ImageDropLoader.defaultProps = {
+  loadImage: () => {},
+};

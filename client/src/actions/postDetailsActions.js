@@ -5,9 +5,8 @@ import {
   CHECK_ACCOUNT,
   EDIT_DATE,
   SELECT_RUBRIC,
-  LOAD_IMAGE_SUCCESS,
-  LOAD_IMAGE_FAILURE,
-  LOAD_IMAGE_STARTED,
+  LOAD_IMAGE,
+  REMOVE_IMAGE,
 } from '@/constants/actionTypes';
 
 import { API } from '@/helpers/requests';
@@ -52,27 +51,12 @@ export const selectRubric = id => ({
   id,
 });
 
-const loadImageSuccess = post => ({
-  type: LOAD_IMAGE_SUCCESS,
-  payload: { post },
+export const loadImage = img => ({
+  type: LOAD_IMAGE,
+  img,
 });
 
-const loadImageFailure = error => ({
-  type: LOAD_IMAGE_FAILURE,
-  payload: { error },
+export const removeImage = id => ({
+  type: REMOVE_IMAGE,
+  id,
 });
-
-const loadImageStarted = () => ({
-  type: LOAD_IMAGE_STARTED,
-});
-
-export function loadImage() {
-  return dispatch => {
-    dispatch(loadImageStarted());
-    return API.setPostAttachments()
-      .then(({ attachments }) => {
-        dispatch(loadImageSuccess(attachments));
-      })
-      .catch(error => dispatch(loadImageFailure(error.message)));
-  };
-}
