@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'raven.contrib.django.raven_compat',
 
     # Custom apps
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -167,6 +168,7 @@ broker_connection_link = 'redis://localhost:6379/0'
 BROKER_URL = CELERY_RESULT_BACKEND = broker_connection_link
 CELERY_ACCEPT_CONTENT = ('json', )
 
+AUTH_USER_MODEL = 'accounts.User'
 
 LOGGING = {
     'version': 1,
