@@ -48,9 +48,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     # 3rd party
-    'compressor',
-    'migraph',
-    'eraserhead.apps.EraserheadConfig',
     'debug_toolbar',
 
     'raven.contrib.django.raven_compat',
