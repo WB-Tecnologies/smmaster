@@ -53,7 +53,7 @@ Vagrant.configure(2) do |config|
     http://#{ip_address}/site-management
     or over ssh with `vagrant ssh`
     Admin user credentials:
-      login: root
+      login: root@example.org
       password: 123123
   "
 
