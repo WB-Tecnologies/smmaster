@@ -157,8 +157,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'webroot', 'media')
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder', )
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',)
 
 SITE_ID = 1
 
@@ -168,12 +167,6 @@ broker_connection_link = 'redis://localhost:6379/0'
 BROKER_URL = CELERY_RESULT_BACKEND = broker_connection_link
 CELERY_ACCEPT_CONTENT = ('json', )
 
-
-COMPRESS_ENABLED = True
-COMPRESS_OFFLINE = True
-
-ERASERHEAD_ENABLED = False
-ERASERHEAD_TRACEBACK_BASE_PATH = BASE_DIR
 
 LOGGING = {
     'version': 1,
@@ -206,10 +199,6 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True,
         },
-        # 'django.db.backends': {
-        #     'level': 'DEBUG',
-        #     'handlers': ['console'],
-        # },
     },
 }
 
