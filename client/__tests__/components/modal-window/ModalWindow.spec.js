@@ -28,6 +28,6 @@ describe('ModalWindow component', () => {
 
   it('should render Button component', () => {
     const component = mount(<ModalWindow {...props} />);
-    expect(component.find(Button).length).toEqual(1);
+    expect(component.exists(Button)).toEqual(true);
   });
 });

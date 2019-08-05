@@ -96,6 +96,7 @@ class CalendarCard extends PureComponent {
           isOpen={isOpen}
           onCancel={this.handleCancel}
           onSubmit={this.handleSubmit}
+          removePost={this.handleRemovePost}
         />
       )
     );

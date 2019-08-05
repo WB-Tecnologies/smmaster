@@ -37,6 +37,25 @@ const httpGet = endPoint => {
   });
 };
 
+export const httpDelete = (endPoint, data) => {
+  return axios
+    .delete(`${API_ROOT}/${endPoint}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify(data),
+    })
+    .then(response => {
+      if (!isDataExist(response.data)) {
+        throw new Error('Data is undefined');
+      }
+      if (isError(response.data)) {
+        throw new Error(response.data.error);
+      }
+      return response.data;
+    });
+};
+
 export const isAuthUser = user => (user !== undefined && user !== null && Object.prototype.hasOwnProperty.call(user, 'name', 'remoteId'));
 
 export const API = {
@@ -44,4 +63,5 @@ export const API = {
   getPosts: () => httpGet('posts'),
   getPostDetails: () => httpGet('post_details'),
   addPost: data => httpPost('post', data),
+  removePost: id => httpDelete(`posts/${id}`, id),
 };

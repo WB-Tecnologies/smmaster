@@ -2,6 +2,7 @@ import {
   FETCH_POSTS_SUCCESS,
   FETCH_POSTS_FAILURE,
   ADD_POST,
+  REMOVE_POST,
 } from '@/constants/actionTypes';
 
 import { getZeroDate } from '@helpers/utils';
@@ -21,6 +22,23 @@ const getPlacedPostAccorgingToDate = (posts, [newPost]) => {
   posts.push(newPost);
   posts.sort((a, b) => (getZeroDate(a.date) - getZeroDate(b.date)));
   return [...posts];
+};
+
+const removePost = (daysWithPosts, postId) => {
+  let daysWithPostsRes = [];
+
+  for (let idx = 0; idx < daysWithPosts.length; ++idx) {
+    daysWithPostsRes.push({ ...daysWithPosts[idx] });
+    daysWithPostsRes[idx].items = [];
+    for (let i = 0; i < daysWithPosts[idx].items.length; ++i) {
+      if (daysWithPosts[idx].items[i].id !== postId) {
+        daysWithPostsRes[idx].items.push(daysWithPosts[idx].items[i]);
+      }
+    }
+  }
+  daysWithPostsRes = daysWithPostsRes.filter(day => day.items.length !== 0);
+
+  return daysWithPostsRes;
 };
 
 const posts = (state = initialState, { type, payload }) => {
@@ -44,6 +62,12 @@ const posts = (state = initialState, { type, payload }) => {
         ...state,
         items: getPlacedPostAccorgingToDate(state.items, payload.post),
         error: null,
+      };
+    }
+    case REMOVE_POST: {
+      return {
+        ...state,
+        items: removePost(state.items, payload.id),
       };
     }
     default:
