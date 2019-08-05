@@ -25,20 +25,11 @@ const getPlacedPostAccorgingToDate = (posts, [newPost]) => {
 };
 
 const removePost = (daysWithPosts, postId) => {
-  let daysWithPostsRes = [];
+  const daysWithPostsRes = daysWithPosts.map(day => (
+    { ...day, items: day.items.filter(post => post.id !== postId) }
+  ));
 
-  for (let idx = 0; idx < daysWithPosts.length; ++idx) {
-    daysWithPostsRes.push({ ...daysWithPosts[idx] });
-    daysWithPostsRes[idx].items = [];
-    for (let i = 0; i < daysWithPosts[idx].items.length; ++i) {
-      if (daysWithPosts[idx].items[i].id !== postId) {
-        daysWithPostsRes[idx].items.push(daysWithPosts[idx].items[i]);
-      }
-    }
-  }
-  daysWithPostsRes = daysWithPostsRes.filter(day => day.items.length !== 0);
-
-  return daysWithPostsRes;
+  return daysWithPostsRes.filter(day => day.items.length !== 0);
 };
 
 const posts = (state = initialState, { type, payload }) => {
