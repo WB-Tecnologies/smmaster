@@ -13,3 +13,6 @@ export const EDIT_DATE = 'EDIT_DATE';
 export const SELECT_RUBRIC = '  SELECT_RUBRIC';
 
 export const SET_CURRENT_DATE = 'SET_CURRENT_DATE';
+
+export const OPEN_POST = 'OPEN_POST';
+export const CLOSE_POST = 'CLOSE_POST';

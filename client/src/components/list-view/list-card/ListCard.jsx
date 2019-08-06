@@ -18,12 +18,6 @@ import {
 
 import verticalDots from '!svg-url-loader?noquotes!../../../../src/assets/verticalDots.svg';// eslint-disable-line import/no-webpack-loader-syntax
 
-// while doesn't have backend
-import pic1 from '@/assets/pic1.png';
-import pic2 from '@/assets/pic2.png';
-import pic3 from '@/assets/pic3.png';
-import avatar from '@/assets/avatar.jpg';
-
 import './list-card.sass';
 
 const MAX_ACCOUNT_TO_SHOW = 4;
@@ -41,6 +35,7 @@ class ListCard extends PureComponent {
       attachments: PropTypes.arrayOf(PropTypes.object),
     }),
     className: PropTypes.string,
+    openPost: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -54,17 +49,29 @@ class ListCard extends PureComponent {
     className: '',
   };
 
+
+  constructor(props) {
+    super(props);
+
+    this.socialIcons = getSocialIcons({ size: 16 });
+  }
+
+  handleDisplayPost = () => {
+    const { post: { id }, openPost } = this.props;
+
+    openPost(id);
+  }
+
   renderSocialIcon = socialMedia => {
-    const socialIcons = getSocialIcons({ size: 16 });
-    if (socialMedia in socialIcons) {
-      return <span className="list-card__account-social-icon">{socialIcons[socialMedia]}</span>;
+    if (socialMedia in this.socialIcons) {
+      return <span className="calendar-card__account-social-icon">{this.socialIcons[socialMedia]}</span>;
     }
   };
 
   renderAccount = accounts => {
     const accountsIsLonger = accounts.length > MAX_ACCOUNT_TO_SHOW;
     const moreAccounts = accounts.length - MAX_ACCOUNT_TO_SHOW;
-    accounts = accountsIsLonger ? accounts.slice(0, 4) : accounts;
+    accounts = accountsIsLonger ? accounts.slice(0, MAX_ACCOUNT_TO_SHOW) : accounts;
 
     return (
       <>
@@ -83,6 +90,23 @@ class ListCard extends PureComponent {
     attachments.map(({ img, alt }) => (
       <li className="list-card__attachment" key={shortid.generate()}><img src={img} className="list-card__attachment-img" alt={alt} /></li>
     ))
+  )
+
+  renderControls = () => (
+    <>
+      <Button isOutline type="button" className="list-card__btn" onClick={this.handleDisplayPost}>
+        Редактировать
+      </Button>
+      <ButtonDropdown className="list-card__btn-dropdown">
+        <DropdownToggle>
+          <img src={verticalDots} alt="user-icon" />
+        </DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem>Редактировать профиль</DropdownItem>
+          <DropdownItem>Выход</DropdownItem>
+        </DropdownMenu>
+      </ButtonDropdown>
+    </>
   )
 
   render() {
@@ -105,45 +129,36 @@ class ListCard extends PureComponent {
     );
 
     return (
-      <div className={classes}>
-        <div className="list-card__container">
-          <div className="list-card__oval" style={{ backgroundColor: rubricColor }} />
-          <div className="list-card__header">
-            <h3 className="list-card__title">{title}</h3>
-          </div>
-          <div className="list-card__body">
-            <div className="list-card__time">{getTime(time)}</div>
-            <ul className="list-card__accounts">
-              {this.renderAccount(accounts)}
+      <>
+        <div className={classes}>
+          <div className="list-card__container">
+            <div className="list-card__oval" style={{ backgroundColor: rubricColor }} />
+            <div className="list-card__header">
+              <h3 className="list-card__title" onClick={this.handleDisplayPost} role="presentation">{title}</h3>
+            </div>
+            <div className="list-card__body">
+              <div className="list-card__time">{getTime(time)}</div>
+              <ul className="list-card__accounts">
+                {this.renderAccount(accounts)}
+              </ul>
+            </div>
+            <div className="list-card__descr">
+              <TextTruncate
+                line={4}
+                className="list-card__descr-text"
+                truncateText="…"
+                text={descr}
+              />
+            </div>
+            <ul className="list-card__attachments">
+              {this.renderAttachments(attachments)}
             </ul>
           </div>
-          <div className="list-card__descr">
-            <TextTruncate
-              line={4}
-              className="list-card__descr-text"
-              truncateText="…"
-              text={descr}
-            />
+          <div className="list-card__controls">
+            {this.renderControls()}
           </div>
-          <ul className="list-card__attachments">
-            {this.renderAttachments(attachments)}
-          </ul>
         </div>
-        <div className="list-card__controls">
-          <Button isOutline type="button" className="list-card__btn">
-            Редактировать
-          </Button>
-          <ButtonDropdown className="list-card__btn-dropdown">
-            <DropdownToggle>
-              <img src={verticalDots} alt="user-icon" />
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem>Редактировать профиль</DropdownItem>
-              <DropdownItem>Выход</DropdownItem>
-            </DropdownMenu>
-          </ButtonDropdown>
-        </div>
-      </div>
+      </>
     );
   }
 }

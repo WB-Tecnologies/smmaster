@@ -17,6 +17,7 @@ import './header.sass';
 class Header extends PureComponent {
   static propTypes = {
     title: PropTypes.string,
+    onClick: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -24,7 +25,7 @@ class Header extends PureComponent {
   }
 
   render() {
-    const { title } = this.props;
+    const { title, onClick } = this.props;
 
     return (
       <header className="header">
@@ -37,6 +38,7 @@ class Header extends PureComponent {
               isPrimaryMd
               type="button"
               className="header__btn"
+              onClick={onClick}
             >
               Новая публикация
             </Button>

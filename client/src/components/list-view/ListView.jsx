@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import shortid from 'shortid';
 
 import { setCurrentDate } from '@actions/currentDateActions';
+import { openPost } from '@actions/displayPostActions';
 
 import ListCell from './list-cell/ListCell';
 import ListCard from './list-card/ListCard';
@@ -26,6 +27,7 @@ class ListView extends PureComponent {
       PropTypes.func,
       PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
     ]).isRequired,
+    openPost: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -64,13 +66,14 @@ class ListView extends PureComponent {
     content.scrollTo(0, totalHeight);
   }
 
-  renderCards = (items, date) => (
+  renderCards = (items, date, openPost) => (
     items && (
       items.map(post => (
         <ListCard
           post={post}
           time={date}
           key={shortid.generate()}
+          openPost={openPost}
         />
       ))
     )
@@ -81,6 +84,7 @@ class ListView extends PureComponent {
   }
 
   handleScroll = ({ target }) => {
+    if (!this.calendarViewContent.contains(target)) return;
     if (target.scrollHeight - target.scrollTop === target.clientHeight) {
       this.handleScrollToBottom();
     }
@@ -155,7 +159,7 @@ class ListView extends PureComponent {
   }
 
   render() {
-    const { postsByDay } = this.props;
+    const { postsByDay, openPost } = this.props;
     let globalIndex = 0;
 
     return (
@@ -171,7 +175,7 @@ class ListView extends PureComponent {
                 index={globalIndex++}
               >
                 <div className="list-view__cards" key={shortid.generate()}>
-                  {this.renderCards(items, date)}
+                  {this.renderCards(items, date, openPost)}
                 </div>
               </ListCell>
             ))}
@@ -184,6 +188,7 @@ class ListView extends PureComponent {
 
 const mapDispatchToProps = dispatch => ({
   setCurrentDate: date => dispatch(setCurrentDate(date)),
+  openPost: id => dispatch(openPost(id)),
 });
 
 export default connect(

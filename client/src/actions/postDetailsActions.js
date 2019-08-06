@@ -23,10 +23,10 @@ const fetchPostStarted = () => ({
   type: FETCH_POST_STARTED,
 });
 
-export function fetchPost() {
+export function fetchPost(id) {
   return dispatch => {
     dispatch(fetchPostStarted());
-    return API.getPostDetails()
+    return API.getPostDetails(id)
       .then(({ post }) => {
         dispatch(fetchPostSuccess(post));
       })

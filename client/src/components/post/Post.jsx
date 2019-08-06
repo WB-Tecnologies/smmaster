@@ -40,6 +40,7 @@ class Post extends PureComponent {
     checkAccount: PropTypes.func.isRequired,
     editDate: PropTypes.func.isRequired,
     selectRubric: PropTypes.func.isRequired,
+    id: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -58,9 +59,9 @@ class Post extends PureComponent {
   }
 
   componentDidMount() {
-    const { fetchPost } = this.props;
+    const { fetchPost, id } = this.props;
 
-    fetchPost();
+    fetchPost(id);
   }
 
   handleCheck = id => {
