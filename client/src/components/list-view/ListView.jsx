@@ -66,12 +66,11 @@ class ListView extends PureComponent {
     content.scrollTo(0, totalHeight);
   }
 
-  renderCards = (items, date, openPost) => (
+  renderCards = (items, openPost) => (
     items && (
       items.map(post => (
         <ListCard
           post={post}
-          time={date}
           key={shortid.generate()}
           openPost={openPost}
         />
@@ -175,7 +174,7 @@ class ListView extends PureComponent {
                 index={globalIndex++}
               >
                 <div className="list-view__cards" key={shortid.generate()}>
-                  {this.renderCards(items, date, openPost)}
+                  {this.renderCards(items, openPost)}
                 </div>
               </ListCell>
             ))}

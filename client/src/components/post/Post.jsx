@@ -166,6 +166,7 @@ class Post extends PureComponent {
                 date={new Date(date)}
                 onChange={this.handleDate}
                 getFormatedDate={formatDate}
+                minDate={new Date()}
                 format="full-date-long-weekday"
                 className="post__publish-date"
               />

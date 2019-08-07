@@ -24,7 +24,6 @@ const MAX_ACCOUNT_TO_SHOW = 4;
 
 class ListCard extends PureComponent {
   static propTypes = {
-    time: PropTypes.objectOf(PropTypes.string),
     post: PropTypes.shape({
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
@@ -33,13 +32,13 @@ class ListCard extends PureComponent {
       accounts: PropTypes.arrayOf(PropTypes.object),
       descr: PropTypes.string,
       attachments: PropTypes.arrayOf(PropTypes.object),
+      date: PropTypes.string.isRequired,
     }),
     className: PropTypes.string,
     openPost: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    time: '00:00',
     post: {
       rubricColor: '#E3E7EB',
       accounts: [],
@@ -118,8 +117,8 @@ class ListCard extends PureComponent {
         isEmpty,
         descr,
         attachments,
+        date,
       },
-      time,
       className,
     } = this.props;
     const classes = classNames(
@@ -137,7 +136,7 @@ class ListCard extends PureComponent {
               <h3 className="list-card__title" onClick={this.handleDisplayPost} role="presentation">{title}</h3>
             </div>
             <div className="list-card__body">
-              <div className="list-card__time">{getTime(time)}</div>
+              <div className="list-card__time">{getTime(date)}</div>
               <ul className="list-card__accounts">
                 {this.renderAccount(accounts)}
               </ul>

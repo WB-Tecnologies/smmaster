@@ -12,9 +12,9 @@ const MAX_ACCOUNT_TO_SHOW = 4;
 
 class CalendarCard extends PureComponent {
   static propTypes = {
-    time: PropTypes.objectOf(PropTypes.string),
     post: PropTypes.shape({
       id: PropTypes.string.isRequired,
+      date: PropTypes.string,
       title: PropTypes.string.isRequired,
       rubricColor: PropTypes.string,
       isEmpty: PropTypes.bool,
@@ -22,17 +22,17 @@ class CalendarCard extends PureComponent {
     }),
     className: PropTypes.string,
     isOutdated: PropTypes.bool,
-    openPost: PropTypes.func.isRequired,
+    openPost: PropTypes.func,
   };
 
   static defaultProps = {
-    time: '00:00',
     post: {
       rubricColor: '#E3E7EB',
       accounts: [],
     },
     className: '',
     isOutdated: false,
+    openPost: () => {},
   };
 
   constructor(props) {
@@ -78,8 +78,8 @@ class CalendarCard extends PureComponent {
         title,
         rubricColor,
         isEmpty,
+        date,
       },
-      time,
       className,
       isOutdated,
     } = this.props;
@@ -99,7 +99,7 @@ class CalendarCard extends PureComponent {
             <h3 className="calendar-card__title">{title}</h3>
           </div>
           <div className="calendar-card__body">
-            <div className="calendar-card__time">{getTime(time)}</div>
+            <div className="calendar-card__time">{getTime(date)}</div>
             <ul className="calendar-card__accounts">
               {this.renderAccount(accounts)}
             </ul>

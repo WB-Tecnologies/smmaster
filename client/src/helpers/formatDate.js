@@ -18,9 +18,13 @@ const getShortDayLongWeekday = date => {
   return `${dateObj.getDate()}, ${dateObj.toLocaleString('ru', { weekday: 'long' })}`;
 };
 
-export const getTime = date => (
-  `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
-);
+export const getTime = date => {
+  const dateObj = new Date(date);
+
+  return (
+    `${String(dateObj.getHours()).padStart(2, '0')}:${String(dateObj.getMinutes()).padStart(2, '0')}`
+  );
+};
 
 const getFullDateLongWeekday = date => {
   const dateObj = new Date(date);
