@@ -67,6 +67,7 @@ class ContentPlanContainer extends PureComponent {
         format="long-month"
         showMonthYearPicker
         resetAllDatesOfCurrMonth={this.resetAllDatesOfCurrMonth}
+        resetAllActualDatesOfCurrMonth={this.resetAllActualDatesOfCurrMonth}
       />
       <Button isOutline type="button" className="content-plan__today-btn" onClick={this.handleTodayBtn}>
         Сегодня
@@ -80,6 +81,12 @@ class ContentPlanContainer extends PureComponent {
 
   resetAllDatesOfCurrMonth = date => {
     this.setState({ allDatesOfCurrMonth: calendarUtils.getAllDatesOfMonth(date) });
+  }
+
+  resetAllActualDatesOfCurrMonth = date => {
+    this.setState({
+      allActualDatesOfCurrMonth: calendarUtils.getAllDatesOfMonthStartFromToday(date),
+    });
   }
 
   getPrevDates = (count, callback) => {
@@ -171,7 +178,6 @@ class ContentPlanContainer extends PureComponent {
                 currentMonth={date}
                 getPrevDates={this.getPrevDates}
                 getNextDates={this.getNextDates}
-                resetAllDatesOfCurrMonth={this.resetAllDatesOfCurrMonth}
               />
             </TabBarItem>
             <TabBarItem name="list" label="list" icon="icon-list">

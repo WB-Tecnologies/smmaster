@@ -217,8 +217,6 @@ class CalendarView extends PureComponent {
     const splitedDays = splitArray(postsByDay, 7);
     let globalIndex = 0;
 
-    // console.log(splitedDays)
-
     return (
       <div className="calendar-view">
 
