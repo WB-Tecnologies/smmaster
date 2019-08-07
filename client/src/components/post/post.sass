@@ -8,9 +8,50 @@ $border-color: #E3E7EB
 
 $aside-title-font-color: #828F9F
 
+/*animate Post overlay appearance/disappearance*/
+.post-enter
+  background-color: none
+
+  &-active
+    background-color: rgba($accent-color, 0.7)
+    transition: background-color .75s ease-out
+
+  &-done
+    background-color: rgba($accent-color, 0.7)
+
+.post-exit
+  background-color: rgba($accent-color, 0.7)
+
+  &-active
+    background-color: rgba($accent-color, 0)
+    transition: background-color 1s ease-out
+
+  &-done
+    background-color: rgba($accent-color, 0)
+
+/*animate Post appearance/disappearance*/
+.post-enter .post
+  left: -52.4%
+
+  &-active .post
+    left: 0
+    transition: all .5s ease-out
+
+  &-done .post
+    left: 0
+
+.post-exit .post
+  left: 0
+
+  &-active .post
+    left: -52.4%
+    transition: all .5s ease-out
+
+  &-done .post
+    left: -52.4%
+
 .post-overlay
   z-index: 10
-  background-color: rgba($accent-color, 0.7)
   position: fixed
   top: 0
   bottom: 0
@@ -20,7 +61,6 @@ $aside-title-font-color: #828F9F
 .post
   position: absolute
   top: 0
-  left: 0
   height: 100%
   background-color: $bg-color
   width: 52.4%

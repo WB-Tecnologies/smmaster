@@ -10,7 +10,7 @@ import {
 export const initialState = {
   item: {},
   error: null,
-  isLoading: true,
+  isLoading: false,
 };
 
 const postDetails = (state = initialState, {

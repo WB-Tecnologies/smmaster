@@ -146,12 +146,10 @@ class ContentPlanContainer extends PureComponent {
     const { isOpenPost } = this.props;
 
     return (
-      isOpenPost && (
-        <Post
-          isOpen={isOpenPost}
-          onCancel={this.handleClosePost}
-        />
-      )
+      <Post
+        isOpen={isOpenPost}
+        onCancel={this.handleClosePost}
+      />
     );
   }
 

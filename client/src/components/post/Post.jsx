@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import { getSocialIcons } from '@/helpers/socialIcons';
 import { formatDate } from '@/helpers/formatDate';
@@ -40,7 +41,7 @@ class Post extends PureComponent {
     checkAccount: PropTypes.func.isRequired,
     editDate: PropTypes.func.isRequired,
     selectRubric: PropTypes.func.isRequired,
-    id: PropTypes.func.isRequired,
+    id: PropTypes.string,
   };
 
   static defaultProps = {
@@ -50,6 +51,7 @@ class Post extends PureComponent {
     },
     onCancel: () => {},
     isOpen: false,
+    id: '',
   };
 
   constructor(props) {
@@ -208,18 +210,22 @@ class Post extends PureComponent {
     } = this.props;
 
     return (
-      isOpen && (
-        <Portal>
-          <div className="post-overlay">
-            <div className="post">
-              {isLoading
-                ? <span className="post__spinner" />
-                : (this.renderPostContent())
-              }
-            </div>
-          </div>
-        </Portal>
-      )
+      <TransitionGroup component={null}>
+        {isOpen && (
+          <CSSTransition classNames="post" timeout={500} unmountOnExit>
+            <Portal>
+              <div className="post-overlay">
+                <div className="post">
+                  {isLoading
+                    ? <span className="post__spinner" />
+                    : (this.renderPostContent())
+                  }
+                </div>
+              </div>
+            </Portal>
+          </CSSTransition>
+        )}
+      </TransitionGroup>
     );
   }
 }
