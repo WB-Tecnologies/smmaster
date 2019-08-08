@@ -5,6 +5,7 @@ import {
   CHECK_ACCOUNT,
   EDIT_DATE,
   SELECT_RUBRIC,
+  EDIT_TITLE,
 } from '@/constants/actionTypes';
 
 import { API } from '@/helpers/requests';
@@ -47,4 +48,9 @@ export const editDate = date => ({
 export const selectRubric = id => ({
   type: SELECT_RUBRIC,
   id,
+});
+
+export const editTitle = title => ({
+  type: EDIT_TITLE,
+  title,
 });

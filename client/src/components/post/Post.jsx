@@ -11,6 +11,7 @@ import {
   checkAccount,
   editDate,
   selectRubric,
+  editTitle,
 } from '@/actions/postDetailsActions';
 
 import Portal from '@/components/portal/Portal';
@@ -41,6 +42,7 @@ class Post extends PureComponent {
     checkAccount: PropTypes.func.isRequired,
     editDate: PropTypes.func.isRequired,
     selectRubric: PropTypes.func.isRequired,
+    editTitle: PropTypes.func.isRequired,
     id: PropTypes.string,
   };
 
@@ -88,6 +90,12 @@ class Post extends PureComponent {
     const { selectRubric } = this.props;
 
     selectRubric(id);
+  }
+
+  handleTitle = ({ target: { value } }) => {
+    const { editTitle } = this.props;
+
+    editTitle(value);
   }
 
   renderSamples = samples => {
@@ -141,6 +149,7 @@ class Post extends PureComponent {
         accounts,
         rubrics,
         samples,
+        title,
       },
     } = this.props;
 
@@ -186,7 +195,10 @@ class Post extends PureComponent {
               <h4 className="post__aside-title">Рубрика</h4>
               <Select headerTitle="Без рубрики" dotColor="#E3E7EB" list={rubrics} onClick={this.handleSelect} />
             </div>
-            <div>Тема</div>
+            <div className="post__theme">
+              <h4 className="post__aside-title">Тема</h4>
+              <input className="post__theme-input" type="text" onBlur={this.handleTitle} defaultValue={title} />
+            </div>
             <div className="post__samples">
               <h4 className="post__aside-title">Примеры</h4>
               {this.renderSamples(samples)}
@@ -241,6 +253,7 @@ const mapDispatchToProps = dispatch => ({
   checkAccount: id => dispatch(checkAccount(id)),
   editDate: date => dispatch(editDate(date)),
   selectRubric: id => dispatch(selectRubric(id)),
+  editTitle: title => dispatch(editTitle(title)),
 });
 
 export default connect(

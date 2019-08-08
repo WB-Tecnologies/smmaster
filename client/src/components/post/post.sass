@@ -7,6 +7,7 @@ $title-font-color: #828f9f
 $border-color: #E3E7EB
 
 $aside-title-font-color: #828F9F
+$theme-font-color: #37404F
 
 /*animate Post overlay appearance/disappearance*/
 .post-enter
@@ -157,7 +158,8 @@ $aside-title-font-color: #828F9F
       padding-bottom: 5px
 
   &__publish,
-  &__rubric
+  &__rubric,
+  &__theme
     margin-bottom: 20px
 
   &__publish
@@ -179,6 +181,18 @@ $aside-title-font-color: #828F9F
 
     &-time
       border-radius: 0px 5px 5px 0px
+
+  &__theme
+
+    &-input
+      width: 164px
+      background: transparent
+      border: none
+      font-size: 14px
+      color: $theme-font-color
+
+      &:focus
+        outline: 0
 
   &__footer
     display: flex
