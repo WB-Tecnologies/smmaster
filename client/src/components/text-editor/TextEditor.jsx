@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
+import debounce from 'lodash.debounce';
 
 import { getProofread } from '@/helpers/glvrd';
 
@@ -50,7 +51,7 @@ class TextEditor extends Component {
     });
 
     const quill = document.querySelector('.ql-editor');
-    quill.addEventListener('mousemove', this.handleMouseMove);
+    quill.addEventListener('mousemove', debounce(this.handleMouseMove, 150));
   }
 
   componentDidUpdate() {
