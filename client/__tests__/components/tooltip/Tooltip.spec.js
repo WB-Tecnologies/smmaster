@@ -27,4 +27,8 @@ describe('Tooltip component', () => {
   it('should have active class when Tooltip is visible', () => {
     expect(container.exists('.tooltip_visible')).toEqual(props.isVisible);
   });
+
+  it('should render correct title', () => {
+    expect(container.find('.tooltip__title').text()).toEqual(props.title);
+  });
 });
