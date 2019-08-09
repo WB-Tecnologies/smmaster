@@ -7,6 +7,7 @@ import {
   SELECT_RUBRIC,
   LOAD_IMAGE,
   REMOVE_IMAGE,
+  EDIT_POST_TEXT,
 } from '@/constants/actionTypes';
 
 import { API } from '@/helpers/requests';
@@ -59,4 +60,9 @@ export const loadImage = img => ({
 export const removeImage = id => ({
   type: REMOVE_IMAGE,
   id,
+});
+
+export const editPostText = text => ({
+  type: EDIT_POST_TEXT,
+  text,
 });

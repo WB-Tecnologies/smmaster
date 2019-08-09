@@ -9,6 +9,7 @@ import {
   SELECT_RUBRIC,
   LOAD_IMAGE,
   REMOVE_IMAGE,
+  EDIT_POST_TEXT,
 } from '@/constants/actionTypes';
 
 export const initialState = {
@@ -23,6 +24,7 @@ const postDetails = (state = initialState, {
   id,
   date,
   img,
+  text,
 }) => {
   switch (type) {
     case FETCH_POST_STARTED: {
@@ -104,6 +106,16 @@ const postDetails = (state = initialState, {
         item: {
           ...state.item,
           attachments: state.item.attachments.filter(item => item.id !== id),
+        },
+      };
+    }
+    case EDIT_POST_TEXT: {
+      return {
+        error: null,
+        isLoading: false,
+        item: {
+          ...state.item,
+          text,
         },
       };
     }

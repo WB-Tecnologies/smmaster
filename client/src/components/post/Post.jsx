@@ -12,6 +12,7 @@ import {
   selectRubric,
   loadImage,
   removeImage,
+  editPostText,
 } from '@/actions/postDetailsActions';
 
 import Portal from '@/components/portal/Portal';
@@ -19,6 +20,7 @@ import Button from '@/components/button/Button';
 import Checkbox from '@/components/checkbox/Checkbox';
 import DateEditorCalendar from '@/components/calendar/date-editor-calendar/DateEditorCalendar';
 import ImageDropLoader from '@/components/image-drop-loader/ImageDropLoader';
+import TextEditor from '@/components/text-editor/TextEditor';
 import Select from '@/components/select/Select';
 import Sample from '@/components/sample/Sample';
 
@@ -47,6 +49,7 @@ class Post extends PureComponent {
     selectRubric: PropTypes.func.isRequired,
     loadImage: PropTypes.func.isRequired,
     removeImage: PropTypes.func.isRequired,
+    editPostText: PropTypes.func.isRequired,
     id: PropTypes.string,
   };
 
@@ -167,11 +170,13 @@ class Post extends PureComponent {
       postDetails: {
         date,
         accounts,
+        text,
         rubrics,
         samples,
         attachments,
       },
       loadImage,
+      editPostText,
     } = this.props;
 
     return (
@@ -187,7 +192,12 @@ class Post extends PureComponent {
         </div>
         <div className="post__body">
           <main className="post__content">
-            <p>text</p>
+            <div className="post__text-editor">
+              <TextEditor
+                text={text}
+                editPostText={editPostText}
+              />
+            </div>
             <div className="post__content-footer">
               <div className="post__attachments">
                 {this.renderImages(attachments)}
@@ -274,6 +284,7 @@ const mapDispatchToProps = dispatch => ({
   selectRubric: id => dispatch(selectRubric(id)),
   loadImage: img => dispatch(loadImage(img)),
   removeImage: id => dispatch(removeImage(id)),
+  editPostText: text => dispatch(editPostText(text)),
 });
 
 export default connect(
