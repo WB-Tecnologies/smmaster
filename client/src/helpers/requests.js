@@ -42,6 +42,6 @@ export const isAuthUser = user => (user !== undefined && user !== null && Object
 export const API = {
   loginRequest: data => httpPost('login_success', data),
   getPosts: () => httpGet('posts'),
-  getPostDetails: () => httpGet('post_details'),
+  getPostDetails: id => httpPost('post_details', id),
   addPost: data => httpPost('post', data),
 };

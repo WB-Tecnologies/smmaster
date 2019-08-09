@@ -10,12 +10,14 @@ import {
   checkAccount,
   editDate,
   selectRubric,
+  editPostText,
 } from '@/actions/postDetailsActions';
 
 import Portal from '@/components/portal/Portal';
 import Button from '@/components/button/Button';
 import Checkbox from '@/components/checkbox/Checkbox';
 import DateEditorCalendar from '@/components/calendar/date-editor-calendar/DateEditorCalendar';
+import TextEditor from '@/components/text-editor/TextEditor';
 import Select from '@/components/select/Select';
 import Sample from '@/components/sample/Sample';
 
@@ -40,6 +42,8 @@ class Post extends PureComponent {
     checkAccount: PropTypes.func.isRequired,
     editDate: PropTypes.func.isRequired,
     selectRubric: PropTypes.func.isRequired,
+    editPostText: PropTypes.func.isRequired,
+    id: PropTypes.string,
   };
 
   static defaultProps = {
@@ -49,6 +53,7 @@ class Post extends PureComponent {
     },
     onCancel: () => {},
     isOpen: false,
+    id: '',
   };
 
   constructor(props) {
@@ -58,9 +63,9 @@ class Post extends PureComponent {
   }
 
   componentDidMount() {
-    const { fetchPost } = this.props;
+    const { fetchPost, id } = this.props;
 
-    fetchPost();
+    fetchPost(id);
   }
 
   handleCheck = id => {
@@ -136,9 +141,11 @@ class Post extends PureComponent {
       postDetails: {
         date,
         accounts,
+        text,
         rubrics,
         samples,
       },
+      editPostText,
     } = this.props;
 
     return (
@@ -154,7 +161,15 @@ class Post extends PureComponent {
         </div>
         <div className="post__body">
           <main className="post__content">
-            <p>text</p>
+            <div className="post__text-editor">
+              <TextEditor
+                text={text}
+                editPostText={editPostText}
+              />
+            </div>
+            <div className="post__content-footer">
+              img gallery
+            </div>
           </main>
           <aside className="post__aside">
             <div className="post__publish">
@@ -233,6 +248,7 @@ const mapDispatchToProps = dispatch => ({
   checkAccount: id => dispatch(checkAccount(id)),
   editDate: date => dispatch(editDate(date)),
   selectRubric: id => dispatch(selectRubric(id)),
+  editPostText: text => dispatch(editPostText(text)),
 });
 
 export default connect(
