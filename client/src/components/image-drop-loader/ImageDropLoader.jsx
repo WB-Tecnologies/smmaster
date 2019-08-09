@@ -41,8 +41,8 @@ export default function ImageDropLoader({ loadImage }) {
         // imageBase64Data
         const currentFile = files[0];
         const myFileItemReader = new FileReader();
-        myFileItemReader.addEventListener('load', () => {
-          loadImage(myFileItemReader.result);
+        myFileItemReader.addEventListener('load', file => {
+          loadImage(file.target.result);
         }, false);
 
         myFileItemReader.readAsDataURL(currentFile);
