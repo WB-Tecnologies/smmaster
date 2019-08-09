@@ -1,3 +1,5 @@
+import shortid from 'shortid';
+
 import {
   FETCH_POST_SUCCESS,
   FETCH_POST_FAILURE,
@@ -5,6 +7,8 @@ import {
   CHECK_ACCOUNT,
   EDIT_DATE,
   SELECT_RUBRIC,
+  LOAD_IMAGE,
+  REMOVE_IMAGE,
   EDIT_POST_TEXT,
 } from '@/constants/actionTypes';
 
@@ -19,6 +23,7 @@ const postDetails = (state = initialState, {
   payload,
   id,
   date,
+  img,
   text,
 }) => {
   switch (type) {
@@ -77,6 +82,30 @@ const postDetails = (state = initialState, {
             rubric.isSelected = rubric.id === id;
             return rubric;
           }),
+        },
+      };
+    }
+    case LOAD_IMAGE: {
+      return {
+        error: null,
+        isLoading: false,
+        item: {
+          ...state.item,
+          attachments: [...state.item.attachments, {
+            id: shortid.generate(),
+            path: img,
+            alt: 'newImg',
+          }],
+        },
+      };
+    }
+    case REMOVE_IMAGE: {
+      return {
+        error: null,
+        isLoading: false,
+        item: {
+          ...state.item,
+          attachments: state.item.attachments.filter(item => item.id !== id),
         },
       };
     }

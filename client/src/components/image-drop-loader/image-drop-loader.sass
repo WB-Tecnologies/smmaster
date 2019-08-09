@@ -1,0 +1,20 @@
+$border-color: #9CA9BA
+$accent: #00AAFF
+
+.dropzone
+  width: 60px
+  height: 60px
+  display: flex
+  align-items: center
+  justify-content: center
+  cursor: pointer
+  border-width: 1px
+  border-radius: 5px
+  border-color: $border-color
+  border-style: dashed
+  background-color: transparent
+  outline: none
+  transition: border .24s ease-in-out
+
+  &_active
+    border-color: $accent
