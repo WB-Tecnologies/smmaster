@@ -1,0 +1,26 @@
+$hint-color: #F2994A
+$text-color: #37404F
+
+.ql-editor
+  font-family: 'Circe-Regular', sans-serif
+  font-size: 16px
+  color: $text-color
+  overflow-y: auto
+
+.glvrd-hint
+  cursor: default
+  color: $hint-color
+  background: url(../../assets/underline.svg) 0 100% repeat-x
+  font-style: normal
+
+.tooltip
+  display: none
+  z-index: 10
+
+  &_visible
+    display: block
+    position: absolute
+    background-color: black
+    width: 300px
+    color: white
+    font-size: 10px

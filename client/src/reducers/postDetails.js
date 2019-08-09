@@ -5,6 +5,7 @@ import {
   CHECK_ACCOUNT,
   EDIT_DATE,
   SELECT_RUBRIC,
+  EDIT_POST_TEXT,
 } from '@/constants/actionTypes';
 
 export const initialState = {
@@ -18,6 +19,7 @@ const postDetails = (state = initialState, {
   payload,
   id,
   date,
+  text,
 }) => {
   switch (type) {
     case FETCH_POST_STARTED: {
@@ -75,6 +77,16 @@ const postDetails = (state = initialState, {
             rubric.isSelected = rubric.id === id;
             return rubric;
           }),
+        },
+      };
+    }
+    case EDIT_POST_TEXT: {
+      return {
+        error: null,
+        isLoading: false,
+        item: {
+          ...state.item,
+          text,
         },
       };
     }

@@ -10,6 +10,7 @@ import {
   checkAccount,
   editDate,
   selectRubric,
+  editPostText,
 } from '@/actions/postDetailsActions';
 
 import { removePost } from '@/actions/contentPlanActions';
@@ -18,9 +19,9 @@ import Portal from '@/components/portal/Portal';
 import Button from '@/components/button/Button';
 import Checkbox from '@/components/checkbox/Checkbox';
 import DateEditorCalendar from '@/components/calendar/date-editor-calendar/DateEditorCalendar';
+import TextEditor from '@/components/text-editor/TextEditor';
 import Select from '@/components/select/Select';
 import Sample from '@/components/sample/Sample';
-import Tooltip from '@/components/tooltip/Tooltip';
 import ModalWindow from '@/components/modal-window/ModalWindow';
 
 import cross from '!svg-url-loader?noquotes!../../../src/assets/Cross.svg';// eslint-disable-line import/no-webpack-loader-syntax
@@ -45,6 +46,8 @@ class Post extends PureComponent {
     editDate: PropTypes.func.isRequired,
     selectRubric: PropTypes.func.isRequired,
     removePost: PropTypes.func.isRequired,
+    editPostText: PropTypes.func.isRequired,
+    id: PropTypes.string,
   };
 
   static defaultProps = {
@@ -54,6 +57,7 @@ class Post extends PureComponent {
     },
     onCancel: () => {},
     isOpen: false,
+    id: '',
   };
 
   constructor(props) {
@@ -67,9 +71,9 @@ class Post extends PureComponent {
   }
 
   componentDidMount() {
-    const { fetchPost } = this.props;
+    const { fetchPost, id } = this.props;
 
-    fetchPost();
+    fetchPost(id);
   }
 
   handleCheck = id => {
@@ -178,16 +182,12 @@ class Post extends PureComponent {
       postDetails: {
         date,
         accounts,
+        text,
         rubrics,
         samples,
       },
+      editPostText,
     } = this.props;
-
-    // just for displey
-    const hintPosition = {
-      top: 150,
-      left: 40,
-    };
 
     return (
       <div className="post__container">
@@ -202,8 +202,15 @@ class Post extends PureComponent {
         </div>
         <div className="post__body">
           <main className="post__content">
-            <p>text</p>
-            <Tooltip position={hintPosition} isVisible content="Греция — государство на юге Европы, на Балканском полуострове. Граничит с Албанией, Македонией, Болгарией, Турцией." title="Возможно, причастие" />
+            <div className="post__text-editor">
+              <TextEditor
+                text={text}
+                editPostText={editPostText}
+              />
+            </div>
+            <div className="post__content-footer">
+              img gallery
+            </div>
           </main>
           <aside className="post__aside">
             <div className="post__publish">
@@ -286,6 +293,7 @@ const mapDispatchToProps = dispatch => ({
   editDate: date => dispatch(editDate(date)),
   selectRubric: id => dispatch(selectRubric(id)),
   removePost: id => dispatch(removePost(id)),
+  editPostText: text => dispatch(editPostText(text)),
 });
 
 export default connect(
