@@ -47,6 +47,7 @@ class Post extends PureComponent {
     selectRubric: PropTypes.func.isRequired,
     loadImage: PropTypes.func.isRequired,
     removeImage: PropTypes.func.isRequired,
+    id: PropTypes.string,
   };
 
   static defaultProps = {
@@ -57,6 +58,7 @@ class Post extends PureComponent {
     },
     onCancel: () => {},
     isOpen: false,
+    id: '',
   };
 
   constructor(props) {
@@ -66,9 +68,9 @@ class Post extends PureComponent {
   }
 
   componentDidMount() {
-    const { fetchPost } = this.props;
+    const { fetchPost, id } = this.props;
 
-    fetchPost();
+    fetchPost(id);
   }
 
   handleCheck = id => {
