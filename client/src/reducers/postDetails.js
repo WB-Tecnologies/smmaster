@@ -1,3 +1,5 @@
+import shortid from 'shortid';
+
 import {
   FETCH_POST_SUCCESS,
   FETCH_POST_FAILURE,
@@ -6,6 +8,9 @@ import {
   EDIT_DATE,
   SELECT_RUBRIC,
   EDIT_TITLE,
+  LOAD_IMAGE,
+  REMOVE_IMAGE,
+  EDIT_POST_TEXT,
 } from '@/constants/actionTypes';
 
 export const initialState = {
@@ -20,6 +25,8 @@ const postDetails = (state = initialState, {
   id,
   date,
   title,
+  img,
+  text,
 }) => {
   switch (type) {
     case FETCH_POST_STARTED: {
@@ -87,6 +94,41 @@ const postDetails = (state = initialState, {
         item: {
           ...state.item,
           title,
+        },
+      };
+    }
+    case LOAD_IMAGE: {
+      return {
+        error: null,
+        isLoading: false,
+        item: {
+          ...state.item,
+          title,
+          attachments: [...state.item.attachments, {
+            id: shortid.generate(),
+            path: img,
+            alt: 'newImg',
+          }],
+        },
+      };
+    }
+    case REMOVE_IMAGE: {
+      return {
+        error: null,
+        isLoading: false,
+        item: {
+          ...state.item,
+          attachments: state.item.attachments.filter(item => item.id !== id),
+        },
+      };
+    }
+    case EDIT_POST_TEXT: {
+      return {
+        error: null,
+        isLoading: false,
+        item: {
+          ...state.item,
+          text,
         },
       };
     }

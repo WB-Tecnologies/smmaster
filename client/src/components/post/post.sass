@@ -6,6 +6,8 @@ $container-padding: 20px
 $title-font-color: #828f9f
 $border-color: #E3E7EB
 
+$attachment-btn-color: #37404F
+
 $aside-title-font-color: #828F9F
 $theme-font-color: #37404F
 
@@ -144,9 +146,62 @@ $theme-font-color: #37404F
   &__content
     flex: 2
     background-color: $text-block-bg-color
-    padding: 22px 20px 0 20px
     box-shadow: 0 2px 4px rgba(39, 40, 55, .1)
     border-radius: 5px
+    position: relative
+
+    &-footer
+      padding: 20px
+      position: relative
+
+      &:before
+        content: ''
+        height: 1px
+        background-color: #E3E7EB
+        width: 100%
+        position: absolute
+        top: 0
+        left: 0
+
+
+  &__text-editor
+    padding: 22px 20px 0 20px
+    position: relative
+    max-height: 541px
+    overflow-y: scroll
+
+  &__attachments
+    display: flex
+    flex-flow: row wrap
+    justify-content: flex-start
+    height: 140px
+
+  &__attachment
+    position: relative
+
+    &-img
+      width: 60px
+      height: 60px
+      //temp size of img, means backend image cropping
+      display: block
+      max-width: 100%
+      border-radius: 5px
+      overflow: hidden
+      margin-right: 10px
+
+    &-btn
+      position: absolute
+      top: 5px
+      right: 15px
+      width: 20px
+      height: 20px
+      background: $attachment-btn-color
+      opacity: .85
+      padding: 3px
+
+      &:hover
+        background: $attachment-btn-color
+        opacity: 1
 
   &__aside
     padding-left: $container-padding

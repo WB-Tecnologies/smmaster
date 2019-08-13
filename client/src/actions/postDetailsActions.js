@@ -6,6 +6,9 @@ import {
   EDIT_DATE,
   SELECT_RUBRIC,
   EDIT_TITLE,
+  LOAD_IMAGE,
+  REMOVE_IMAGE,
+  EDIT_POST_TEXT,
 } from '@/constants/actionTypes';
 
 import { API } from '@/helpers/requests';
@@ -53,4 +56,19 @@ export const selectRubric = id => ({
 export const editTitle = title => ({
   type: EDIT_TITLE,
   title,
+});
+
+export const loadImage = img => ({
+  type: LOAD_IMAGE,
+  img,
+});
+
+export const removeImage = id => ({
+  type: REMOVE_IMAGE,
+  id,
+});
+
+export const editPostText = text => ({
+  type: EDIT_POST_TEXT,
+  text,
 });

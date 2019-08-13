@@ -12,21 +12,27 @@ import {
   editDate,
   selectRubric,
   editTitle,
+  loadImage,
+  removeImage,
+  editPostText,
 } from '@/actions/postDetailsActions';
 
 import Portal from '@/components/portal/Portal';
 import Button from '@/components/button/Button';
 import Checkbox from '@/components/checkbox/Checkbox';
 import DateEditorCalendar from '@/components/calendar/date-editor-calendar/DateEditorCalendar';
+import ImageDropLoader from '@/components/image-drop-loader/ImageDropLoader';
+import TextEditor from '@/components/text-editor/TextEditor';
 import Select from '@/components/select/Select';
 import Sample from '@/components/sample/Sample';
 
 import cross from '!svg-url-loader?noquotes!../../../src/assets/Cross.svg';// eslint-disable-line import/no-webpack-loader-syntax
+import whiteCross from '!svg-url-loader?noquotes!../../../src/assets/white-cross.svg';// eslint-disable-line import/no-webpack-loader-syntax
 
 import './post.sass';
 
 const MAX_ACCOUNT_TO_SHOW = 10;
-
+const MAX_IMAGE_AMOUNT_ALLOWD = 10;
 
 class Post extends PureComponent {
   static propTypes = {
@@ -35,6 +41,7 @@ class Post extends PureComponent {
       id: PropTypes.string,
       date: PropTypes.string,
       accounts: PropTypes.arrayOf(PropTypes.object),
+      attachments: PropTypes.arrayOf(PropTypes.object),
     }),
     isLoading: PropTypes.bool.isRequired,
     isOpen: PropTypes.bool,
@@ -43,6 +50,9 @@ class Post extends PureComponent {
     editDate: PropTypes.func.isRequired,
     selectRubric: PropTypes.func.isRequired,
     editTitle: PropTypes.func.isRequired,
+    loadImage: PropTypes.func.isRequired,
+    removeImage: PropTypes.func.isRequired,
+    editPostText: PropTypes.func.isRequired,
     id: PropTypes.string,
   };
 
@@ -50,6 +60,7 @@ class Post extends PureComponent {
     postDetails: {
       rubricColor: '#E3E7EB',
       accounts: [],
+      attachments: [],
     },
     onCancel: () => {},
     isOpen: false,
@@ -98,6 +109,14 @@ class Post extends PureComponent {
     editTitle(value);
   }
 
+  handleAttachment = id => {
+    const { removeImage } = this.props;
+
+    removeImage(id);
+  }
+
+  isShowImageLoader = attachments => attachments.length < MAX_IMAGE_AMOUNT_ALLOWD;
+
   renderSamples = samples => {
     return (
       samples.map(sample => (
@@ -141,16 +160,33 @@ class Post extends PureComponent {
     );
   };
 
+  renderImages = attachments => (
+    attachments.map(({ path, alt, id }) => (
+      path && (
+        <div key={id} className="post__attachment">
+          <img src={path} alt={alt} className="post__attachment-img" />
+          <Button isGhostIcon onClick={() => { this.handleAttachment(id); }} className="post__attachment-btn">
+            <img src={whiteCross} alt="close" />
+          </Button>
+        </div>
+      )
+    ))
+  )
+
   renderPostContent = () => {
     const {
       onCancel,
       postDetails: {
         date,
         accounts,
+        text,
         rubrics,
         samples,
         title,
+        attachments,
       },
+      loadImage,
+      editPostText,
     } = this.props;
 
     return (
@@ -166,7 +202,18 @@ class Post extends PureComponent {
         </div>
         <div className="post__body">
           <main className="post__content">
-            <p>text</p>
+            <div className="post__text-editor">
+              <TextEditor
+                text={text}
+                editPostText={editPostText}
+              />
+            </div>
+            <div className="post__content-footer">
+              <div className="post__attachments">
+                {this.renderImages(attachments)}
+                {this.isShowImageLoader(attachments) && <ImageDropLoader loadImage={loadImage} />}
+              </div>
+            </div>
           </main>
           <aside className="post__aside">
             <div className="post__publish">
@@ -254,6 +301,9 @@ const mapDispatchToProps = dispatch => ({
   editDate: date => dispatch(editDate(date)),
   selectRubric: id => dispatch(selectRubric(id)),
   editTitle: title => dispatch(editTitle(title)),
+  loadImage: img => dispatch(loadImage(img)),
+  removeImage: id => dispatch(removeImage(id)),
+  editPostText: text => dispatch(editPostText(text)),
 });
 
 export default connect(
