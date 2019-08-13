@@ -96,7 +96,14 @@ class TextEditor extends Component {
     if (isVisibleHint) return;
 
     const currentIndex = parseInt(target.getAttribute('data-index'), 10);
-    const newPosition = { top: target.offsetTop, left: target.offsetLeft };
+
+    const container = document.querySelector('.quill');
+    const bodyRect = container.getBoundingClientRect();
+    const elemRect = target.getBoundingClientRect();
+    const offsetTop = elemRect.top - bodyRect.top;
+    const offsetLeft = elemRect.left - bodyRect.left;
+
+    const newPosition = { top: offsetTop, left: offsetLeft };
 
     this.setState({
       hintContent: hints[currentIndex].hint.description,

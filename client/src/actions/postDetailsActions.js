@@ -5,6 +5,8 @@ import {
   CHECK_ACCOUNT,
   EDIT_DATE,
   SELECT_RUBRIC,
+  LOAD_IMAGE,
+  REMOVE_IMAGE,
   EDIT_POST_TEXT,
 } from '@/constants/actionTypes';
 
@@ -47,6 +49,16 @@ export const editDate = date => ({
 
 export const selectRubric = id => ({
   type: SELECT_RUBRIC,
+  id,
+});
+
+export const loadImage = img => ({
+  type: LOAD_IMAGE,
+  img,
+});
+
+export const removeImage = id => ({
+  type: REMOVE_IMAGE,
   id,
 });
 

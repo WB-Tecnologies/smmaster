@@ -12,6 +12,8 @@ export const FETCH_POST_STARTED = 'FETCH_POST_STARTED,';
 export const CHECK_ACCOUNT = 'CHECK_ACCOUNT';
 export const EDIT_DATE = 'EDIT_DATE';
 export const SELECT_RUBRIC = 'SELECT_RUBRIC';
+export const LOAD_IMAGE = 'LOAD_IMAGE';
+export const REMOVE_IMAGE = 'REMOVE_IMAGE';
 export const EDIT_POST_TEXT = 'EDIT_POST_TEXT';
 
 export const SET_CURRENT_DATE = 'SET_CURRENT_DATE';
