@@ -7,21 +7,31 @@ import Button from '../button/Button';
 import './modal-window.sass';
 
 const ModalWindow = ({
-  title, isOpen, onCancel, image, children, label,
+  image,
+  title,
+  isOpen,
+  onCancel,
+  onSubmit,
+  children,
+  labelCancel,
+  labelSubmit,
 }) => (isOpen && (
   <Portal>
     <div className="modal-overlay">
       <div className="modal-window">
-        <div className="modal-window__header">
-          <img src={image} alt="undraw-process" className="modal-window__header-img" />
-        </div>
+        {image && (
+          <div className="modal-window__header">
+            <img src={image} alt="undraw-process" className="modal-window__header-img" />
+          </div>
+        )}
         <div className="modal-window__body">
           <p className="modal-window__title">{title}</p>
           <p className="modal-window__text">
             {children}
           </p>
           <div className="modal-window__footer">
-            <Button isPrimary isPrimaryMd onClick={onCancel} className="modal-window__footer-btn">{label}</Button>
+            {labelSubmit && <Button isPrimary isPrimaryMd onClick={onSubmit} className="modal-window__footer-btn">{labelSubmit}</Button>}
+            {labelCancel && <Button isOutline onClick={onCancel} className="modal-window__footer-btn">{labelCancel}</Button>}
           </div>
         </div>
       </div>
@@ -33,14 +43,18 @@ ModalWindow.propTypes = {
   title: PropTypes.string.isRequired,
   isOpen: PropTypes.bool,
   onCancel: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
   image: PropTypes.string,
   children: PropTypes.node,
-  label: PropTypes.string,
+  labelCancel: PropTypes.string,
+  labelSubmit: PropTypes.string,
 };
 ModalWindow.defaultProps = {
   isOpen: false,
   image: '',
   children: null,
-  label: 'submit',
+  onSubmit: () => {},
+  labelCancel: 'cancel',
+  labelSubmit: 'submit',
 };
 export default ModalWindow;

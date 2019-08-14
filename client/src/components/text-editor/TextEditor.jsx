@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
 import debounce from 'lodash.debounce';
 
 import { getProofread } from '@/helpers/glvrd';
+
+import Tooltip from '@/components/tooltip/Tooltip';
 
 import './text-editor.sass';
 
@@ -95,7 +96,14 @@ class TextEditor extends Component {
     if (isVisibleHint) return;
 
     const currentIndex = parseInt(target.getAttribute('data-index'), 10);
-    const newPosition = { top: target.offsetTop, left: target.offsetLeft };
+
+    const container = document.querySelector('.quill');
+    const bodyRect = container.getBoundingClientRect();
+    const elemRect = target.getBoundingClientRect();
+    const offsetTop = elemRect.top - bodyRect.top;
+    const offsetLeft = elemRect.left - bodyRect.left;
+
+    const newPosition = { top: offsetTop, left: offsetLeft };
 
     this.setState({
       hintContent: hints[currentIndex].hint.description,
@@ -110,12 +118,7 @@ class TextEditor extends Component {
 
     return (
       <>
-        <div
-          className={classNames('tooltip', { tooltip_visible: isVisibleHint })}
-          style={hintPosition}
-        >
-          {hintContent}
-        </div>
+        <Tooltip position={hintPosition} isVisible={isVisibleHint} content={hintContent} />
         <ReactQuill
           ref={el => { this.reactQuillRef = el; }}
           value={text}

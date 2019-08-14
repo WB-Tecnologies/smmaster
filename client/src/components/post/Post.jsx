@@ -15,6 +15,8 @@ import {
   editPostText,
 } from '@/actions/postDetailsActions';
 
+import { removePost } from '@/actions/contentPlanActions';
+
 import Portal from '@/components/portal/Portal';
 import Button from '@/components/button/Button';
 import Checkbox from '@/components/checkbox/Checkbox';
@@ -23,6 +25,7 @@ import ImageDropLoader from '@/components/image-drop-loader/ImageDropLoader';
 import TextEditor from '@/components/text-editor/TextEditor';
 import Select from '@/components/select/Select';
 import Sample from '@/components/sample/Sample';
+import ModalWindow from '@/components/modal-window/ModalWindow';
 
 import cross from '!svg-url-loader?noquotes!../../../src/assets/Cross.svg';// eslint-disable-line import/no-webpack-loader-syntax
 import whiteCross from '!svg-url-loader?noquotes!../../../src/assets/white-cross.svg';// eslint-disable-line import/no-webpack-loader-syntax
@@ -47,6 +50,7 @@ class Post extends PureComponent {
     checkAccount: PropTypes.func.isRequired,
     editDate: PropTypes.func.isRequired,
     selectRubric: PropTypes.func.isRequired,
+    removePost: PropTypes.func.isRequired,
     loadImage: PropTypes.func.isRequired,
     removeImage: PropTypes.func.isRequired,
     editPostText: PropTypes.func.isRequired,
@@ -66,6 +70,10 @@ class Post extends PureComponent {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      isOpenModal: false,
+    };
 
     this.socialIcons = getSocialIcons({ size: 16 });
   }
@@ -98,6 +106,39 @@ class Post extends PureComponent {
     const { selectRubric } = this.props;
 
     selectRubric(id);
+  }
+
+  handleRemovePost = () => {
+    this.setState({ isOpenModal: true });
+  }
+
+  handleSubmitRemove = () => {
+    const { postDetails: { id }, removePost, onCancel } = this.props;
+
+    removePost(id);
+    onCancel();
+    this.setState({ isOpenModal: false });
+  }
+
+  handleCancelRemove = () => {
+    this.setState({ isOpenModal: false });
+  }
+
+  renderModalWindow = () => {
+    const { isOpenModal } = this.state;
+
+    return (
+      <ModalWindow
+        title="Вы действительно хотите удалить публикацию?"
+        isOpen={isOpenModal}
+        onCancel={this.handleCancelRemove}
+        onSubmit={this.handleSubmitRemove}
+        labelCancel="Отмена"
+        labelSubmit="Удалить"
+      >
+        Отменить это действие будет невозможно.
+      </ModalWindow>
+    );
   }
 
   handleAttachment = id => {
@@ -239,9 +280,9 @@ class Post extends PureComponent {
           </aside>
         </div>
         <footer className="post__footer">
-          <Button isOutline>Удалить</Button>
+          <Button isOutline onClick={this.handleRemovePost}>Удалить</Button>
           <div className="post__footer-btn-group">
-            <Button isOutline className="post__footer-btn-cancel">Отмена</Button>
+            <Button isOutline onClick={onCancel} className="post__footer-btn-cancel">Отмена</Button>
             <Button isPrimary isPrimaryMd>Запланировать</Button>
           </div>
         </footer>
@@ -256,18 +297,21 @@ class Post extends PureComponent {
     } = this.props;
 
     return (
-      isOpen && (
-        <Portal>
-          <div className="post-overlay">
-            <div className="post">
-              {isLoading
-                ? <span className="post__spinner" />
-                : (this.renderPostContent())
-              }
+      <>
+        {isOpen && (
+          <Portal>
+            <div className="post-overlay">
+              <div className="post">
+                {isLoading
+                  ? <span className="post__spinner" />
+                  : (this.renderPostContent())
+                }
+              </div>
             </div>
-          </div>
-        </Portal>
-      )
+          </Portal>
+        )}
+        {this.renderModalWindow()}
+      </>
     );
   }
 }
@@ -282,6 +326,7 @@ const mapDispatchToProps = dispatch => ({
   checkAccount: id => dispatch(checkAccount(id)),
   editDate: date => dispatch(editDate(date)),
   selectRubric: id => dispatch(selectRubric(id)),
+  removePost: id => dispatch(removePost(id)),
   loadImage: img => dispatch(loadImage(img)),
   removeImage: id => dispatch(removeImage(id)),
   editPostText: text => dispatch(editPostText(text)),
