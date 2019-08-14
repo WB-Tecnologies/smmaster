@@ -214,7 +214,7 @@ class Post extends PureComponent {
             <div className="post__content-footer">
               <div className="post__attachments">
                 {this.renderImages(attachments)}
-                {this.isShowImageLoader(attachments) && <ImageDropLoader loadImage={loadImage} />}
+                {this.isShowImageLoader(attachments) && <ImageDropLoader loadImage={loadImage} className="post__attachment" />}
               </div>
               <div className="post__info">
                 <div className="post__info-counter">
@@ -289,7 +289,7 @@ class Post extends PureComponent {
     const declension = getWordDeclension(count, 'sentense');
 
     return `${count} ${declension}`;
-  };
+  }
 
   getWordsCount = text => {
     let count;
