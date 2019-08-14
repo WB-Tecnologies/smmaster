@@ -3,8 +3,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import Countable from 'Countable';
 
 import { getSocialIcons } from '@/helpers/socialIcons';
+import { getWordDeclension } from '@/helpers/declensions';
 import { formatDate } from '@/helpers/formatDate';
 import {
   fetchPost,
@@ -213,6 +216,13 @@ class Post extends PureComponent {
                 {this.renderImages(attachments)}
                 {this.isShowImageLoader(attachments) && <ImageDropLoader loadImage={loadImage} />}
               </div>
+              <div className="post__info">
+                <div className="post__info-counter">
+                  {this.getCountInfo(text)}
+                </div>
+                {/* <div className="post__info-stop-words">
+                </div> */}
+              </div>
             </div>
           </main>
           <aside className="post__aside">
@@ -261,6 +271,44 @@ class Post extends PureComponent {
         </footer>
       </div>
     );
+  }
+
+  getCountInfo = text => {
+    const sentences = this.getSentenceCount(text);
+    const words = this.getWordsCount(text);
+    const characters = this.getCharactersCount(text);
+
+    return `${sentences}\n${words}, ${characters}`;
+  }
+
+  getSentenceCount = text => {
+    let count;
+    Countable.count(text, counter => {
+      count = counter.sentences;
+    });
+    const declension = getWordDeclension(count, 'sentense');
+
+    return `${count} ${declension}`;
+  };
+
+  getWordsCount = text => {
+    let count;
+    Countable.count(text, counter => {
+      count = counter.words;
+    });
+    const declension = getWordDeclension(count, 'word');
+
+    return `${count} ${declension}`;
+  }
+
+  getCharactersCount = text => {
+    let count;
+    Countable.count(text, counter => {
+      count = counter.characters;
+    });
+    const declension = getWordDeclension(count, 'character');
+
+    return `${count} ${declension}`;
   }
 
   render() {
