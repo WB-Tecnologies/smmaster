@@ -8,6 +8,7 @@ $modal-window-bg-color: #fff
   bottom: 0
   left: 0
   right: 0
+  z-index: 10
 
 .modal-window
   position: absolute
@@ -15,7 +16,6 @@ $modal-window-bg-color: #fff
   left: 50%
   transform: translate(-50%, -50%)
   background-color: $modal-window-bg-color
-  min-height: 200px
   width: 450px
   display: flex
   flex-direction: column
@@ -53,3 +53,7 @@ $modal-window-bg-color: #fff
 
     &-btn
       width: 85px
+      margin-right: 10px
+
+      &:last-child
+        margin-right: 0

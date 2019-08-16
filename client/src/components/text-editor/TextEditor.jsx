@@ -1,11 +1,14 @@
+/* eslint-disable react/no-find-dom-node */
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
 import debounce from 'lodash.debounce';
 
 import { getProofread } from '@/helpers/glvrd';
+
+import Tooltip from '@/components/tooltip/Tooltip';
 
 import './text-editor.sass';
 
@@ -27,10 +30,12 @@ class TextEditor extends Component {
   static propTypes = {
     text: PropTypes.string,
     editPostText: PropTypes.func.isRequired,
+    getDataFromChildComponent: PropTypes.func,
   }
 
   static defaultProps = {
     text: '',
+    getDataFromChildComponent: () => {},
   }
 
   state = {
@@ -44,13 +49,16 @@ class TextEditor extends Component {
   }
 
   componentDidMount() {
-    const { text } = this.props;
+    const { text, getDataFromChildComponent } = this.props;
+    const { hints } = this.state;
 
     getProofread(text, fragments => {
       this.setState({ hints: fragments });
     });
 
-    const quill = document.querySelector('.ql-editor');
+    getDataFromChildComponent(hints);
+
+    const quill = ReactDOM.findDOMNode(this.reactQuillRef).querySelector('.ql-editor');
     quill.addEventListener('mousemove', debounce(this.handleMouseMove, 150));
   }
 
@@ -95,7 +103,15 @@ class TextEditor extends Component {
     if (isVisibleHint) return;
 
     const currentIndex = parseInt(target.getAttribute('data-index'), 10);
-    const newPosition = { top: target.offsetTop, left: target.offsetLeft };
+
+    const container = document.querySelector('.quill').parentElement;
+    const quill = document.querySelector('.quill').getBoundingClientRect();
+    const bodyRect = container.getBoundingClientRect();
+    const elemRect = target.getBoundingClientRect();
+    const offsetTop = elemRect.top - quill.top;
+    const offsetBottom = bodyRect.height - offsetTop;
+    const offsetLeft = elemRect.left - bodyRect.left;
+    const newPosition = { bottom: offsetBottom, left: offsetLeft };
 
     this.setState({
       hintContent: hints[currentIndex].hint.description,
@@ -110,12 +126,7 @@ class TextEditor extends Component {
 
     return (
       <>
-        <div
-          className={classNames('tooltip', { tooltip_visible: isVisibleHint })}
-          style={hintPosition}
-        >
-          {hintContent}
-        </div>
+        <Tooltip position={hintPosition} isVisible={isVisibleHint} content={hintContent} />
         <ReactQuill
           ref={el => { this.reactQuillRef = el; }}
           value={text}
