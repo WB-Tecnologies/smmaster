@@ -49,14 +49,11 @@ class TextEditor extends Component {
   }
 
   componentDidMount() {
-    const { text, getDataFromChildComponent } = this.props;
-    const { hints } = this.state;
+    const { text } = this.props;
 
     getProofread(text, fragments => {
       this.setState({ hints: fragments });
     });
-
-    getDataFromChildComponent(hints);
 
     const quill = ReactDOM.findDOMNode(this.reactQuillRef).querySelector('.ql-editor');
     quill.addEventListener('mousemove', debounce(this.handleMouseMove, 150));
@@ -64,12 +61,15 @@ class TextEditor extends Component {
 
   componentDidUpdate() {
     const { hints } = this.state;
+    const { getDataFromChildComponent } = this.props;
     const editor = this.reactQuillRef.getEditor();
 
     hints.forEach(({ start, end }) => {
       const range = { index: start, length: end - start };
       editor.formatText(range, 'glvrd-hint', 'api');
     });
+
+    getDataFromChildComponent(hints);
 
     this.setDataIndices();
   }

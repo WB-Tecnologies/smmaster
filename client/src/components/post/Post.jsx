@@ -79,6 +79,7 @@ class Post extends PureComponent {
 
     this.state = {
       isOpenModal: false,
+      hints: [],
     };
 
     this.socialIcons = getSocialIcons({ size: 16 });
@@ -221,11 +222,30 @@ class Post extends PureComponent {
     const count = hints.length;
     const declension = getWordDeclension(count, 'word');
 
-    return `${count} стоп-${declension}.`;
+    return `${count} стоп-${declension}. `;
+  }
+
+  getUniqueHints = hints => {
+    const aux = {};
+    return hints.reduce((uniqueHints, { hint: { name } }) => {
+      if (!aux[name]) {
+        aux[name] = 1;
+        uniqueHints.push(name);
+      }
+      return uniqueHints;
+    }, []);
+  }
+
+  renderStopWordsDescription = hints => {
+    const uniqueHints = this.getUniqueHints(hints);
+
+    return uniqueHints.map(name => (
+      <span key={shortid.generate()} className="post__info-stop-words-description">{name}</span>
+    ));
   }
 
   getDataFromChildComponent = hints => {
-    this.renderStopWords(hints);
+    this.setState({ hints });
   }
 
   renderPostContent = () => {
@@ -243,6 +263,7 @@ class Post extends PureComponent {
       loadImage,
       editPostText,
     } = this.props;
+    const { hints } = this.state;
 
     return (
       <div className="post__container">
@@ -274,7 +295,9 @@ class Post extends PureComponent {
                   {this.getCountInfo(text)}
                 </div>
                 <div className="post__info-stop-words">
-                  {/* <span>{this.renderStopWords()}</span> */}
+                  <span>{this.renderStopWords(hints)}</span>
+                  <span>Основные проблемы: </span>
+                  <span>{this.renderStopWordsDescription(hints)}</span>
                 </div>
               </div>
             </div>
