@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import shortid from 'shortid';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import Countable from 'Countable';
+import Countable from 'countable';
 
 import { getSocialIcons } from '@/helpers/socialIcons';
 import { getWordDeclension } from '@/helpers/declensions';

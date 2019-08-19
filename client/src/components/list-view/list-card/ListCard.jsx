@@ -128,36 +128,34 @@ class ListCard extends PureComponent {
     );
 
     return (
-      <>
-        <div className={classes}>
-          <div className="list-card__container">
-            <div className="list-card__oval" style={{ backgroundColor: rubricColor }} />
-            <div className="list-card__header">
-              <h3 className="list-card__title" onClick={this.handleDisplayPost} role="presentation">{title}</h3>
-            </div>
-            <div className="list-card__body">
-              <div className="list-card__time">{getTime(date)}</div>
-              <ul className="list-card__accounts">
-                {this.renderAccount(accounts)}
-              </ul>
-            </div>
-            <div className="list-card__descr">
-              <TextTruncate
-                line={4}
-                className="list-card__descr-text"
-                truncateText="…"
-                text={descr}
-              />
-            </div>
-            <ul className="list-card__attachments">
-              {this.renderAttachments(attachments)}
+      <div className={classes}>
+        <div className="list-card__container">
+          <div className="list-card__oval" style={{ backgroundColor: rubricColor }} />
+          <div className="list-card__header">
+            <h3 className="list-card__title" onClick={this.handleDisplayPost} role="presentation">{title}</h3>
+          </div>
+          <div className="list-card__body">
+            <div className="list-card__time">{getTime(date)}</div>
+            <ul className="list-card__accounts">
+              {this.renderAccount(accounts)}
             </ul>
           </div>
-          <div className="list-card__controls">
-            {this.renderControls()}
+          <div className="list-card__descr">
+            <TextTruncate
+              line={4}
+              className="list-card__descr-text"
+              truncateText="…"
+              text={descr}
+            />
           </div>
+          <ul className="list-card__attachments">
+            {this.renderAttachments(attachments)}
+          </ul>
         </div>
-      </>
+        <div className="list-card__controls">
+          {this.renderControls()}
+        </div>
+      </div>
     );
   }
 }
