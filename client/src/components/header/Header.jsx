@@ -17,11 +17,12 @@ import './header.sass';
 class Header extends PureComponent {
   static propTypes = {
     title: PropTypes.string,
-    onClick: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
   }
 
   static defaultProps = {
     title: '',
+    onClick: () => {},
   }
 
   render() {
