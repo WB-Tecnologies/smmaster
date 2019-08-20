@@ -6,7 +6,7 @@ import shortid from 'shortid';
 import { getTime } from '@/helpers/formatDate';
 import { getSocialIcons } from '@/helpers/socialIcons';
 
-import './calendar-card.sass';
+import './partial-post.sass';
 
 const MAX_ACCOUNT_TO_SHOW = 4;
 

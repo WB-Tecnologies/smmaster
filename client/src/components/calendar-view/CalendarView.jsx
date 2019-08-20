@@ -12,7 +12,7 @@ import { openPost } from '@actions/displayPostActions';
 import { splitArray } from '@helpers/utils';
 import '@helpers/polifills';
 
-import CalendarCard from './calendar-card/CalendarCard';
+import PartialPost from '@components/post/partial-post/PartialPost';
 import CalendarCell from './calendar-cell/CalendarCell';
 
 import './calendar-view.sass';
@@ -91,7 +91,7 @@ class CalendarView extends PureComponent {
         const isOutdated = date.setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
 
         return (
-          <CalendarCard
+          <PartialPost
             post={post}
             isOutdated={isOutdated}
             key={shortid.generate()}

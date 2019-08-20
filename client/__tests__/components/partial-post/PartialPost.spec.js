@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import CalendarCard from '../../../src/components/calendar-view/calendar-card/CalendarCard';
+import PartialPost from '../../../src/components/post/partial-post/PartialPost';
 
-describe('CalendarCard component', () => {
+describe('PartialPost component', () => {
   let container;
   let props;
 
@@ -22,9 +22,9 @@ describe('CalendarCard component', () => {
       className: 'class',
     };
 
-    container = shallow(<CalendarCard {...props} />);
+    container = shallow(<PartialPost {...props} />);
   });
-  it('should render CalendarCard component', () => {
+  it('should render PartialPost component', () => {
     expect(container.exists()).toBe(true);
   });
 });
