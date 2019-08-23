@@ -1,4 +1,6 @@
+/* eslint-disable react/no-find-dom-node */
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
@@ -28,10 +30,12 @@ class TextEditor extends Component {
   static propTypes = {
     text: PropTypes.string,
     editPostText: PropTypes.func.isRequired,
+    getDataFromChildComponent: PropTypes.func,
   }
 
   static defaultProps = {
     text: '',
+    getDataFromChildComponent: () => {},
   }
 
   state = {
@@ -51,18 +55,21 @@ class TextEditor extends Component {
       this.setState({ hints: fragments });
     });
 
-    const quill = document.querySelector('.ql-editor');
+    const quill = ReactDOM.findDOMNode(this.reactQuillRef).querySelector('.ql-editor');
     quill.addEventListener('mousemove', debounce(this.handleMouseMove, 150));
   }
 
   componentDidUpdate() {
     const { hints } = this.state;
+    const { getDataFromChildComponent } = this.props;
     const editor = this.reactQuillRef.getEditor();
 
     hints.forEach(({ start, end }) => {
       const range = { index: start, length: end - start };
       editor.formatText(range, 'glvrd-hint', 'api');
     });
+
+    getDataFromChildComponent(hints);
 
     this.setDataIndices();
   }
@@ -97,13 +104,14 @@ class TextEditor extends Component {
 
     const currentIndex = parseInt(target.getAttribute('data-index'), 10);
 
-    const container = document.querySelector('.quill');
+    const container = document.querySelector('.quill').parentElement;
+    const quill = document.querySelector('.quill').getBoundingClientRect();
     const bodyRect = container.getBoundingClientRect();
     const elemRect = target.getBoundingClientRect();
-    const offsetTop = elemRect.top - bodyRect.top;
+    const offsetTop = elemRect.top - quill.top;
+    const offsetBottom = bodyRect.height - offsetTop;
     const offsetLeft = elemRect.left - bodyRect.left;
-
-    const newPosition = { top: offsetTop, left: offsetLeft };
+    const newPosition = { bottom: offsetBottom, left: offsetLeft };
 
     this.setState({
       hintContent: hints[currentIndex].hint.description,

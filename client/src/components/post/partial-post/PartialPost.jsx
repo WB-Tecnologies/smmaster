@@ -6,22 +6,15 @@ import shortid from 'shortid';
 import { getTime } from '@/helpers/formatDate';
 import { getSocialIcons } from '@/helpers/socialIcons';
 
-import Post from '@/components/post/Post';
-
-import './calendar-card.sass';
-
-// while doesn't have backend
-/* eslint-disable import/no-useless-path-segments */
-/* eslint-disable no-unused-vars */
-import avatar from '../../../../src/assets/avatar.jpg';
+import './partial-post.sass';
 
 const MAX_ACCOUNT_TO_SHOW = 4;
 
 class CalendarCard extends PureComponent {
   static propTypes = {
-    time: PropTypes.objectOf(PropTypes.string),
     post: PropTypes.shape({
       id: PropTypes.string.isRequired,
+      date: PropTypes.string,
       title: PropTypes.string.isRequired,
       rubricColor: PropTypes.string,
       isEmpty: PropTypes.bool,
@@ -29,16 +22,17 @@ class CalendarCard extends PureComponent {
     }),
     className: PropTypes.string,
     isOutdated: PropTypes.bool,
+    openPost: PropTypes.func,
   };
 
   static defaultProps = {
-    time: '00:00',
     post: {
       rubricColor: '#E3E7EB',
       accounts: [],
     },
     className: '',
     isOutdated: false,
+    openPost: () => {},
   };
 
   constructor(props) {
@@ -47,20 +41,10 @@ class CalendarCard extends PureComponent {
     this.socialIcons = getSocialIcons({ size: 7 });
   }
 
-  state = {
-    isOpen: false,
-  }
-
   handleDisplayPost = () => {
-    this.setState({ isOpen: true });
-  }
+    const { post: { id }, openPost } = this.props;
 
-  handleSubmit = () => {
-    this.setState({ isOpen: false });
-  }
-
-  handleCancel = () => {
-    this.setState({ isOpen: false });
+    openPost(id);
   }
 
   renderSocialIcon = socialMedia => {
@@ -87,21 +71,6 @@ class CalendarCard extends PureComponent {
     );
   };
 
-  renderPost = () => {
-    const { isOpen } = this.state;
-
-    return (
-      isOpen && (
-        <Post
-          isOpen={isOpen}
-          onCancel={this.handleCancel}
-          onSubmit={this.handleSubmit}
-          removePost={this.handleRemovePost}
-        />
-      )
-    );
-  }
-
   render() {
     const {
       post: {
@@ -109,8 +78,8 @@ class CalendarCard extends PureComponent {
         title,
         rubricColor,
         isEmpty,
+        date,
       },
-      time,
       className,
       isOutdated,
     } = this.props;
@@ -130,13 +99,12 @@ class CalendarCard extends PureComponent {
             <h3 className="calendar-card__title">{title}</h3>
           </div>
           <div className="calendar-card__body">
-            <div className="calendar-card__time">{getTime(time)}</div>
+            <div className="calendar-card__time">{getTime(date)}</div>
             <ul className="calendar-card__accounts">
               {this.renderAccount(accounts)}
             </ul>
           </div>
         </div>
-        {this.renderPost()}
       </>
     );
   }

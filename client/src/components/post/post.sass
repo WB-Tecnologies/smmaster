@@ -9,10 +9,54 @@ $border-color: #E3E7EB
 $attachment-btn-color: #37404F
 
 $aside-title-font-color: #828F9F
+$theme-font-color: #37404F
+
+$hint-color: #F2994A
+
+/*animate Post overlay appearance/disappearance*/
+.post-enter
+  background-color: none
+
+  &-active
+    background-color: rgba($accent-color, 0.7)
+    transition: background-color .75s ease-out
+
+  &-done
+    background-color: rgba($accent-color, 0.7)
+
+.post-exit
+  background-color: rgba($accent-color, 0.7)
+
+  &-active
+    background-color: rgba($accent-color, 0)
+    transition: background-color 1s ease-out
+
+  &-done
+    background-color: rgba($accent-color, 0)
+
+/*animate Post appearance/disappearance*/
+.post-enter .post
+  left: -52.4%
+
+.post-enter-active .post
+  left: 0
+  transition: all .5s ease-out
+
+.post-enter-done .post
+  left: 0
+
+.post-exit .post
+  left: 0
+
+.post-exit-active .post
+  left: -52.4%
+  transition: all .5s ease-out
+
+.post-exit-done .post
+  left: -52.4%
 
 .post-overlay
   z-index: 10
-  background-color: rgba($accent-color, 0.7)
   position: fixed
   top: 0
   bottom: 0
@@ -22,7 +66,6 @@ $aside-title-font-color: #828F9F
 .post
   position: absolute
   top: 0
-  left: 0
   height: 100%
   background-color: $bg-color
   width: 52.4%
@@ -50,6 +93,7 @@ $aside-title-font-color: #828F9F
 
   &__header
     display: flex
+    flex: 1 0 auto
     justify-content: space-between
     align-items: center
     padding: $container-padding
@@ -66,6 +110,7 @@ $aside-title-font-color: #828F9F
 
   &__accounts
     display: flex
+    flex: 1 0 auto
     margin: 0
     list-style-type: none
     padding-right: $container-padding
@@ -84,7 +129,7 @@ $aside-title-font-color: #828F9F
 
     &-img
       display: block
-      border-radius: 5px
+      border-radius: 3px
       width: 40px
       height: 40px
 
@@ -97,6 +142,7 @@ $aside-title-font-color: #828F9F
   &__body
     flex: 3
     display: flex
+    flex: 1 0 auto
     justify-content: space-between
     padding-left: $container-padding
     padding-right: $container-padding
@@ -110,7 +156,7 @@ $aside-title-font-color: #828F9F
     position: relative
 
     &-footer
-      padding: 20px
+      padding: 10px 20px
       position: relative
 
       &:before
@@ -133,10 +179,11 @@ $aside-title-font-color: #828F9F
     display: flex
     flex-flow: row wrap
     justify-content: flex-start
-    height: 140px
 
   &__attachment
     position: relative
+    margin-right: 10px
+    margin-top: 10px
 
     &-img
       width: 60px
@@ -146,12 +193,11 @@ $aside-title-font-color: #828F9F
       max-width: 100%
       border-radius: 5px
       overflow: hidden
-      margin-right: 10px
 
     &-btn
       position: absolute
       top: 5px
-      right: 15px
+      right: 5px
       width: 20px
       height: 20px
       background: $attachment-btn-color
@@ -172,7 +218,8 @@ $aside-title-font-color: #828F9F
       padding-bottom: 5px
 
   &__publish,
-  &__rubric
+  &__rubric,
+  &__theme
     margin-bottom: 20px
 
   &__publish
@@ -195,14 +242,48 @@ $aside-title-font-color: #828F9F
     &-time
       border-radius: 0px 5px 5px 0px
 
+  &__theme
+
+    &-input
+      width: 164px
+      background: transparent
+      border: none
+      font-size: 14px
+      color: $theme-font-color
+
+      &:focus
+        outline: 0
+
   &__footer
     display: flex
+    flex: 1 0 auto
     justify-content: space-between
     padding: $container-padding
 
     &-btn-cancel
       border: none
       margin-right: 10px
+
+  &__info
+    display: flex
+    padding-top: 20px
+    font-size: 12px
+    color: $theme-font-color
+    line-height: 120%
+
+    &-counter
+      flex: 1
+      display: flex
+      flex-wrap: wrap
+
+    &-stop-words
+      flex: 2
+
+    &-stop-words-description
+      padding: 0 3px
+      text-transform: lowercase
+      text-decoration: underline
+      color: $hint-color
 
 @keyframes spin
 

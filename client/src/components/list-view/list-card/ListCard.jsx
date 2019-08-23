@@ -18,19 +18,12 @@ import {
 
 import verticalDots from '!svg-url-loader?noquotes!../../../../src/assets/verticalDots.svg';// eslint-disable-line import/no-webpack-loader-syntax
 
-// while doesn't have backend
-import pic1 from '@/assets/pic1.png';
-import pic2 from '@/assets/pic2.png';
-import pic3 from '@/assets/pic3.png';
-import avatar from '@/assets/avatar.jpg';
-
 import './list-card.sass';
 
 const MAX_ACCOUNT_TO_SHOW = 4;
 
 class ListCard extends PureComponent {
   static propTypes = {
-    time: PropTypes.objectOf(PropTypes.string),
     post: PropTypes.shape({
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
@@ -39,12 +32,13 @@ class ListCard extends PureComponent {
       accounts: PropTypes.arrayOf(PropTypes.object),
       descr: PropTypes.string,
       attachments: PropTypes.arrayOf(PropTypes.object),
+      date: PropTypes.string.isRequired,
     }),
     className: PropTypes.string,
+    openPost: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    time: '00:00',
     post: {
       rubricColor: '#E3E7EB',
       accounts: [],
@@ -54,17 +48,29 @@ class ListCard extends PureComponent {
     className: '',
   };
 
+
+  constructor(props) {
+    super(props);
+
+    this.socialIcons = getSocialIcons({ size: 16 });
+  }
+
+  handleDisplayPost = () => {
+    const { post: { id }, openPost } = this.props;
+
+    openPost(id);
+  }
+
   renderSocialIcon = socialMedia => {
-    const socialIcons = getSocialIcons({ size: 16 });
-    if (socialMedia in socialIcons) {
-      return <span className="list-card__account-social-icon">{socialIcons[socialMedia]}</span>;
+    if (socialMedia in this.socialIcons) {
+      return <span className="calendar-card__account-social-icon">{this.socialIcons[socialMedia]}</span>;
     }
   };
 
   renderAccount = accounts => {
     const accountsIsLonger = accounts.length > MAX_ACCOUNT_TO_SHOW;
     const moreAccounts = accounts.length - MAX_ACCOUNT_TO_SHOW;
-    accounts = accountsIsLonger ? accounts.slice(0, 4) : accounts;
+    accounts = accountsIsLonger ? accounts.slice(0, MAX_ACCOUNT_TO_SHOW) : accounts;
 
     return (
       <>
@@ -85,6 +91,23 @@ class ListCard extends PureComponent {
     ))
   )
 
+  renderControls = () => (
+    <>
+      <Button isOutline type="button" className="list-card__btn" onClick={this.handleDisplayPost}>
+        Редактировать
+      </Button>
+      <ButtonDropdown className="list-card__btn-dropdown">
+        <DropdownToggle>
+          <img src={verticalDots} alt="user-icon" />
+        </DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem>Редактировать профиль</DropdownItem>
+          <DropdownItem>Выход</DropdownItem>
+        </DropdownMenu>
+      </ButtonDropdown>
+    </>
+  )
+
   render() {
     const {
       post: {
@@ -94,8 +117,8 @@ class ListCard extends PureComponent {
         isEmpty,
         descr,
         attachments,
+        date,
       },
-      time,
       className,
     } = this.props;
     const classes = classNames(
@@ -109,10 +132,10 @@ class ListCard extends PureComponent {
         <div className="list-card__container">
           <div className="list-card__oval" style={{ backgroundColor: rubricColor }} />
           <div className="list-card__header">
-            <h3 className="list-card__title">{title}</h3>
+            <h3 className="list-card__title" onClick={this.handleDisplayPost} role="presentation">{title}</h3>
           </div>
           <div className="list-card__body">
-            <div className="list-card__time">{getTime(time)}</div>
+            <div className="list-card__time">{getTime(date)}</div>
             <ul className="list-card__accounts">
               {this.renderAccount(accounts)}
             </ul>
@@ -130,18 +153,7 @@ class ListCard extends PureComponent {
           </ul>
         </div>
         <div className="list-card__controls">
-          <Button isOutline type="button" className="list-card__btn">
-            Редактировать
-          </Button>
-          <ButtonDropdown className="list-card__btn-dropdown">
-            <DropdownToggle>
-              <img src={verticalDots} alt="user-icon" />
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem>Редактировать профиль</DropdownItem>
-              <DropdownItem>Выход</DropdownItem>
-            </DropdownMenu>
-          </ButtonDropdown>
+          {this.renderControls()}
         </div>
       </div>
     );

@@ -16,8 +16,9 @@ class Calendar extends PureComponent {
     getFormatedDate: PropTypes.func,
     setCurrentDate: PropTypes.func,
     showMonthYearPicker: PropTypes.bool,
-    date: PropTypes.objectOf(PropTypes.string),
+    date: PropTypes.string,
     resetAllDatesOfCurrMonth: PropTypes.func,
+    resetAllActualDatesOfCurrMonth: PropTypes.func,
     format: PropTypes.string,
   };
 
@@ -25,15 +26,17 @@ class Calendar extends PureComponent {
     getFormatedDate: () => {},
     setCurrentDate: () => {},
     resetAllDatesOfCurrMonth: () => {},
+    resetAllActualDatesOfCurrMonth: () => {},
     showMonthYearPicker: false,
-    date: {},
+    date: '',
     format: '',
   };
 
   handleChange = date => {
-    const { setCurrentDate, resetAllDatesOfCurrMonth } = this.props;
+    const { setCurrentDate, resetAllDatesOfCurrMonth, resetAllActualDatesOfCurrMonth } = this.props;
 
     resetAllDatesOfCurrMonth(date);
+    resetAllActualDatesOfCurrMonth(date);
     setCurrentDate(date);
   }
 

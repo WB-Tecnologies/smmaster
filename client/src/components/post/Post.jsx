@@ -2,14 +2,19 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import Countable from 'countable';
 
 import { getSocialIcons } from '@/helpers/socialIcons';
+import { getWordDeclension } from '@/helpers/declensions';
 import { formatDate } from '@/helpers/formatDate';
 import {
   fetchPost,
   checkAccount,
   editDate,
   selectRubric,
+  editTitle,
   loadImage,
   removeImage,
   editPostText,
@@ -50,6 +55,7 @@ class Post extends PureComponent {
     checkAccount: PropTypes.func.isRequired,
     editDate: PropTypes.func.isRequired,
     selectRubric: PropTypes.func.isRequired,
+    editTitle: PropTypes.func.isRequired,
     removePost: PropTypes.func.isRequired,
     loadImage: PropTypes.func.isRequired,
     removeImage: PropTypes.func.isRequired,
@@ -73,6 +79,7 @@ class Post extends PureComponent {
 
     this.state = {
       isOpenModal: false,
+      hints: [],
     };
 
     this.socialIcons = getSocialIcons({ size: 16 });
@@ -106,6 +113,12 @@ class Post extends PureComponent {
     const { selectRubric } = this.props;
 
     selectRubric(id);
+  }
+
+  handleTitle = ({ target: { value } }) => {
+    const { editTitle } = this.props;
+
+    editTitle(value);
   }
 
   handleRemovePost = () => {
@@ -205,6 +218,36 @@ class Post extends PureComponent {
     ))
   )
 
+  renderStopWords = hints => {
+    const count = hints.length;
+    const declension = getWordDeclension(count, 'word');
+
+    return `${count} стоп-${declension}. `;
+  }
+
+  getUniqueHints = hints => {
+    const aux = {};
+    return hints.reduce((uniqueHints, { hint: { name } }) => {
+      if (!aux[name]) {
+        aux[name] = 1;
+        uniqueHints.push(name);
+      }
+      return uniqueHints;
+    }, []);
+  }
+
+  renderStopWordsDescription = hints => {
+    const uniqueHints = this.getUniqueHints(hints);
+
+    return uniqueHints.map(name => (
+      <span key={shortid.generate()} className="post__info-stop-words-description">{name}</span>
+    ));
+  }
+
+  getDataFromChildComponent = hints => {
+    this.setState({ hints });
+  }
+
   renderPostContent = () => {
     const {
       onCancel,
@@ -214,11 +257,13 @@ class Post extends PureComponent {
         text,
         rubrics,
         samples,
+        title,
         attachments,
       },
       loadImage,
       editPostText,
     } = this.props;
+    const { hints } = this.state;
 
     return (
       <div className="post__container">
@@ -237,12 +282,23 @@ class Post extends PureComponent {
               <TextEditor
                 text={text}
                 editPostText={editPostText}
+                getDataFromChildComponent={this.getDataFromChildComponent}
               />
             </div>
             <div className="post__content-footer">
               <div className="post__attachments">
                 {this.renderImages(attachments)}
-                {this.isShowImageLoader(attachments) && <ImageDropLoader loadImage={loadImage} />}
+                {this.isShowImageLoader(attachments) && <ImageDropLoader loadImage={loadImage} className="post__attachment" />}
+              </div>
+              <div className="post__info">
+                <div className="post__info-counter">
+                  {this.getCountInfo(text)}
+                </div>
+                <div className="post__info-stop-words">
+                  <span>{this.renderStopWords(hints)}</span>
+                  <span>Основные проблемы: </span>
+                  <span>{this.renderStopWordsDescription(hints)}</span>
+                </div>
               </div>
             </div>
           </main>
@@ -253,6 +309,7 @@ class Post extends PureComponent {
                 date={new Date(date)}
                 onChange={this.handleDate}
                 getFormatedDate={formatDate}
+                minDate={new Date()}
                 format="full-date-long-weekday"
                 className="post__publish-date"
               />
@@ -272,7 +329,10 @@ class Post extends PureComponent {
               <h4 className="post__aside-title">Рубрика</h4>
               <Select headerTitle="Без рубрики" dotColor="#E3E7EB" list={rubrics} onClick={this.handleSelect} />
             </div>
-            <div>Тема</div>
+            <div className="post__theme">
+              <h4 className="post__aside-title">Тема</h4>
+              <input className="post__theme-input" type="text" onBlur={this.handleTitle} defaultValue={title} />
+            </div>
             <div className="post__samples">
               <h4 className="post__aside-title">Примеры</h4>
               {this.renderSamples(samples)}
@@ -290,6 +350,50 @@ class Post extends PureComponent {
     );
   }
 
+  getCountInfo = text => {
+    const sentences = this.getSentenceCount(text);
+    const words = this.getWordsCount(text);
+    const characters = this.getCharactersCount(text);
+
+    return (
+      <>
+        {`${sentences}`}
+        <br />
+        {`${words}, ${characters}`}
+      </>
+    );
+  }
+
+  getSentenceCount = text => {
+    let count;
+    Countable.count(text, counter => {
+      count = counter.sentences;
+    });
+    const declension = getWordDeclension(count, 'sentense');
+
+    return `${count} ${declension}`;
+  }
+
+  getWordsCount = text => {
+    let count;
+    Countable.count(text, counter => {
+      count = counter.words;
+    });
+    const declension = getWordDeclension(count, 'word');
+
+    return `${count} ${declension}`;
+  }
+
+  getCharactersCount = text => {
+    let count;
+    Countable.count(text, counter => {
+      count = counter.characters;
+    });
+    const declension = getWordDeclension(count, 'character');
+
+    return `${count} ${declension}`;
+  }
+
   render() {
     const {
       isOpen,
@@ -298,18 +402,22 @@ class Post extends PureComponent {
 
     return (
       <>
-        {isOpen && (
-          <Portal>
-            <div className="post-overlay">
-              <div className="post">
-                {isLoading
-                  ? <span className="post__spinner" />
-                  : (this.renderPostContent())
-                }
-              </div>
-            </div>
-          </Portal>
-        )}
+        <TransitionGroup component={null}>
+          {isOpen && (
+            <CSSTransition classNames="post" timeout={500} unmountOnExit>
+              <Portal>
+                <div className="post-overlay">
+                  <div className="post">
+                    {isLoading
+                      ? <span className="post__spinner" />
+                      : (this.renderPostContent())
+                    }
+                  </div>
+                </div>
+              </Portal>
+            </CSSTransition>
+          )}
+        </TransitionGroup>
         {this.renderModalWindow()}
       </>
     );
@@ -326,6 +434,7 @@ const mapDispatchToProps = dispatch => ({
   checkAccount: id => dispatch(checkAccount(id)),
   editDate: date => dispatch(editDate(date)),
   selectRubric: id => dispatch(selectRubric(id)),
+  editTitle: title => dispatch(editTitle(title)),
   removePost: id => dispatch(removePost(id)),
   loadImage: img => dispatch(loadImage(img)),
   removeImage: id => dispatch(removeImage(id)),

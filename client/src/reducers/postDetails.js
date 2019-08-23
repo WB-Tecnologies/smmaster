@@ -7,6 +7,7 @@ import {
   CHECK_ACCOUNT,
   EDIT_DATE,
   SELECT_RUBRIC,
+  EDIT_TITLE,
   LOAD_IMAGE,
   REMOVE_IMAGE,
   EDIT_POST_TEXT,
@@ -15,7 +16,7 @@ import {
 export const initialState = {
   item: {},
   error: null,
-  isLoading: true,
+  isLoading: false,
 };
 
 const postDetails = (state = initialState, {
@@ -23,6 +24,7 @@ const postDetails = (state = initialState, {
   payload,
   id,
   date,
+  title,
   img,
   text,
 }) => {
@@ -85,12 +87,23 @@ const postDetails = (state = initialState, {
         },
       };
     }
+    case EDIT_TITLE: {
+      return {
+        error: null,
+        isLoading: false,
+        item: {
+          ...state.item,
+          title,
+        },
+      };
+    }
     case LOAD_IMAGE: {
       return {
         error: null,
         isLoading: false,
         item: {
           ...state.item,
+          title,
           attachments: [...state.item.attachments, {
             id: shortid.generate(),
             path: img,

@@ -5,6 +5,7 @@ import {
   CHECK_ACCOUNT,
   EDIT_DATE,
   SELECT_RUBRIC,
+  EDIT_TITLE,
   LOAD_IMAGE,
   REMOVE_IMAGE,
   EDIT_POST_TEXT,
@@ -26,10 +27,10 @@ const fetchPostStarted = () => ({
   type: FETCH_POST_STARTED,
 });
 
-export function fetchPost() {
+export function fetchPost(id) {
   return dispatch => {
     dispatch(fetchPostStarted());
-    return API.getPostDetails()
+    return API.getPostDetails(id)
       .then(({ post }) => {
         dispatch(fetchPostSuccess(post));
       })
@@ -50,6 +51,11 @@ export const editDate = date => ({
 export const selectRubric = id => ({
   type: SELECT_RUBRIC,
   id,
+});
+
+export const editTitle = title => ({
+  type: EDIT_TITLE,
+  title,
 });
 
 export const loadImage = img => ({

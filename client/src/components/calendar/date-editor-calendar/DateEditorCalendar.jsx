@@ -19,6 +19,7 @@ class DateEditorCalendar extends PureComponent {
     className: PropTypes.string,
     showTimeSelectOnly: PropTypes.bool,
     format: PropTypes.string,
+    minDate: PropTypes.objectOf(PropTypes.string),
   };
 
   static defaultProps = {
@@ -29,6 +30,7 @@ class DateEditorCalendar extends PureComponent {
     className: '',
     showTimeSelectOnly: false,
     format: '',
+    minDate: {},
   };
 
   render() {
@@ -42,6 +44,7 @@ class DateEditorCalendar extends PureComponent {
       className,
       onChange,
       format,
+      minDate,
     } = this.props;
 
     return (
@@ -58,6 +61,7 @@ class DateEditorCalendar extends PureComponent {
           showTimeSelectOnly={showTimeSelectOnly}
           timeFormat={timeFormat}
           timeCaption={timeCaption}
+          minDate={minDate}
         />
       </div>
     );

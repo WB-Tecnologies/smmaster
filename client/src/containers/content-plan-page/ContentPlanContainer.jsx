@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { fetchPosts } from '@actions/contentPlanActions';
 import { formatDate } from '@helpers/formatDate';
+import { openPost, closePost } from '@actions/displayPostActions';
 
 import CalendarView from '@components/calendar-view/CalendarView';
 import ListView from '@components/list-view/ListView';
@@ -12,6 +13,7 @@ import TabBar from '@components/tab-bar/TabBar';
 import TabBarItem from '@components/tab-bar/TabBarItem';
 import Button from '@components/button/Button';
 import Calendar from '@components/calendar/Calendar';
+import Post from '@/components/post/Post';
 
 import { calendarUtils } from './calendarUtils';
 
@@ -22,6 +24,9 @@ class ContentPlanContainer extends PureComponent {
     fetchPosts: PropTypes.func.isRequired,
     posts: PropTypes.arrayOf(PropTypes.object),
     date: PropTypes.objectOf(PropTypes.string).isRequired,
+    isOpenPost: PropTypes.bool.isRequired,
+    closePost: PropTypes.func.isRequired,
+    openPost: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -43,6 +48,18 @@ class ContentPlanContainer extends PureComponent {
     });
   }
 
+  handleClosePost = () => {
+    const { closePost } = this.props;
+
+    closePost();
+  }
+
+  handleOpenPost = () => {
+    const { openPost } = this.props;
+
+    openPost('newPostWithNoId');
+  }
+
   getContentHeader = () => (
     <div>
       <Calendar
@@ -50,6 +67,7 @@ class ContentPlanContainer extends PureComponent {
         format="long-month"
         showMonthYearPicker
         resetAllDatesOfCurrMonth={this.resetAllDatesOfCurrMonth}
+        resetAllActualDatesOfCurrMonth={this.resetAllActualDatesOfCurrMonth}
       />
       <Button isOutline type="button" className="content-plan__today-btn" onClick={this.handleTodayBtn}>
         Сегодня
@@ -63,6 +81,12 @@ class ContentPlanContainer extends PureComponent {
 
   resetAllDatesOfCurrMonth = date => {
     this.setState({ allDatesOfCurrMonth: calendarUtils.getAllDatesOfMonth(date) });
+  }
+
+  resetAllActualDatesOfCurrMonth = date => {
+    this.setState({
+      allActualDatesOfCurrMonth: calendarUtils.getAllDatesOfMonthStartFromToday(date),
+    });
   }
 
   getPrevDates = (count, callback) => {
@@ -125,6 +149,17 @@ class ContentPlanContainer extends PureComponent {
     return result;
   };
 
+  renderPost = () => {
+    const { isOpenPost } = this.props;
+
+    return (
+      <Post
+        isOpen={isOpenPost}
+        onCancel={this.handleClosePost}
+      />
+    );
+  }
+
   render() {
     const { posts, date } = this.props;
     const { allDatesOfCurrMonth, allActualDatesOfCurrMonth } = this.state;
@@ -133,7 +168,7 @@ class ContentPlanContainer extends PureComponent {
 
     return (
       <>
-        <Header title="Контент-план" />
+        <Header title="Контент-план" onClick={this.handleOpenPost} />
         <div className="content-plan">
           <TabBar additionalTabBarElem={this.getContentHeader()}>
             <TabBarItem name="calendar" label="calendar" icon="icon-calendar">
@@ -143,7 +178,6 @@ class ContentPlanContainer extends PureComponent {
                 currentMonth={date}
                 getPrevDates={this.getPrevDates}
                 getNextDates={this.getNextDates}
-                resetAllDatesOfCurrMonth={this.resetAllDatesOfCurrMonth}
               />
             </TabBarItem>
             <TabBarItem name="list" label="list" icon="icon-list">
@@ -156,6 +190,7 @@ class ContentPlanContainer extends PureComponent {
             </TabBarItem>
           </TabBar>
         </div>
+        {this.renderPost()}
       </>
     );
   }
@@ -164,10 +199,13 @@ class ContentPlanContainer extends PureComponent {
 const mapStateToProps = state => ({
   posts: state.posts.items,
   date: state.currentDate.date,
+  isOpenPost: state.displayPost.isOpen,
 });
 
 const mapDispatchToProps = {
   fetchPosts,
+  openPost,
+  closePost,
 };
 
 export default connect(

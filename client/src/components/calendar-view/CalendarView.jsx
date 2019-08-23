@@ -8,10 +8,11 @@ import shortid from 'shortid';
 import PropTypes from 'prop-types';
 
 import { setCurrentDate } from '@actions/currentDateActions';
+import { openPost } from '@actions/displayPostActions';
 import { splitArray } from '@helpers/utils';
 import '@helpers/polifills';
 
-import CalendarCard from './calendar-card/CalendarCard';
+import PartialPost from '@components/post/partial-post/PartialPost';
 import CalendarCell from './calendar-cell/CalendarCell';
 
 import './calendar-view.sass';
@@ -30,6 +31,7 @@ class CalendarView extends PureComponent {
       PropTypes.func,
       PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
     ]).isRequired,
+    openPost: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -83,17 +85,17 @@ class CalendarView extends PureComponent {
 
   getFirstDay = date => (new Date(date.getFullYear(), date.getMonth(), 1));
 
-  renderCards = (items, date) => (
+  renderCards = (items, date, openPost) => (
     items && (
       items.map(post => {
         const isOutdated = date.setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
 
         return (
-          <CalendarCard
+          <PartialPost
             post={post}
-            time={date}
             isOutdated={isOutdated}
             key={shortid.generate()}
+            openPost={openPost}
           />
         );
       })
@@ -211,7 +213,7 @@ class CalendarView extends PureComponent {
   }
 
   render() {
-    const { postsByDay } = this.props;
+    const { postsByDay, openPost } = this.props;
     const splitedDays = splitArray(postsByDay, 7);
     let globalIndex = 0;
 
@@ -230,7 +232,7 @@ class CalendarView extends PureComponent {
                   key={shortid.generate()}
                   index={globalIndex++}
                 >
-                  {this.renderCards(items, date)}
+                  {this.renderCards(items, date, openPost)}
                 </CalendarCell>
               ))}
             </div>
@@ -242,6 +244,7 @@ class CalendarView extends PureComponent {
 }
 const mapDispatchToProps = dispatch => ({
   setCurrentDate: date => dispatch(setCurrentDate(date)),
+  openPost: id => dispatch(openPost(id)),
 });
 
 export default connect(
